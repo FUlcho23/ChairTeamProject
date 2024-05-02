@@ -10,7 +10,7 @@ class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
 
   void _onItemTapped(int index) {
-    // 선택된 항목에 따라 페이지를 전환합니다.
+    // 선택된 항목에 따라 페이지를 전환
     setState(() {
       _selectedIndex = index;
     });
@@ -24,7 +24,7 @@ class _MyPageState extends State<MyPage> {
     List<String> list2 = ['주문내역', '개인정보 관리', '주소관리', '체형설정','이벤트','고객센터','공지사항','설정'];
 
     void handleButtonPressed(int index) {
-      // index에 따라 다른 동작을 수행합니다.
+      // index에 따라 다른 동작을 수행
       switch(index) {
         case 0:
           print('주문내역');
