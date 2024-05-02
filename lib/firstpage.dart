@@ -120,13 +120,14 @@ class _FirstPage extends State<FirstPage> {
 
                 Padding(
                   padding: EdgeInsets.only(left: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      for (int i = 0; i < 6; i++)
-                        Expanded(
-                          child: Padding(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal, // 수평 스크롤 설정
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        for (int i = 0; i < 6; i++)
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15.0),
                             child: ElevatedButton(
                               onPressed: () {
@@ -154,10 +155,11 @@ class _FirstPage extends State<FirstPage> {
                               ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
+
 
 
 
