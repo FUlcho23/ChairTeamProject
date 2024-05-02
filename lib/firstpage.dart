@@ -12,8 +12,7 @@ class FirstPage extends StatefulWidget{
 }
 
 class _FirstPage extends State<FirstPage> {
-  @override
-  final List<String> list = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
+  final List<String> detailed_filter = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
 
   int _selectedIndex = 0;//해당되는 페이지 번호
   void _onItemTapped(int index) {
@@ -132,7 +131,7 @@ class _FirstPage extends State<FirstPage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 // 버튼이 눌렸을 때 수행할 동작을 여기에 추가하세요.
-                                print('${list[i]} 버튼이 눌렸습니다.');
+                                print('${detailed_filter[i]} 버튼이 눌렸습니다.');
                               },
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(20)), // 내부 여백을 추가합니다.
@@ -147,7 +146,7 @@ class _FirstPage extends State<FirstPage> {
                                 backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF7F7F7F)),
                               ),
                               child: Text(
-                                '${list[i]}',
+                                '${detailed_filter[i]}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
