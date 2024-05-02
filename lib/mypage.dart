@@ -1,4 +1,6 @@
+import 'package:chair/helpgpt.dart';
 import 'package:flutter/material.dart';
+import 'loginpage.dart';
 import 'bottom_navi_bar.dart';
 
 class MyPage extends StatefulWidget {
@@ -96,18 +98,27 @@ class _MyPageState extends State<MyPage> {
                   ),
                 ),
                 Positioned(
-                  bottom: 5, // 하단 여백 설정
+                  bottom: 0, // 하단 여백 설정
                   right: 20, // 오른쪽 여백 설정
-                  child: GestureDetector(
-                    onTap: () {
-                      // 로그아웃 기능 구현
-                      print('로그아웃 버튼이 눌렸습니다.');
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print('로그인페이지로 이동');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
                     },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // 버튼의 모서리를 둥글게 설정
+                      ),
+                      backgroundColor: Colors.transparent, // 버튼의 배경색을 투명하게 설정
+                      shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
+                      elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
+                    ),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5), // 버튼의 내부 여백 설정
-                      decoration: BoxDecoration(
-                        color: Colors.transparent, // 버튼의 배경색을 투명하게 설정
-                      ),
                       child: Text(
                         '로그아웃',
                         style: TextStyle(
