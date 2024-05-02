@@ -50,20 +50,28 @@ class _SearchPageState extends State<SearchPage> {
                   GestureDetector(
                     onTap: () {}, //터치했을때 일어날 일(상품 페이지로 이동)
                     child: Container(
-                      width: 200,
-                      height: 200,
+                      width: 160,
+                      height: 160,
                       color: Colors.white,
-                      child: Text(
+                      child:Column(
+                        children: [
+                          SizedBox(height: 16,),
+                          Image.asset('assets/images/chair1.png',
+                            width: 100,
+                            height: 100,
+                          ),
+                        SizedBox(height: 10,),
+                        Text(
                         '139,900',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      ],
                     ),
-                  )
-                ],
-
-                //가로 스크롤이 사용될 자리(추천)
+                    ),
+                  ),
+                ], //가로 스크롤이 사용될 자리(추천)
               ),
             ),
             Container(),

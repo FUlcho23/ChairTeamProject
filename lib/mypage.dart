@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'loginpage.dart';
 import 'bottom_navi_bar.dart';
 
 class MyPage extends StatefulWidget {
@@ -10,7 +11,7 @@ class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
 
   void _onItemTapped(int index) {
-    // 선택된 항목에 따라 페이지를 전환합니다.
+    // 선택된 항목에 따라 페이지를 전환
     setState(() {
       _selectedIndex = index;
     });
@@ -24,7 +25,7 @@ class _MyPageState extends State<MyPage> {
     List<String> list2 = ['주문내역', '개인정보 관리', '주소관리', '체형설정','이벤트','고객센터','공지사항','설정'];
 
     void handleButtonPressed(int index) {
-      // index에 따라 다른 동작을 수행합니다.
+      // index에 따라 다른 동작을 수행
       switch(index) {
         case 0:
           print('주문내역');
@@ -96,18 +97,27 @@ class _MyPageState extends State<MyPage> {
                   ),
                 ),
                 Positioned(
-                  bottom: 5, // 하단 여백 설정
+                  bottom: 0, // 하단 여백 설정
                   right: 20, // 오른쪽 여백 설정
-                  child: GestureDetector(
-                    onTap: () {
-                      // 로그아웃 기능 구현
-                      print('로그아웃 버튼이 눌렸습니다.');
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print('로그인페이지로 이동');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
                     },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // 버튼의 모서리를 둥글게 설정
+                      ),
+                      backgroundColor: Colors.transparent, // 버튼의 배경색을 투명하게 설정
+                      shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
+                      elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
+                    ),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5), // 버튼의 내부 여백 설정
-                      decoration: BoxDecoration(
-                        color: Colors.transparent, // 버튼의 배경색을 투명하게 설정
-                      ),
                       child: Text(
                         '로그아웃',
                         style: TextStyle(
