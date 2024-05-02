@@ -68,9 +68,8 @@ class _MyPageState extends State<MyPage> {
                   child: Text(
                     '내 정보',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 30,
                       color: Colors.black,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -89,7 +88,7 @@ class _MyPageState extends State<MyPage> {
                       Text(
                         '안녕하세요~^0^',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 12,
                           color: Colors.black,
                         ),
                       ),
@@ -112,9 +111,8 @@ class _MyPageState extends State<MyPage> {
                       child: Text(
                         '로그아웃',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 13,
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -145,7 +143,6 @@ class _MyPageState extends State<MyPage> {
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -171,7 +168,6 @@ class _MyPageState extends State<MyPage> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                             ],
@@ -221,7 +217,7 @@ class _MyPageState extends State<MyPage> {
                                     Text(
                                       '촬영하기',
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -269,9 +265,8 @@ class _MyPageState extends State<MyPage> {
                                 Text(
                                   '${list2[i]}',
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 20,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Icon(
