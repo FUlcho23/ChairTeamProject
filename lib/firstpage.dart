@@ -6,14 +6,12 @@ void main() {
 }
 
 class FirstPage extends StatefulWidget{
-  @override
   _FirstPage createState() => _FirstPage();
 
 }
 
 class _FirstPage extends State<FirstPage> {
-  @override
-  final List<String> list = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
+  final List<String> detailed_filter = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
 
   int _selectedIndex = 0;//해당되는 페이지 번호
   void _onItemTapped(int index) {
@@ -115,7 +113,7 @@ class _FirstPage extends State<FirstPage> {
                       children: [
                         for (int i = 0; i < 6; i++)
                           Text(
-                            '${list[i]}',
+                            '${detailed_filter[i]}',
                             style: TextStyle(
                               fontSize: 24,
                               color: Colors.white,
