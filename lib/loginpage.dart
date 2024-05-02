@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'bottom_navi_bar.dart';
+import 'firstpage.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -7,17 +8,9 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
-
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index; // 선택된 인덱스를 업데이트합니다.
-    });
-  }
-
+class _LoginPageState extends State<LoginPage> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE9A05C),
       body: Builder(
@@ -89,13 +82,24 @@ class _LoginPageState extends State<LoginPage>{
                 right: screenWidth * 0.1,
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FirstPage()),
+                    );
                     // 로그인 버튼 눌렀을 때의 동작
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(150, 50)),
+                    // 버튼의 최소 너비와 높이 설정
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
                   ),
-                  child: Text('로그인',style: TextStyle(fontSize: 20,color: Colors.white,),),
-
+                  child: Text(
+                    '로그인',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -115,6 +119,13 @@ class _LoginPageState extends State<LoginPage>{
                   onPressed: () {
                     // 구글 로그인 버튼 눌렀을 때의 동작
                   },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent),
+                    //투명해져라
+                    elevation: MaterialStateProperty.all<double>(0),
+                    // 그림자 효과를 제거
+                  ),
                   icon: Icon(Icons.account_circle),
                   label: Text('Google 로그인'),
                 ),
@@ -122,10 +133,6 @@ class _LoginPageState extends State<LoginPage>{
             ],
           );
         },
-      ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
