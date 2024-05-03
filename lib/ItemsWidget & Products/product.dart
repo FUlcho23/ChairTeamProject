@@ -9,6 +9,7 @@ class Product{
   final List<Color> colors;
   final String category;
   final double rate;
+  bool isHeartSelected; // 하트 버튼 선택 상태
 
   Product({
     required this.title,
@@ -19,6 +20,7 @@ class Product{
     required this.colors,
     required this.category,
     required this.rate,
+    this.isHeartSelected = false, // 기본값: 빈 하트가 선택되지 않은 상태
   });
 }
 

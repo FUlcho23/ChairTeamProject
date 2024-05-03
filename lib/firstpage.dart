@@ -3,10 +3,14 @@ import 'package:chair/ItemsWidget%20&%20Products/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navi_bar.dart';
+import 'searchpage.dart';
 
 void main() {
-  runApp(FirstPage());
+  runApp(MaterialApp(
+    home: FirstPage(),
+  ));
 }
+
 
 class FirstPage extends StatefulWidget{
   @override
@@ -18,6 +22,7 @@ class _FirstPage extends State<FirstPage> {
   final List<String> detailed_filter = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
 
   int _selectedIndex = 0;//해당되는 페이지 번호
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,7 +38,6 @@ class _FirstPage extends State<FirstPage> {
         backgroundColor: customColor,
         body: SingleChildScrollView(
           child: Column(
-
             children: [
             // 아이콘 + 검색창 위젯
             Container(
@@ -65,6 +69,11 @@ class _FirstPage extends State<FirstPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           print('검색창이 눌러졌습니다');
+                          // 새로운 화면으로 이동합니다.
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SearchPage()),
+                          );
                         },
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -210,6 +219,7 @@ class _FirstPage extends State<FirstPage> {
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
+                Product product = products[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -218,7 +228,7 @@ class _FirstPage extends State<FirstPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch, // Column이 확장될 수 있도록 가로로 확장
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // 상품 색 컨테이너
                         Container(
@@ -332,7 +342,7 @@ class _FirstPage extends State<FirstPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: Text(
-                                "${products[index].price}",
+                                "${product.price}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24,
@@ -340,24 +350,24 @@ class _FirstPage extends State<FirstPage> {
                                 textAlign: TextAlign.start,
                               ),
                             ),
-                            Container(
-                              width: 32, // 버튼의 너비
-                              height: 28, // 버튼의 높이
-                              child: InkWell(
-                                onTap: () {
-                                  // 버튼이 눌렸을 때 수행할 작업을 여기에 추가합니다.
-                                  print('하트 버튼이 눌렸습니다.');
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 5), // 오른쪽과 아래쪽 여백을 줍니다.
-                                  child: Image.asset(
-                                    'assets/images/empty_heart.png',
-                                    height: 24, // 이미지의 높이
-                                    width: 24, // 이미지의 너비
-                                  ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  // 상품의 하트 버튼 선택 상태 토글
+                                  product.isHeartSelected = !product.isHeartSelected;
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
+                                child: Image.asset(
+                                  product.isHeartSelected
+                                      ? 'assets/images/heart.png'
+                                      : 'assets/images/empty_heart.png',
+                                  height: 24,
+                                  width: 24,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
 
@@ -371,6 +381,7 @@ class _FirstPage extends State<FirstPage> {
           ],
         ),
         ),
+          // 하단바
           bottomNavigationBar: BottomNavigationBarWidget(
           selectedIndex: _selectedIndex,
           onItemTapped: _onItemTapped,
