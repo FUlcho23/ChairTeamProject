@@ -1,4 +1,3 @@
-import 'package:chair/helpgpt.dart';
 import 'package:flutter/material.dart';
 import 'loginpage.dart';
 import 'bottom_navi_bar.dart';
@@ -60,7 +59,7 @@ class _MyPageState extends State<MyPage> {
       body: Column(
         children: [
           Container(
-            height: 150, // 화면 높이의 2/9
+            height: 150,
             child: Stack(
               alignment: Alignment.center, // 모든 위젯을 중앙에 정렬
               children: [
@@ -133,9 +132,8 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
 
-
           SizedBox(
-            height: 10, // 검은 선의 높이 10
+            height: 8, // 검은 선의 높이 10
             child: Container(
               color: Color(0xFF404040), // 검은 선의 색상을 404040으로 설정
             ),
@@ -159,6 +157,7 @@ class _MyPageState extends State<MyPage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 8 / 9, // 화면 너비의 8/9
+                  height: 130,
                   decoration: BoxDecoration(
                     color: Colors.white, // 컨테이너의 배경색 설정
                     borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 설정
@@ -243,55 +242,58 @@ class _MyPageState extends State<MyPage> {
                     ],
                   ),
                 ),
+
                 SizedBox(height: 10), // 첫 번째 컨테이너와 두 번째 컨테이너 사이의 간격 추가
                 Container(
-                  width: MediaQuery.of(context).size.width * 8 / 9,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child:
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      for(int i = 0; i < 8; i++)
-                        ElevatedButton(
-                          onPressed: () {
-                            handleButtonPressed(i);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10), // 버튼의 모서리를 둥글게 설정
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 8 / 9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child:
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        for(int i = 0; i < 8; i++)
+                          ElevatedButton(
+                            onPressed: () {
+                              handleButtonPressed(i);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10), // 버튼의 모서리를 둥글게 설정
+                              ),
+                              backgroundColor: Colors.transparent, // 버튼의 배경색을 투명하게 설정
+                              shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
+                              elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
                             ),
-                            backgroundColor: Colors.transparent, // 버튼의 배경색을 투명하게 설정
-                            shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
-                            elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30), // 텍스트와 아이콘 사이의 간격 조절
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${list2[i]}',
-                                  style: TextStyle(
-                                    fontSize: 20,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 30), // 텍스트와 아이콘 사이의 간격 조절
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${list2[i]}',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right,
+                                    size: 25,
                                     color: Colors.black,
                                   ),
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  size: 25,
-                                  color: Colors.black,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ),
