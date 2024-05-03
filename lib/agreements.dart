@@ -102,7 +102,7 @@ class _AgreementsState extends State<Agreements> {
               bottom: 0, // 하단 여백 설정
               child: ElevatedButton(
                 onPressed: () {
-                  print('로그인페이지로 이동');
+                  print('회원가입 페이지로 이동');
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Sign()),
