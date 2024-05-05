@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'loginpage.dart';
+import 'main.dart';
 import 'bottom_navi_bar.dart';
 
 class MyPage extends StatefulWidget {
@@ -104,7 +104,7 @@ class _MyPageState extends State<MyPage> {
                       print('로그인페이지로 이동');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => TitlePage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
