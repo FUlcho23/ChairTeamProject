@@ -102,18 +102,20 @@ class _AgreementsState extends State<Agreements> {
               bottom: 0, // 하단 여백 설정
               child: ElevatedButton(
                 onPressed: () {
-                  print('회원가입 페이지로 이동');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Sign()),
-                  );
+                  if (agreeToTerms && agreeToPrivacyPolicy){
+                    print('회원가입 페이지로 이동');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Sign()),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(90), // 버튼의 모서리를 둥글게 설정
                   ),
-                  backgroundColor: Color(0xFFE9A05C),
+                  backgroundColor: (agreeToTerms && agreeToPrivacyPolicy) ? Color(0xFFE9A05C) : Colors.grey,
                   shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
                   elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
                 ),
