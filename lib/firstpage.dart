@@ -224,6 +224,7 @@ class _FirstPage extends State<FirstPage> {
                 return ProductCard(product: product); // 새로운 파일의 위젯 사용
               },
             ),
+
           ],
         ),
         ),
