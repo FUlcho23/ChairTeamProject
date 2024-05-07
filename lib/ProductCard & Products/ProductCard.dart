@@ -11,6 +11,8 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+  bool isExpanded = false; // 초기에는 세부사항이 접혀있는 상태
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +40,7 @@ class _ProductCardState extends State<ProductCard> {
                       color: widget.product.colors[cindex],
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.black,
+                        color: Color(0xFF7F7F7F),
                         width: 1,
                       ),
                     ),
@@ -77,12 +79,15 @@ class _ProductCardState extends State<ProductCard> {
               ),
             ),
 
-            // 세부사항 (생략)
+            // 세부사항
             Padding(
               padding: EdgeInsets.only(top: 0),
               child: TextButton(
                 onPressed: () {
-                  print('세부사항 버튼이 눌러졌습니다');
+                  setState(() {
+                    // 버튼을 누를 때마다 확장/축소 상태 변경
+                    isExpanded = !isExpanded;
+                  });
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero, // 버튼 내부의 패딩을 제거합니다.
@@ -107,7 +112,7 @@ class _ProductCardState extends State<ProductCard> {
                           Padding(
                             padding: const EdgeInsets.only(right: 15.0),
                             child: Icon(
-                              Icons.expand_more,
+                              isExpanded ? Icons.expand_less : Icons.expand_more,
                               color: Color(0xFF5E5E5E),
                             ),
                           ),
@@ -117,7 +122,11 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Text(
-                        widget.product.detailed_option,
+                        isExpanded
+                            ? widget.product.detailed_option
+                            : widget.product.detailed_option,
+                        maxLines: isExpanded ? null : 2, // 펼쳐진 상태일 때는 제한 없이 전부 표시합니다.
+                        overflow: TextOverflow.clip, // 두 줄 이상일 때는 생략 부호를 표시합니다.
                         style: TextStyle(
                           color: Color(0xFF5E5E5E),
                           fontSize: 15,
@@ -125,6 +134,8 @@ class _ProductCardState extends State<ProductCard> {
                         textAlign: TextAlign.start, // 텍스트를 왼쪽으로 정렬
                       ),
                     ),
+
+
                   ],
                 ),
               ),
