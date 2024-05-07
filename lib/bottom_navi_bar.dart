@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'loginpage.dart';
+import 'firstpage.dart';
 import 'searchpage.dart';
 import 'mypage.dart';
 import 'FavoritePage.dart';
@@ -26,7 +26,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(builder: (context) => FirstPage()),
         );//홈페이지
         break;
       case 1:

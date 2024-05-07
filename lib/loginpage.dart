@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
+import 'agreements.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -63,7 +64,11 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        // 회원가입 버튼 눌렀을 때의 동작
+                        print('회원가입 동의 페이지로 이동');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Agreements(onChanged: (value){})),
+                        );
                       },
                       child: Text('회원가입'),
                     ),
