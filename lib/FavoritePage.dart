@@ -70,6 +70,17 @@ class _FavoritePage extends State<FavoritePage> {
               ),
             ),
 
+
+    Positioned(
+    left: 330, // 왼쪽 여백 설정
+    top: 30, // 상단 여백 설정
+    child: Image.asset(
+    'assets/images/cart.png', // 이미지 파일 경로
+    width: 50, // 이미지 가로 크기
+    height: 50, // 이미지 세로 크기
+    ),
+    ),
+
           ],
         ),
       ),
