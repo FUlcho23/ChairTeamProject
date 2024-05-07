@@ -3,7 +3,7 @@ import 'main.dart';
 import 'bottom_navi_bar.dart';
 //주문내역
 import 'person.dart';
-//주소관리
+import 'address.dart';
 //체형설정
 //이벤트
 //고객센터
@@ -47,6 +47,10 @@ class _MyPageState extends State<MyPage> {
           break;
         case 2:
           print('주소관리');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Address()),
+          );
           break;
         case 3:
           print('체형설정');
