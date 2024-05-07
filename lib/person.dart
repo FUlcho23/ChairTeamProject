@@ -52,6 +52,7 @@ class _PersonState extends State<Person> {
           },
         ),
       ),
+      backgroundColor: Color.fromRGBO(242, 235, 223, 1.0),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
