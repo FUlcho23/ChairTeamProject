@@ -14,15 +14,14 @@ class MyApp extends StatelessWidget {
 }
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-
-  int _selectedIndex = 1;//해당되는 페이지 번호
+  int _selectedIndex = 1; //해당되는 페이지 번호
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -31,52 +30,244 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    // 화면 크기 가져오기
-    final Size size = MediaQuery.of(context).size;
-    // 화면 높이의 10%에 해당하는 값
-    final double topPadding = size.height * 0.1;
-
     return Scaffold(
       backgroundColor: Color(0xFFF2EBDF),
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(top: topPadding),
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal, //수평 방향으로 스크롤하기 위한 것
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {}, //터치했을때 일어날 일(상품 페이지로 이동)
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      color: Colors.white,
-                      child: Text(
-                        '139,900',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-
-                //가로 스크롤이 사용될 자리(추천)
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            height: 80,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: '검색...',
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
+                ),
+                suffixIcon: Icon(Icons.search),
               ),
             ),
-            Container(),
-            SingleChildScrollView(
-              child: Column(),
-            )
-          ],
-        ),
+          ),
+          Container(
+            height: 180,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: Colors.black,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 168,
+                        height: 272,
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Image.asset(
+                              'assets/images/chair1.png',
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(height: 10),
+                            const Text(
+                              '139,900',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        width: 168,
+                        height: 272,
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Image.asset(
+                              'assets/images/chair1.png',
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(height: 10),
+                            const Text(
+                              '139,900',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 168,
+                        height: 272,
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Image.asset(
+                              'assets/images/chair1.png',
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(height: 10),
+                            const Text(
+                              '139,900',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Container(
+                        width: 168,
+                        height: 272,
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 16),
+                            Image.asset(
+                              'assets/images/chair1.png',
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(height: 10),
+                            const Text(
+                              '139,900',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBarWidget(
-          selectedIndex: _selectedIndex,
-          onItemTapped: _onItemTapped,
-        ),
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }

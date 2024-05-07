@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
 import 'agreements.dart';
+import 'find.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -74,7 +75,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // 비밀번호 찾기 버튼 눌렀을 때의 동작
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Find()),
+                        );
                       },
                       child: Text('ID/PW 찾기'),
                     ),

@@ -47,6 +47,15 @@ class _SignState extends State<Sign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar( // AppBar
+        title: Text('회원가입하기'),
+        leading: IconButton( // 뒤로가기 버튼 추가
+          icon: Icon(Icons.arrow_back), // 뒤로가기 아이콘
+          onPressed: () {
+            Navigator.pop(context); // 뒤로가기 동작
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
