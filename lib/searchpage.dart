@@ -43,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
               height: 80,
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: '검색...',
+                  hintText: '검색어를 입력해주세요.',
                   filled: true,
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
@@ -56,27 +56,104 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
+            Text('  추천 상품',
+              style: TextStyle(
+              fontWeight: FontWeight.bold,
+                fontSize: 16,
+            ),),
             SizedBox(height: 10),
-            Container(
-              height: 180,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    SizedBox(width: 10),
-                    // 가로로 스크롤되는 위젯들
-                  ],
-                ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Image.asset(
+                          'assets/images/chair1.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(height: 10),
+                        const Text(
+                          '139,900',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            Container(
+
+            Container(//검은 선
               width: double.infinity,
               height: 1,
               color: Colors.black,
             ),
+            SizedBox(height: 10),
+            Text('  전체 상품',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),),
+            SizedBox(height: 10),
             GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -97,6 +174,5 @@ class _SearchPageState extends State<SearchPage> {
         onItemTapped: _onItemTapped,
       ),
     );
-
   }
 }
