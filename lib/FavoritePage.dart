@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navi_bar.dart';
+import 'package:chair/ProductCard & Products/ProductCard.dart';
+import 'package:chair/ProductCard & Products/product.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,70 +42,78 @@ class _FavoritePage extends State<FavoritePage> {
 
     return Scaffold(
       backgroundColor: customColor, // 배경색을 customColor로 설정
-      body: Column(
-        children: [
-        Container(
-        height: 90,
-        child: Stack(
-          alignment: Alignment.center, // 모든 위젯을 중앙에 정렬
+      body: SingleChildScrollView(
+        child: Column (
           children: [
-            Positioned(
-              left: 5, // 왼쪽 여백 설정
-              top: 27, // 상단 여백 설정
-              child: Image.asset(
-                'assets/images/mainicon.png', // 이미지 파일 경로
-                width: 50, // 이미지 가로 크기
-                height: 50, // 이미지 세로 크기
+            Container(
+              height: 90,
+              child: Stack(
+                alignment: Alignment.center, // 모든 위젯을 중앙에 정렬
+                children: [
+                  Positioned(
+                    left: 5, // 왼쪽 여백 설정
+                    top: 27, // 상단 여백 설정
+                    child: Image.asset(
+                      'assets/images/mainicon.png', // 이미지 파일 경로
+                      width: 50, // 이미지 가로 크기
+                      height: 50, // 이미지 세로 크기
+                    ),
+                  ),
+
+                  Positioned(
+                    left: 60, // 왼쪽 여백 설정
+                    top: 33, // 상단 여백 설정
+                    child: Text(
+                      '찜목록',
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+                  Positioned(
+                    left: 330, // 왼쪽 여백 설정
+                    top: 30, // 상단 여백 설정
+                    child: Image.asset(
+                      'assets/images/cart.png', // 이미지 파일 경로
+                      width: 50, // 이미지 가로 크기
+                      height: 50, // 이미지 세로 크기
+                    ),
+                  ),
+
+                ],
               ),
             ),
 
-            Positioned(
-              left: 60, // 왼쪽 여백 설정
-              top: 33, // 상단 여백 설정
-              child: Text(
-                '찜목록',
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+
+            SizedBox(
+              height: 10, // 검은 선의 높이 10
+              child: Container(
+                color: Color(0xFF404040), // 검은 선의 색상을 404040으로 설정
               ),
             ),
 
-
-    Positioned(
-    left: 330, // 왼쪽 여백 설정
-    top: 30, // 상단 여백 설정
-    child: Image.asset(
-    'assets/images/cart.png', // 이미지 파일 경로
-    width: 50, // 이미지 가로 크기
-    height: 50, // 이미지 세로 크기
-    ),
-    ),
-
+            //------------------찜목록 리스트------------------
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: products.where((product) => product.isHeartSelected).length,
+              itemBuilder: (context, index) {
+                Product product = products.where((product) => product.isHeartSelected).toList()[index];
+                return ProductCard(product: product);
+              },
+            ),
           ],
         ),
       ),
 
-
-      SizedBox(
-        height: 10, // 검은 선의 높이 10
-        child: Container(
-          color: Color(0xFF404040), // 검은 선의 색상을 404040으로 설정
-        ),
-      ),
-
-
-
-            Container(),
-            SingleChildScrollView(
-              child: Column(),
-            )
-          ],
-        ),
-
-
-
+      //--------------하단바------------------------------
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
