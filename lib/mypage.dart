@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'bottom_navi_bar.dart';
+//주문내역
+import 'person.dart';
+import 'address.dart';
+//체형설정
+//이벤트
+//고객센터
+//공지사항
+//설정
 
 class MyPage extends StatefulWidget {
   @override
@@ -32,9 +40,17 @@ class _MyPageState extends State<MyPage> {
           break;
         case 1:
           print('개인정보 관리');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Person()),
+          );
           break;
         case 2:
           print('주소관리');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Address()),
+          );
           break;
         case 3:
           print('체형설정');
