@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'ProductCard & Products/ProductCard.dart';
+import 'ProductCard & Products/product.dart';
 import 'bottom_navi_bar.dart';
 
 void main() => runApp(MyApp());
@@ -32,34 +34,39 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF2EBDF),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            height: 80,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: '검색...',
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 80,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: '검색어를 입력해주세요.',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
+                  ),
+                  suffixIcon: Icon(Icons.search),
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFE9A05C), width: 5.0),
-                ),
-                suffixIcon: Icon(Icons.search),
               ),
             ),
-          ),
-          Container(
-            height: 180,
-            child: SingleChildScrollView(
+            Text('  추천 상품',
+              style: TextStyle(
+              fontWeight: FontWeight.bold,
+                fontSize: 16,
+            ),),
+            SizedBox(height: 10),
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(width: 10),
                   Container(
                     width: 160,
                     height: 160,
@@ -131,138 +138,36 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Colors.black,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 168,
-                        height: 272,
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(height: 16),
-                            Image.asset(
-                              'assets/images/chair1.png',
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(height: 10),
-                            const Text(
-                              '139,900',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Container(
-                        width: 168,
-                        height: 272,
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(height: 16),
-                            Image.asset(
-                              'assets/images/chair1.png',
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(height: 10),
-                            const Text(
-                              '139,900',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 168,
-                        height: 272,
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(height: 16),
-                            Image.asset(
-                              'assets/images/chair1.png',
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(height: 10),
-                            const Text(
-                              '139,900',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Container(
-                        width: 168,
-                        height: 272,
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(height: 16),
-                            Image.asset(
-                              'assets/images/chair1.png',
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(height: 10),
-                            const Text(
-                              '139,900',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
+            SizedBox(
+              height: 10,
             ),
-          ),
-        ],
+
+            Container(//검은 선
+              width: double.infinity,
+              height: 1,
+              color: Colors.black,
+            ),
+            SizedBox(height: 10),
+            Text('  전체 상품',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),),
+            SizedBox(height: 10),
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                Product product = products[index];
+                return ProductCard(product: product); // 새로운 파일의 위젯 사용
+              },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: _selectedIndex,
