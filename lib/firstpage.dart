@@ -212,20 +212,24 @@ class _FirstPage extends State<FirstPage> {
             ),
 
             //상품 페이지 스크롤 가능한 부분
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              GridView.builder(
+                //physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width ~/ 168, // 화면 폭을 기반으로 열 수 계산
+                  mainAxisSpacing: 10, // 열 간 간격
+                  crossAxisSpacing: 10, // 행 간 간격
+                  childAspectRatio: 168 / 272, // 각 항목의 가로 세로 비율
+                ),
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  Product product = products[index];
+                  return ProductCard(product: product); // 새로운 파일의 위젯 사용
+                },
               ),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                Product product = products[index];
-                return ProductCard(product: product); // 새로운 파일의 위젯 사용
-              },
-            ),
 
-          ],
+
+            ],
         ),
         ),
           // 하단바
