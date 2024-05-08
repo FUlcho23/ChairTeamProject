@@ -40,7 +40,7 @@ class _FirstPage extends State<FirstPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 30,),
+              SizedBox(height: 31,),
             // 아이콘 + 검색창 위젯
             Container(
               height: MediaQuery.of(context).size.height * 1 / 9,
@@ -163,7 +163,7 @@ class _FirstPage extends State<FirstPage> {
                                   '${detailed_filter[i]}',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
+                                    fontSize: 15,
                                   ),
                                 ),
                               ),
@@ -173,48 +173,27 @@ class _FirstPage extends State<FirstPage> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  Material(
-                    elevation: 4.0,
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        print('+ 버튼이 눌러졌습니다');
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                        fixedSize: MaterialStateProperty.all<Size>(
-                          Size.square(
-                            MediaQuery.of(context).size.height * 1 / 15 * 4 / 5,
-                          ),
-                        ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '+',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                            ),
-                          ),
-                        ],
+
+                  InkWell(
+                    onTap: () {
+                      print('+버튼이 눌러졌습니다.'); // 버튼 클릭 시 실행할 동작
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: Image.asset(
+                            'assets/images/addbutton.png',
+                        height: 60,
+                        width: 60,
                       ),
                     ),
                   ),
-                  SizedBox(width: 5),
                 ],
               ),
             ),
 
             //상품 페이지 스크롤 가능한 부분
               GridView.builder(
-                //physics: const NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: MediaQuery.of(context).size.width ~/ 168, // 화면 폭을 기반으로 열 수 계산
