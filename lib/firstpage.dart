@@ -40,6 +40,7 @@ class _FirstPage extends State<FirstPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 30,),
             // 아이콘 + 검색창 위젯
             Container(
               height: MediaQuery.of(context).size.height * 1 / 9,
