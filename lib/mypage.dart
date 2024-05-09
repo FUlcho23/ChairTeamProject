@@ -192,7 +192,7 @@ class _MyPageState extends State<MyPage> {
                                 Text(
                                   '${list[i]}  :  ${information[i].toStringAsFixed(1)}',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 15,
                                     color: Colors.black,
                                   ),
                                 ),
