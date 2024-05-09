@@ -18,6 +18,8 @@ class _ProductCardState extends State<ProductCard> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        width: 168,
+        height: 272,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -52,12 +54,11 @@ class _ProductCardState extends State<ProductCard> {
             // 상품 이미지 컨테이너
             Expanded(
               child: Container(
-                child: AspectRatio(
-                  aspectRatio: 3 / 5,
-                  child: Image.asset(
-                    widget.product.image,
-                    fit: BoxFit.contain,
-                  ),
+                width: 120,
+                height: 120,
+                child: Image.asset(
+                  widget.product.image,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -134,8 +135,6 @@ class _ProductCardState extends State<ProductCard> {
                         textAlign: TextAlign.start, // 텍스트를 왼쪽으로 정렬
                       ),
                     ),
-
-
                   ],
                 ),
               ),
