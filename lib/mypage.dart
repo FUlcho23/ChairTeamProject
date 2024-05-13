@@ -183,16 +183,16 @@ class _MyPageState extends State<MyPage> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 30), // 왼쪽 여백을 설정합니다.
+                          padding: EdgeInsets.only(left: 30), // 왼쪽 여백을 설정
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              for (int i = 0; i < 4; i++) // 4줄을 반복해서 생성합니다.
+                              for (int i = 0; i < 4; i++)
                                 Text(
                                   '${list[i]}  :  ${information[i].toStringAsFixed(1)}',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                   ),
                                 ),

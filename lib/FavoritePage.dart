@@ -4,6 +4,8 @@ import 'bottom_navi_bar.dart';
 import 'package:chair/ProductCard & Products/ProductCard.dart';
 import 'package:chair/ProductCard & Products/product.dart';
 
+int crossAxisCount = 2;
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -74,14 +76,22 @@ class _FavoritePage extends State<FavoritePage> {
                   ),
 
 
-                  Positioned(
-                    left: 330, // 왼쪽 여백 설정
-                    top: 30, // 상단 여백 설정
-                    child: Image.asset(
-                      'assets/images/cart.png', // 이미지 파일 경로
-                      width: 50, // 이미지 가로 크기
-                      height: 50, // 이미지 세로 크기
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 28), // 아래로 10만큼의 여백 추가
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end, // 이미지를 오른쪽으로 정렬
+                        children: [
+                          Spacer(), // 오른쪽 여백을 위한 Spacer
+                          Image.asset(
+                            'assets/images/cart.png',
+                            width: 50,
+                            height: 50,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
 
                 ],
@@ -100,8 +110,11 @@ class _FavoritePage extends State<FavoritePage> {
             GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: (MediaQuery.of(context).size.width ~/ 168).toInt(), // 화면 폭을 기반으로 열 수 계산
+                mainAxisSpacing: 10, // 열 간 간격
+                crossAxisSpacing: 10, // 행 간 간격
+                childAspectRatio: 168 / 272, // 각 항목의 가로 세로 비율
               ),
               itemCount: products.where((product) => product.isHeartSelected).length,
               itemBuilder: (context, index) {

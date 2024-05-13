@@ -21,6 +21,7 @@ class FirstPage extends StatefulWidget{
 
 class _FirstPage extends State<FirstPage> {
   final List<String> detailed_filter = ['금액', '브랜드', '옵션', '종류', '체형', '재질'];
+  bool _isFilterVisible = false; // 상세 필터 컨테이너의 가시성 상태를 저장하는 변수
 
   int _selectedIndex = 0;//해당되는 페이지 번호
 
@@ -126,72 +127,101 @@ class _FirstPage extends State<FirstPage> {
             ),
 
             //상세 필터 위젯
-            Container(
-              height: MediaQuery.of(context).size.height * 1 / 15,
-              color: Color(0xFF7F7F7F),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (int i = 0; i < 6; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  print('${detailed_filter[i]} 버튼이 눌렸습니다.');
-                                },
-                                style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                    EdgeInsets.all(20),
-                                  ),
-                                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isFilterVisible = !_isFilterVisible; // 상태를 반전시킵니다.
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  color: Color(0xFF7F7F7F),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              for (int i = 0; i < 6; i++)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      print('${detailed_filter[i]} 버튼이 눌렸습니다.');
+                                    },
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                        EdgeInsets.all(0),
+                                      ),
+                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      elevation: MaterialStateProperty.all<double>(0),
+                                      backgroundColor: MaterialStateProperty.all<Color>(
+                                        Color(0xFF7F7F7F),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      '${detailed_filter[i]}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                  elevation: MaterialStateProperty.all<double>(0),
-                                  backgroundColor: MaterialStateProperty.all<Color>(
-                                    Color(0xFF7F7F7F),
-                                  ),
                                 ),
-                                child: Text(
-                                  '${detailed_filter[i]}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
+                      SizedBox(width: 10),
 
-                  InkWell(
-                    onTap: () {
-                      print('+버튼이 눌러졌습니다.'); // 버튼 클릭 시 실행할 동작
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: Image.asset(
+                      InkWell(
+                        onTap: () {
+                          print('+버튼이 눌러졌습니다.'); // 버튼 클릭 시 실행할 동작
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Image.asset(
                             'assets/images/addbutton.png',
-                        height: 60,
-                        width: 60,
+                            height: 60,
+                            width: 60,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
 
-            //상품 페이지 스크롤 가능한 부분
+              // 상세 필터 컨테이너를 보여줄지 여부에 따라 컨테이너를 표시하거나 숨깁니다.
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300), // 애니메이션 지속 시간 설정
+                height: _isFilterVisible ? MediaQuery.of(context).size.height * 1 / 2 : 0, // 컨테이너의 높이 조정
+                color: Colors.grey[300], // 배경색 설정
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // 세부 필터 버튼을 생성합니다.
+                      for (int i = 0; i < detailed_filter.length; i++)
+                        ElevatedButton(
+                          onPressed: () {
+                            print('${detailed_filter[i]} 버튼이 눌렸습니다.');
+                          },
+                          child: Text('${detailed_filter[i]}'),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+
+              //상품 페이지 스크롤 가능한 부분
               GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
