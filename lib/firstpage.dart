@@ -134,7 +134,7 @@ class _FirstPage extends State<FirstPage> {
                   });
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 1 / 15,
+                  height: 20,
                   color: Color(0xFF7F7F7F),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
