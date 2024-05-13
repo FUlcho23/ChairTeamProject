@@ -38,6 +38,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 31),
             Container(
               width: double.infinity,
               height: 80,
@@ -154,11 +155,15 @@ class _SearchPageState extends State<SearchPage> {
                 fontSize: 16,
               ),),
             SizedBox(height: 10),
+
             GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.width ~/ 168, // 화면 폭을 기반으로 열 수 계산
+                mainAxisSpacing: 10, // 열 간 간격
+                crossAxisSpacing: 10, // 행 간 간격
+                childAspectRatio: 168 / 272, // 각 항목의 가로 세로 비율
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {
