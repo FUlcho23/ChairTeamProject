@@ -134,7 +134,7 @@ class _FirstPage extends State<FirstPage> {
                   });
                 },
                 child: Container(
-                  height: 20,
+                  height: 50,
                   color: Color(0xFF7F7F7F),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -154,7 +154,7 @@ class _FirstPage extends State<FirstPage> {
                                     },
                                     style: ButtonStyle(
                                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                        EdgeInsets.all(20),
+                                        EdgeInsets.all(0),
                                       ),
                                       shape: MaterialStateProperty.all<OutlinedBorder>(
                                         RoundedRectangleBorder(
