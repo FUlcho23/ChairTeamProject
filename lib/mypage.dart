@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'bottom_navi_bar.dart';
+import 'package:camera/camera.dart';
 //주문내역
 import 'person.dart';
 import 'address.dart';
@@ -10,6 +11,8 @@ import 'address.dart';
 //공지사항
 //설정
 
+List<CameraDescription>? cameras;
+
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
@@ -17,6 +20,29 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
+  CameraController? _controller; // 카메라 컨트롤러 추가
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCameras(); // 카메라 초기화
+  }
+
+  Future<void> _initializeCameras() async {
+    cameras = await availableCameras();
+  }
+
+  Future<void> _openCamera() async {
+    _controller = CameraController(cameras![0], ResolutionPreset.medium);
+    await _controller?.initialize();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(controller: _controller),
+      ),
+    );
+  }
 
   void _onItemTapped(int index) {
     // 선택된 항목에 따라 페이지를 전환
@@ -31,6 +57,7 @@ class _MyPageState extends State<MyPage> {
     List<String> list = ['종아리 길이', '허벅지 너비', '허벅지 길이', '등받이 높이'];
     List<double> information = [12.3, 23.4, 34.5, 45.6];
     List<String> list2 = ['주문내역', '개인정보 관리', '주소관리', '체형설정','이벤트','고객센터','공지사항','설정'];
+
 
     void handleButtonPressed(int index) {
       // index에 따라 다른 동작을 수행
@@ -329,6 +356,37 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CameraScreen extends StatelessWidget {
+  final CameraController? controller;
+
+  CameraScreen({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    if (controller == null || !controller!.value.isInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('카메라'),
+      ),
+      body: CameraPreview(controller!),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          try {
+            final image = await controller!.takePicture();
+            print('사진 저장 경로: ${image.path}');
+          } catch (e) {
+            print(e);
+          }
+        },
+        child: Icon(Icons.camera_alt),
       ),
     );
   }
