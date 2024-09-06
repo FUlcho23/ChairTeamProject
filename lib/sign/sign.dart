@@ -56,8 +56,9 @@ class _SignState extends State<Sign> {
           },
         ),
       ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -122,7 +123,7 @@ class _SignState extends State<Sign> {
                 hintText: '01000000000',
               ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 60.0),
             ElevatedButton(
               onPressed: _isButtonEnabled() ? _signUp : null,
               style: ButtonStyle(
@@ -134,13 +135,26 @@ class _SignState extends State<Sign> {
                     return Color(0xFFE9A05C);
                   },
                 ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                  ),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
+                ),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
+                ),
               ),
-              child: Text('가입하기',
+              child: Text(
+                '가입하기',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,
-                ),),
-            ),
+                ),
+              ),
+            )
           ],
         ),
       ),
