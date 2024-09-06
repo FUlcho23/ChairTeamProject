@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'ProductCard & Products/ProductCard.dart';
-import 'ProductCard & Products/product.dart';
-import 'bottom_navi_bar.dart';
+import '../widgets/ProductCard.dart';
+import '../models/product.dart';
+import '../widgets/bottom_navi_bar.dart';
 
 void main() => runApp(MyApp());
 

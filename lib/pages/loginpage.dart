@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
-import 'agreements.dart';
+import '../models/agreements.dart';
 import 'find.dart';
 
 class LoginPage extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'dart:ui';
-import 'package:chair/ProductCard & Products/ProductCard.dart';
-import 'package:chair/ProductCard & Products/product.dart';
+import 'package:chair/widgets/ProductCard.dart';
+import 'package:chair/models/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'bottom_navi_bar.dart';
+import '../widgets/bottom_navi_bar.dart';
 import 'searchpage.dart';
 
 void main() {

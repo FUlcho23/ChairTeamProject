@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'bottom_navi_bar.dart';
+import '../main.dart';
+import '../widgets/bottom_navi_bar.dart';
 import 'package:camera/camera.dart';
 //주문내역
 import 'person.dart';
-import 'address.dart';
+import '../models/address.dart';
 //체형설정
 //이벤트
 //고객센터

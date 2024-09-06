@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'bottom_navi_bar.dart';
-import 'package:chair/ProductCard & Products/ProductCard.dart';
-import 'package:chair/ProductCard & Products/product.dart';
+import '../widgets/bottom_navi_bar.dart';
+import 'package:chair/widgets/ProductCard.dart';
+import 'package:chair/models/product.dart';
 
 int crossAxisCount = 2;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'firstpage.dart';
-import 'searchpage.dart';
-import 'mypage.dart';
-import 'FavoritePage.dart';
+import '../pages/firstpage.dart';
+import '../pages/searchpage.dart';
+import '../pages/mypage.dart';
+import '../pages/FavoritePage.dart';
 //페이지들 import해두기
 
 class BottomNavigationBarWidget extends StatefulWidget {
