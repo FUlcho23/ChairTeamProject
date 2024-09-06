@@ -117,6 +117,11 @@ class _PersonState extends State<Person> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFE9A05C),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0), // 버튼의 내부 여백 설정 (가로 방향)
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // 모서리 반경 설정
+                      ),
+                      minimumSize: Size(double.infinity, 40), // 버튼의 최소 크기 설정
                     ),
                     child: Text(
                       isEditingEnabled ? '수정완료' : '수정하기',
