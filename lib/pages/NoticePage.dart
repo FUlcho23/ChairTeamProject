@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'mypage.dart'; // mypage.dart를 import
 
+void main() {
+  runApp(MyApp());
+}
+
 class NoticePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class NoticePage extends StatelessWidget {
         child: AppBar(
           backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)), // 뒤로가기 버튼의 색상 설정
             onPressed: () {
               // mypage.dart로 이동
               Navigator.pushReplacement(
@@ -21,11 +25,24 @@ class NoticePage extends StatelessWidget {
               );
             },
           ),
-          title: Text(
-            '공지사항', // 타이틀 설정
-            style: TextStyle(
-              color: Colors.white, // 타이틀 글자 색상
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start, // 아이콘과 텍스트를 왼쪽 정렬
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0), // 아이콘과 텍스트 사이의 여백
+                child: Image.asset(
+                  'assets/images/speakerphone.png', // 아이콘 이미지
+                  height: 24,
+                  width: 24,
+                ),
+              ),
+              Text(
+                '공지사항', // 타이틀 설정
+                style: TextStyle(
+                  color: Colors.white, // 타이틀 글자 색상
+                ),
+              ),
+            ],
           ),
         ),
       ),
