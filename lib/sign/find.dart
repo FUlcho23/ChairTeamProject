@@ -115,9 +115,7 @@ class _FindState extends State<Find>{
                   color: Colors.white,
                 ),),
             ),
-
             SizedBox(height: 60),
-
             Text('PW를 잊으셨나요?', style: TextStyle(
               fontSize: 25,),
             ),
