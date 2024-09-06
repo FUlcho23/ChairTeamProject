@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'mypage.dart'; // mypage.dart를 import
+import '../pages/mypage.dart'; // mypage.dart를 import
 
 class NoticePage extends StatelessWidget {
   @override
