@@ -60,17 +60,102 @@ class NoticePage extends StatelessWidget {
             child: ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('공지사항 ${index + 1}'),
-                  subtitle: Text('공지사항 내용이 여기에 들어갑니다.'),
-                  onTap: () {
-                    print('공지사항 ${index + 1}이 눌렸습니다.');
-                  },
-                );
+                return NoticeItem(index: index);
               },
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class NoticeItem extends StatefulWidget {
+  final int index;
+
+  NoticeItem({required this.index});
+
+  @override
+  _NoticeItemState createState() => _NoticeItemState();
+}
+
+class _NoticeItemState extends State<NoticeItem> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              title: Text(
+                '2024-09-06', // 날짜를 표시
+                style: TextStyle(
+                  color: Color(0xFF7F7F7F), // 날짜 색상
+                  fontSize: 16, // 적절한 크기 설정
+                ),
+              ),
+              subtitle: isExpanded
+                  ? Padding(
+                padding: EdgeInsets.only(top: 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        '상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다.',
+                        maxLines: isExpanded ? null : 2,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                          color: Color(0xFF5E5E5E),
+                          fontSize: 15,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  : Text(
+                '공지사항 내용이 여기에 들어갑니다.',
+                style: TextStyle(color: Color(0xFF5E5E5E)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  isExpanded ? '접기' : '펼쳐보기', // 텍스트가 확장 상태에 따라 변경
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
