@@ -54,6 +54,7 @@ class _FindState extends State<Find>{
           },
         ),
       ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -84,7 +85,7 @@ class _FindState extends State<Find>{
                 labelText: '이메일 주소',
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: _isButtonEnabled1() ? _findID : null,
               style: ButtonStyle(
@@ -96,6 +97,17 @@ class _FindState extends State<Find>{
                     return Color(0xFFE9A05C);
                   },
                 ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                  ),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
+                ),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
+                ),
               ),
               child: Text('ID 찾기',
                 style: TextStyle(
@@ -103,7 +115,8 @@ class _FindState extends State<Find>{
                   color: Colors.white,
                 ),),
             ),
-            SizedBox(height: 40),
+
+            SizedBox(height: 60),
 
             Text('PW를 잊으셨나요?', style: TextStyle(
               fontSize: 25,),
@@ -123,7 +136,7 @@ class _FindState extends State<Find>{
                 labelText: '이메일 주소',
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: _isButtonEnabled2() ? _findPW : null,
               style: ButtonStyle(
@@ -134,6 +147,17 @@ class _FindState extends State<Find>{
                     }
                     return Color(0xFFE9A05C);
                   },
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                  ),
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
+                ),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
                 ),
               ),
               child: Text('PW 찾기',
