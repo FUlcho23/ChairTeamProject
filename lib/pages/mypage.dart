@@ -1,10 +1,11 @@
+import 'package:chair/user_options/NoticePage.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../widgets/bottom_navi_bar.dart';
 import 'package:camera/camera.dart';
 //주문내역
-import 'person.dart';
-import '../models/address.dart';
+import '../user_options/person.dart';
+import '../user_options/address.dart';
 //체형설정
 //이벤트
 //고객센터
@@ -65,6 +66,10 @@ class _MyPageState extends State<MyPage> {
           break;
         case 6:
           print('공지사항');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NoticePage()),
+          );
           break;
         default:
           print('설정');
