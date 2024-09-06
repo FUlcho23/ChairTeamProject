@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/loginpage.dart';
+import '../pages/mypage.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,17 +43,41 @@ class _PersonState extends State<Person> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('프로필'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(screenHeight * 1 / 9), // AppBar의 높이 설정
+        child: AppBar(
+          backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              // mypage.dart로 이동
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyPage()),
+              );
+            },
+          ),
+          title: Row(
+            children: <Widget>[
+              Icon(
+                Icons.person,
+                color: Colors.white, // 아이콘 색상
+              ),
+              SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조정
+              Text(
+                '개인정보 관리', // 타이틀 설정
+                style: TextStyle(
+                  color: Colors.white, // 타이틀 글자 색상
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(242, 235, 223, 1.0),
+      backgroundColor: Color(0xFFEEEEEE),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
         child: Column(
