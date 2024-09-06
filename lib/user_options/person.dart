@@ -47,7 +47,7 @@ class _PersonState extends State<Person> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight * 1 / 9), // AppBar의 높이 설정
+        preferredSize: Size.fromHeight(60), // AppBar의 높이 설정
         child: AppBar(
           backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
           leading: IconButton(
@@ -70,6 +70,7 @@ class _PersonState extends State<Person> {
               Text(
                 '개인정보 관리', // 타이틀 설정
                 style: TextStyle(
+                  fontSize: 25,
                   color: Colors.white, // 타이틀 글자 색상
                 ),
               ),
@@ -78,46 +79,58 @@ class _PersonState extends State<Person> {
         ),
       ),
       backgroundColor: Color(0xFFEEEEEE),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            buildEditableTextField('ID', idController),
-            buildEditableTextField('PW', pwController),
-            buildEditableTextField('이름', nameController),
-            buildEditableTextField('이메일', emailController),
-            buildEditableTextField('전화번호', phoneController),
-            buildEditableTextField('소개말', introController),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  // Toggle the editing state for all text fields
-                  isEditingID = !isEditingEnabled;
-                  isEditingPW = !isEditingEnabled;
-                  isEditingName = !isEditingEnabled;
-                  isEditingEmail = !isEditingEnabled;
-                  isEditingPhone = !isEditingEnabled;
-                  isEditingIntro = !isEditingEnabled;
+      body: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 10,
+            child: Container(
+              color: Colors.orangeAccent, // SizedBox의 색상을 주황색으로 설정
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  buildEditableTextField('ID', idController),
+                  buildEditableTextField('PW', pwController),
+                  buildEditableTextField('이름', nameController),
+                  buildEditableTextField('이메일', emailController),
+                  buildEditableTextField('전화번호', phoneController),
+                  buildEditableTextField('소개말', introController),
+                  SizedBox(height: 20.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        // Toggle the editing state for all text fields
+                        isEditingID = !isEditingEnabled;
+                        isEditingPW = !isEditingEnabled;
+                        isEditingName = !isEditingEnabled;
+                        isEditingEmail = !isEditingEnabled;
+                        isEditingPhone = !isEditingEnabled;
+                        isEditingIntro = !isEditingEnabled;
 
-                  // Toggle the global editing flag
-                  isEditingEnabled = !isEditingEnabled;
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFE9A05C),
-              ),
-              child: Text(
-                isEditingEnabled ? '수정완료' : '수정하기',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
+                        // Toggle the global editing flag
+                        isEditingEnabled = !isEditingEnabled;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFE9A05C),
+                    ),
+                    child: Text(
+                      isEditingEnabled ? '수정완료' : '수정하기',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
