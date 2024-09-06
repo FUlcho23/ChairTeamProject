@@ -1,4 +1,3 @@
-import 'package:chair/pages/NoticePage.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../widgets/bottom_navi_bar.dart';
@@ -66,10 +65,6 @@ class _MyPageState extends State<MyPage> {
           break;
         case 6:
           print('공지사항');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NoticePage()),
-          );
           break;
         default:
           print('설정');
