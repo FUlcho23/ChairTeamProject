@@ -1,15 +1,13 @@
-import 'package:chair/user_options/NoticePage.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../widgets/bottom_navi_bar.dart';
-import 'package:camera/camera.dart';
 //주문내역
 import '../user_options/person.dart';
 import '../user_options/address.dart';
 //체형설정
 //이벤트
 //고객센터
-//공지사항
+import 'package:chair/user_options/NoticePage.dart';
 //설정
 
 class MyPage extends StatefulWidget {
@@ -92,7 +90,7 @@ class _MyPageState extends State<MyPage> {
                       children: [
                         Positioned(
                           left: 20, // 왼쪽 여백 설정
-                          top: 10, // 상단 여백 설정
+                          top: 12, // 상단 여백 설정
                           child: Text(
                             '내 정보',
                             style: TextStyle(
