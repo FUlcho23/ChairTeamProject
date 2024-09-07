@@ -9,17 +9,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BodySetting(),
+      home: BodyShapePage(),
     );
   }
 }
 
-class BodySetting extends StatefulWidget {
+class BodyShapePage extends StatefulWidget {
   @override
-  _BodySettingState createState() => _BodySettingState();
+  _BodyShapePageState createState() => _BodyShapePageState();
 }
 
-class _BodySettingState extends State<BodySetting> {
+class _BodyShapePageState extends State<BodyShapePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class _BodySettingState extends State<BodySetting> {
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
           onPressed: () {
-            // mypage.dart로 이동
+            // MyPage로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => MyPage()),
@@ -43,7 +43,7 @@ class _BodySettingState extends State<BodySetting> {
             ),
             SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조정
             Text(
-              '체형설정', // 타이틀 설정
+              '체형 설정', // 타이틀 설정
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white, // 타이틀 글자 색상
@@ -58,7 +58,7 @@ class _BodySettingState extends State<BodySetting> {
           SizedBox(
             height: 10,
             child: Container(
-              color: Colors.orangeAccent, // Column의 색상을 주황색으로 설정
+              color: Colors.orangeAccent, // 구분선 색상
             ),
           ),
           Expanded(
@@ -67,7 +67,17 @@ class _BodySettingState extends State<BodySetting> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-
+                  // 체형 설정 항목을 추가할 수 있는 위젯
+                  Text(
+                    '체형을 설정하세요',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  // 여기에 선택 가능한 체형 옵션 추가
+                  // 예를 들어, RadioButton 또는 DropdownButton 등을 사용할 수 있습니다.
                 ],
               ),
             ),

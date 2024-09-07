@@ -21,14 +21,11 @@ class EventPage extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start, // 왼쪽 정렬
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Image.asset(
-                'assets/images/speakerphone.png', // 아이콘 이미지
-                height: 24,
-                width: 24,
-              ),
+            Icon(
+              Icons.redeem,
+              color: Colors.white, // 아이콘 색상
             ),
+            SizedBox(width: 8), // 아이
             Text(
               '이벤트', // 페이지 타이틀을 '이벤트'로 설정
               style: TextStyle(
@@ -134,7 +131,7 @@ class EventItem extends StatelessWidget {
                       SizedBox(height: 4),
                       // 설명 텍스트
                       Text(
-                        '2024-09-10', // 임의 날짜
+                        '2024-09-10 ~ 2024-12-31', // 임의 날짜
                         style: TextStyle(
                           color: Color(0xFF7F7F7F),
                           fontSize: 12,
