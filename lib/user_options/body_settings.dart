@@ -38,12 +38,12 @@ class _BodySettingState extends State<BodySetting> {
         title: Row(
           children: <Widget>[
             Icon(
-              Icons.location_on,
+              Icons.straighten,
               color: Colors.white, // 아이콘 색상
             ),
             SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조정
             Text(
-              '페이지 이름', // 타이틀 설정
+              '체형설정', // 타이틀 설정
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white, // 타이틀 글자 색상
