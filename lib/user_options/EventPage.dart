@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../pages/mypage.dart'; // mypage.dart를 import
+import '../pages/mypage.dart'; // mypage.dart를 import4
+// EventDetailPage를 import
 
 void main() {
   runApp(MyApp());
@@ -71,72 +72,104 @@ class EventItem extends StatelessWidget {
 
   EventItem({required this.index});
 
+  void _navigateToEventDetails(BuildContext context) {
+    // 여기에 이벤트 상세 페이지로의 네비게이션 로직을 추가합니다.
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventDetailPage(index: index),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center, // 세로 중앙 정렬
-            children: [
-              // 이미지 칸
-              Container(
-                width: 100,  // 이미지 네모칸의 너비 설정 (공지사항 크기보다 크게)
-                height: 100, // 이미지 네모칸의 높이 설정
-                decoration: BoxDecoration(
-                  color: Colors.grey[200], // 배경 색상
-                  borderRadius: BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/sample.png'), // 이미지 경로 설정
-                    fit: BoxFit.cover,  // 이미지가 네모칸에 맞게 커버됨
-                  ),
-                ),
-              ),
-              SizedBox(width: 16), // 이미지와 텍스트 간격
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 날짜 텍스트
-                    SizedBox(height: 8),
-                    // 타이틀 텍스트
-                    Text(
-                      '이벤트 ${index + 1}', // 이벤트 타이틀
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF5E5E5E),
-                        fontSize: 20,  // 더 큰 타이틀 폰트 크기
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    // 설명 텍스트
-                    Text(
-                      '2024-09-10', // 임의 날짜
-                      style: TextStyle(
-                        color: Color(0xFF7F7F7F),
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+    return InkWell(
+      onTap: () => _navigateToEventDetails(context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
               ),
             ],
           ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center, // 세로 중앙 정렬
+              children: [
+                // 이미지 칸
+                Container(
+                  width: 100,  // 이미지 네모칸의 너비 설정 (공지사항 크기보다 크게)
+                  height: 100, // 이미지 네모칸의 높이 설정
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // 배경 색상
+                    borderRadius: BorderRadius.circular(8.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/sample.png'), // 이미지 경로 설정
+                      fit: BoxFit.cover,  // 이미지가 네모칸에 맞게 커버됨
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16), // 이미지와 텍스트 간격
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 날짜 텍스트
+                      SizedBox(height: 8),
+                      // 타이틀 텍스트
+                      Text(
+                        '이벤트 ${index + 1}', // 이벤트 타이틀
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF5E5E5E),
+                          fontSize: 20,  // 더 큰 타이틀 폰트 크기
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      // 설명 텍스트
+                      Text(
+                        '2024-09-10', // 임의 날짜
+                        style: TextStyle(
+                          color: Color(0xFF7F7F7F),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class EventDetailPage extends StatelessWidget {
+  final int index;
+
+  EventDetailPage({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('이벤트 ${index + 1} 상세 페이지'),
+        backgroundColor: Color(0xFF404040),
+      ),
+      body: Center(
+        child: Text('이벤트 ${index + 1}의 상세 내용'),
       ),
     );
   }
