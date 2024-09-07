@@ -102,43 +102,56 @@ class _NoticeItemState extends State<NoticeItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListTile(
-              title: Text(
-                '2024-09-06', // 날짜를 표시
-                style: TextStyle(
-                  color: Color(0xFF7F7F7F), // 날짜 색상
-                  fontSize: 16, // 적절한 크기 설정
-                ),
-              ),
-              subtitle: isExpanded
-                  ? Padding(
-                padding: EdgeInsets.only(top: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Text(
-                        '상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다.',
-                        maxLines: isExpanded ? null : 2,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          color: Color(0xFF5E5E5E),
-                          fontSize: 15,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 날짜를 표시합니다.
+                  Text(
+                    '2024-09-06', // 임의의 날짜를 표시
+                    style: TextStyle(
+                      color: Color(0xFF7F7F7F), // 날짜 색상
+                      fontSize: 12, // 날짜 폰트 크기
                     ),
-                  ],
-                ),
-              )
-                  : Text(
-                '공지사항 내용이 여기에 들어갑니다.',
-                style: TextStyle(color: Color(0xFF5E5E5E)),
+                  ),
+                  SizedBox(height: 4), // 날짜와 제목 사이의 여백
+                  Text(
+                    '공지사항 ${widget.index + 1}', // 타이틀
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF5E5E5E),
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
+            isExpanded
+                ? Padding(
+              padding: EdgeInsets.only(left: 16.0, bottom: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      '상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다. 상세 내용이 여기에 들어갑니다.',
+                      maxLines: isExpanded ? null : 2,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        color: Color(0xFF5E5E5E),
+                        fontSize: 15,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            )
+                : Container(),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
+              padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
               child: TextButton(
                 onPressed: () {
                   setState(() {
@@ -148,7 +161,7 @@ class _NoticeItemState extends State<NoticeItem> {
                 child: Text(
                   isExpanded ? '접기' : '펼쳐보기', // 텍스트가 확장 상태에 따라 변경
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Color(0xFF7F7F7F), // 버튼 텍스트 색상 변경
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -160,3 +173,4 @@ class _NoticeItemState extends State<NoticeItem> {
     );
   }
 }
+
