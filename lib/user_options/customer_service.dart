@@ -20,6 +20,16 @@ class Customer extends StatefulWidget {
 }
 
 class _CustomerState extends State<Customer> {
+  bool _showHelpDetails = false;
+  bool _showInquiryDetails = false;
+  bool _showBusinessDetails = false;
+
+  final Map<String, String> _details = {
+    '자주 찾는 질문': '1. 체형 촬영 방법 및 등록 방법이 뭔가요?\n2. 파판이 하고 싶어요\n3. 졸리다',
+    '문의하기': '010-0000-0000',
+    '사업자 정보': '카페인',
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,17 +73,127 @@ class _CustomerState extends State<Customer> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      '궁금하신 점이 무엇인가요?',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: '검색어를 입력하세요',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () {
+                            // 검색 버튼 클릭 시 동작
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 20),
+                        _buildExpandableItem('자주 찾는 질문', _showHelpDetails, (value) {
+                          setState(() {
+                            _showHelpDetails = value;
+                            _showInquiryDetails = false; // 다른 항목 닫기
+                            _showBusinessDetails = false; // 다른 항목 닫기
+                          });
+                        }),
+                        SizedBox(height: 20),
+                        _buildExpandableItem('문의하기', _showInquiryDetails, (value) {
+                          setState(() {
+                            _showInquiryDetails = value;
+                            _showHelpDetails = false; // 다른 항목 닫기
+                            _showBusinessDetails = false; // 다른 항목 닫기
+                          });
+                        }),
+                        SizedBox(height: 20),
+                        _buildExpandableItem('사업자 정보', _showBusinessDetails, (value) {
+                          setState(() {
+                            _showBusinessDetails = value;
+                            _showHelpDetails = false; // 다른 항목 닫기
+                            _showInquiryDetails = false; // 다른 항목 닫기
+                          });
+                        }),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildExpandableItem(String title, bool isExpanded, ValueChanged<bool> onTap) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ListTile(
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          trailing: Icon(
+            isExpanded ? Icons.expand_less : Icons.expand_more,
+            color: Colors.black,
+          ),
+          onTap: () {
+            onTap(!isExpanded);
+          },
+        ),
+        if (isExpanded)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              _details[title] ?? '상세 설명이 여기에 나옵니다.', // 제목에 따른 상세 설명 표시
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        SizedBox(height: 20),
+        Container(
+          height: 1,
+          color: Colors.black,
+        ),
+      ],
     );
   }
 }
