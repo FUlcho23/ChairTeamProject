@@ -1,10 +1,10 @@
 import 'package:mysql_client/mysql_client.dart';
 
-class DatabaseHelper {
+class Db {
   // Singleton 패턴으로 단일 인스턴스 유지
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
-  factory DatabaseHelper() => _instance;
-  DatabaseHelper._internal();
+  static final Db _instance = Db._internal();
+  factory Db() => _instance;
+  Db._internal();
 
   MySQLConnection? _connection; // 데이터베이스 연결을 저장할 변수
 
@@ -13,11 +13,11 @@ class DatabaseHelper {
     try {
       print("Connecting to MySQL server...");
       _connection = await MySQLConnection.createConnection(
-        host: 'your_host',
+        host: 'localhost',
         port: 3306, // 사용 중인 MySQL의 포트 번호
-        userName: 'your_username',
-        password: 'your_password',
-        databaseName: 'testdb', // optional
+        userName: 'admin',
+        password: '0000',
+        databaseName: 'Chair', // optional
       );
       await _connection!.connect();
       print("Connected to MySQL");

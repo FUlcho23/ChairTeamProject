@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
-import 'package:mysql_client/mysql_client.dart';
-//DB 연동
+import '../widgets/db.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -25,12 +25,25 @@ class _AddressState extends State<Address> {
   TextEditingController cityController = TextEditingController(text: '부산광역시 남구');
   TextEditingController roadController = TextEditingController(text: '신선로 428');
   TextEditingController detailController = TextEditingController(text: '동명대학교');
+  final db = Db(); // 데이터베이스 인스턴스 생성
 
   bool isEditingCity = false;
   bool isEditingRoad = false;
   bool isEditingDetail = false;
 
   bool isEditingEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    db.connect(); // 페이지 초기화 시 데이터베이스에 연결
+  }
+
+  @override
+  void dispose() {
+    db.close(); // 페이지 종료 시 데이터베이스 연결 닫기
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
