@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart'; // mypage.dart를 import
 
-void main() {
-  runApp(MyApp());
-}
-
 class NoticePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

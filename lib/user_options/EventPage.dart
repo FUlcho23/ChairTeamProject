@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import '../pages/mypage.dart'; // mypage.dart를 import4
 // EventDetailPage를 import
 
-void main() {
-  runApp(MyApp());
-}
-
 class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
