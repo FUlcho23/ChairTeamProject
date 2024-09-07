@@ -38,6 +38,7 @@ class NoticePage extends StatelessWidget {
           ],
         ),
       ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: [
           // 검은 선을 주황색으로 변경

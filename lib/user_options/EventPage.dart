@@ -36,6 +36,7 @@ class EventPage extends StatelessWidget {
           ],
         ),
       ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: [
           // 주황색 구분선

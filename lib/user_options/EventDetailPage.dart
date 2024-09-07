@@ -12,6 +12,7 @@ class EventDetailPage extends StatelessWidget {
         title: Text('이벤트 ${index + 1} 상세 페이지'),
         backgroundColor: Color(0xFF404040),
       ),
+      backgroundColor: Color(0xFFEEEEEE),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
