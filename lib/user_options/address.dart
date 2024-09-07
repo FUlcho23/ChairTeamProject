@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
+import 'package:mysql_client/mysql_client.dart';
+//DB 연동
 
 void main() {
   runApp(MyApp());
