@@ -9,17 +9,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Address(),
+      home: Setting(),
     );
   }
 }
 
-class Address extends StatefulWidget {
+class Setting extends StatefulWidget {
   @override
-  _AddressState createState() => _AddressState();
+  _SettingState createState() => _SettingState();
 }
 
-class _AddressState extends State<Address> {
+class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
