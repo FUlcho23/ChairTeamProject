@@ -29,15 +29,15 @@ class EventPage extends StatelessWidget {
               padding: const EdgeInsets.only(right: 8.0),
               child: Image.asset(
                 'assets/images/speakerphone.png', // 아이콘 이미지
-                height: 28,
-                width: 28,
+                height: 24,
+                width: 24,
               ),
             ),
             Text(
               '이벤트', // 페이지 타이틀을 '이벤트'로 설정
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 28,
+                fontSize: 24,
               ),
             ),
           ],
