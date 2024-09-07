@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../widgets/bottom_navi_bar.dart';
-//주문내역
+import 'package:chair/user_options/buylist.dart';
 import '../user_options/person.dart';
 import '../user_options/address.dart';
-//체형설정
+import 'package:chair/user_options/body_settings.dart';
 //이벤트
-//고객센터
+import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
-//설정
+import 'package:chair/user_options/setting.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -38,6 +38,10 @@ class _MyPageState extends State<MyPage> {
       switch(index) {
         case 0:
           print('주문내역');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Buylist()),
+          );
           break;
         case 1:
           print('개인정보 관리');
@@ -55,12 +59,20 @@ class _MyPageState extends State<MyPage> {
           break;
         case 3:
           print('체형설정');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BodySetting()),
+          );
           break;
         case 4:
           print('이벤트');
           break;
         case 5:
           print('고객센터');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Customer()),
+          );
           break;
         case 6:
           print('공지사항');
@@ -71,6 +83,10 @@ class _MyPageState extends State<MyPage> {
           break;
         default:
           print('설정');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Setting()),
+          );
           break;
       }
     }
