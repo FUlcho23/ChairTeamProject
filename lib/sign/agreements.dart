@@ -33,7 +33,13 @@ class _AgreementsState extends State<Agreements> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('이용약관 동의하기'),
+        backgroundColor: Color(0xFF404040),
+        title: Text('이용약관 동의하기',
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white, // 타이틀 글자 색상
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -46,6 +52,12 @@ class _AgreementsState extends State<Agreements> {
         child: Center(
           child: Column(
             children: <Widget>[
+              SizedBox(
+                height: 10,
+                child: Container(
+                  color: Colors.orangeAccent, // SizedBox의 색상을 주황색으로 설정
+                ),
+              ),
               Container(
                 padding: EdgeInsets.only(top: 30),
                 child: Image.asset(

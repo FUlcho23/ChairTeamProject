@@ -33,9 +33,7 @@ class _AddressState extends State<Address> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60), // AppBar의 높이 설정
-        child: AppBar(
+      appBar: AppBar(
           backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -64,7 +62,6 @@ class _AddressState extends State<Address> {
             ],
           ),
         ),
-      ),
       backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: <Widget>[

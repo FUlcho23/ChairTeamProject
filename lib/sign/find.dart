@@ -46,7 +46,13 @@ class _FindState extends State<Find>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( // AppBar
-        title: Text('ID/PW 찾기'),
+        backgroundColor: Color(0xFF404040),
+        title: Text('ID/PW 찾기',
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white, // 타이틀 글자 색상
+          ),
+        ),
         leading: IconButton( // 뒤로가기 버튼 추가
           icon: Icon(Icons.arrow_back), // 뒤로가기 아이콘
           onPressed: () {
@@ -56,116 +62,128 @@ class _FindState extends State<Find>{
       ),
       backgroundColor: Color(0xFFEEEEEE),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Image.asset(
-              'assets/images/mainicon.png',
-              width: 80,
-              height: 80,
-            ),
-            SizedBox(height: 25),
-            Text('ID를 잊으셨나요?', style: TextStyle(
-              fontSize: 25,),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _nameController,
-              onChanged: (_) => setState(() {}), // 텍스트 필드 내용 변경 감지
-              decoration: InputDecoration(
-                labelText: '이름',
+            SizedBox(
+              height: 10,
+              child: Container(
+                color: Colors.orangeAccent, // SizedBox의 색상을 주황색으로 설정
               ),
             ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _emailController1,
-              onChanged: (_) => setState(() {}),
-              decoration: InputDecoration(
-                labelText: '이메일 주소',
-              ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _isButtonEnabled1() ? _findID : null,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return Colors.grey;
-                    }
-                    return Color(0xFFE9A05C);
-                  },
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+            Container(
+              padding: EdgeInsets.all(40.0),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/mainicon.png',
+                    width: 80,
+                    height: 80,
                   ),
-                ),
-                minimumSize: MaterialStateProperty.all<Size>(
-                  Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
-                ),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
-                ),
-              ),
-              child: Text('ID 찾기',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),),
-            ),
-            SizedBox(height: 60),
-            Text('PW를 잊으셨나요?', style: TextStyle(
-              fontSize: 25,),
-            ),
-            TextFormField(
-              controller: _idController,
-              onChanged: (_) => setState(() {}),
-              decoration: InputDecoration(
-                labelText: '아이디',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _emailController2,
-              onChanged: (_) => setState(() {}),
-              decoration: InputDecoration(
-                labelText: '이메일 주소',
-              ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _isButtonEnabled2() ? _findPW : null,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return Colors.grey;
-                    }
-                    return Color(0xFFE9A05C);
-                  },
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                  SizedBox(height: 25),
+                  Text('ID를 잊으셨나요?', style: TextStyle(
+                    fontSize: 25,),
                   ),
-                ),
-                minimumSize: MaterialStateProperty.all<Size>(
-                  Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
-                ),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
-                ),
-              ),
-              child: Text('PW 찾기',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _nameController,
+                    onChanged: (_) => setState(() {}), // 텍스트 필드 내용 변경 감지
+                    decoration: InputDecoration(
+                      labelText: '이름',
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _emailController1,
+                    onChanged: (_) => setState(() {}),
+                    decoration: InputDecoration(
+                      labelText: '이메일 주소',
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _isButtonEnabled1() ? _findID : null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey;
+                          }
+                          return Color(0xFFE9A05C);
+                        },
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all<Size>(
+                        Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
+                      ),
+                    ),
+                    child: Text('ID 찾기',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),),
+                  ),
+                  SizedBox(height: 60),
+                  Text('PW를 잊으셨나요?', style: TextStyle(
+                    fontSize: 25,),
+                  ),
+                  TextFormField(
+                    controller: _idController,
+                    onChanged: (_) => setState(() {}),
+                    decoration: InputDecoration(
+                      labelText: '아이디',
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _emailController2,
+                    onChanged: (_) => setState(() {}),
+                    decoration: InputDecoration(
+                      labelText: '이메일 주소',
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _isButtonEnabled2() ? _findPW : null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey;
+                          }
+                          return Color(0xFFE9A05C);
+                        },
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all<Size>(
+                        Size(double.infinity, 50), // 너비는 무제한으로, 높이는 30으로 설정
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
+                      ),
+                    ),
+                    child: Text('PW 찾기',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                ],
               ),
             ),
-            SizedBox(height: 40),
           ],
         ),
       ),

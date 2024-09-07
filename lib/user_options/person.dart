@@ -46,9 +46,7 @@ class _PersonState extends State<Person> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60), // AppBar의 높이 설정
-        child: AppBar(
+      appBar: AppBar(
           backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -77,7 +75,6 @@ class _PersonState extends State<Person> {
             ],
           ),
         ),
-      ),
       backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: <Widget>[
