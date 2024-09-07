@@ -4,7 +4,7 @@ import '../widgets/bottom_navi_bar.dart';
 import 'package:chair/user_options/buylist.dart';
 import '../user_options/person.dart';
 import '../user_options/address.dart';
-import 'package:chair/user_options/body_settings.dart';
+import 'package:chair/user_options/BodyShapePage.dart';
 import 'package:chair/user_options/EventPage.dart';
 import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
@@ -59,7 +59,7 @@ class _MyPageState extends State<MyPage> {
         case 3:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BodySetting()),
+            MaterialPageRoute(builder: (context) => BodyShapePage()),
           );
           break;
         case 4:
