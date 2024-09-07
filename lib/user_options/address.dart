@@ -36,7 +36,7 @@ class _AddressState extends State<Address> {
       appBar: AppBar(
           backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
             onPressed: () {
               // mypage.dart로 이동
               Navigator.pushReplacement(
