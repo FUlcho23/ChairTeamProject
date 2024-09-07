@@ -105,7 +105,7 @@ class _MyPageState extends State<MyPage> {
                     child: Text(
                       '내 정보',
                       style: TextStyle(
-                        fontSize: getFontSize(MediaQuery.of(context).size.width, 6),
+                        fontSize: 28,
                         color: Colors.black,
                       ),
                     ),
@@ -121,7 +121,7 @@ class _MyPageState extends State<MyPage> {
                           height: 80,
                         ),
                         Text(
-                          '안녕하세요~^0^',
+                          '홍길동',
                           style: TextStyle(fontSize: getFontSize(MediaQuery.of(context).size.width, 3.5), color: Colors.black),
                         ),
                       ],
