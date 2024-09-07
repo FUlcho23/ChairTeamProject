@@ -5,7 +5,7 @@ import 'package:chair/user_options/buylist.dart';
 import '../user_options/person.dart';
 import '../user_options/address.dart';
 import 'package:chair/user_options/body_settings.dart';
-//이벤트
+import 'package:chair/user_options/EventPage.dart';
 import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
 import 'package:chair/user_options/setting.dart';
@@ -66,6 +66,10 @@ class _MyPageState extends State<MyPage> {
           break;
         case 4:
           print('이벤트');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EventPage()),
+          );
           break;
         case 5:
           print('고객센터');
