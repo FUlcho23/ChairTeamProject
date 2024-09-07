@@ -41,7 +41,7 @@ class _AgreementsState extends State<Agreements> {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
           onPressed: () {
             Navigator.pop(context);
           },

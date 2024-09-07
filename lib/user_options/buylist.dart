@@ -63,7 +63,6 @@ class _BuylistState extends State<Buylist> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
