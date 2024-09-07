@@ -1,4 +1,3 @@
-import 'package:chair/user_options/EventPage.dart';
 import 'package:chair/user_options/NoticePage.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
@@ -61,10 +60,6 @@ class _MyPageState extends State<MyPage> {
           break;
         case 4:
           print('이벤트');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => EventPage()),
-          );
           break;
         case 5:
           print('고객센터');
