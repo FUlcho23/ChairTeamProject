@@ -283,6 +283,7 @@ class _MyPageState extends State<MyPage> {
                               children: [
                                 for(int i = 0; i < 8; i++)
                                   Container(
+                                    margin: EdgeInsets.symmetric(vertical: 4),
                                     child: ElevatedButton(
                                       onPressed: () {
                                         handleButtonPressed(i);
