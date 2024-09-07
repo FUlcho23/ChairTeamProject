@@ -181,6 +181,7 @@ class _MyPageState extends State<MyPage> {
                             ),
                           ),
                         ),
+
                         Container(
                           width: MediaQuery.of(context).size.width * 8 / 9, // 화면 너비의 8/9
                           height: 130,
@@ -202,7 +203,7 @@ class _MyPageState extends State<MyPage> {
                                         Text(
                                           '${list[i]}  :  ${information[i].toStringAsFixed(1)}',
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: MediaQuery.of(context).size.width * 0.035,
                                             color: Colors.black,
                                           ),
                                         ),
