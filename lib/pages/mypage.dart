@@ -304,7 +304,7 @@ class _MyPageState extends State<MyPage> {
                                           Text(
                                             '${list2[i]}',
                                             style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: MediaQuery.of(context).size.width * 0.040,
                                               color: Colors.black,
                                             ),
                                           ),
