@@ -203,7 +203,7 @@ class _MyPageState extends State<MyPage> {
                                         Text(
                                           '${list[i]}  :  ${information[i].toStringAsFixed(1)}',
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.035,
+                                            fontSize: MediaQuery.of(context).size.width * 0.040,
                                             color: Colors.black,
                                           ),
                                         ),
