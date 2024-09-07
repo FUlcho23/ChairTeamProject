@@ -32,6 +32,10 @@ class _MyPageState extends State<MyPage> {
     List<double> information = [12.3, 23.4, 34.5, 45.6];
     List<String> list2 = ['주문내역', '개인정보 관리', '주소관리', '체형설정', '이벤트', '고객센터', '공지사항', '설정'];
 
+    double getFontSize(double screenWidth, double baseSize) {
+      return screenWidth * baseSize / 100 < 20 ? screenWidth * baseSize / 100 : 20;
+    }
+
     void handleButtonPressed(int index) {
       switch (index) {
         case 0:
@@ -101,7 +105,7 @@ class _MyPageState extends State<MyPage> {
                     child: Text(
                       '내 정보',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: getFontSize(MediaQuery.of(context).size.width, 6),
                         color: Colors.black,
                       ),
                     ),
@@ -118,7 +122,7 @@ class _MyPageState extends State<MyPage> {
                         ),
                         Text(
                           '안녕하세요~^0^',
-                          style: TextStyle(fontSize: 12, color: Colors.black),
+                          style: TextStyle(fontSize: getFontSize(MediaQuery.of(context).size.width, 3.5), color: Colors.black),
                         ),
                       ],
                     ),
@@ -146,7 +150,7 @@ class _MyPageState extends State<MyPage> {
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Text(
                           '로그아웃',
-                          style: TextStyle(fontSize: 13, color: Colors.black),
+                          style: TextStyle(fontSize: getFontSize(MediaQuery.of(context).size.width, 3.5), color: Colors.black),
                         ),
                       ),
                     ),
@@ -170,7 +174,7 @@ class _MyPageState extends State<MyPage> {
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
                       '등록 정보',
-                      style: TextStyle(fontSize: 12, color: Colors.black),
+                      style: TextStyle(fontSize: getFontSize(MediaQuery.of(context).size.width, 4), color: Colors.black),
                     ),
                   ),
                   Container(
@@ -194,7 +198,7 @@ class _MyPageState extends State<MyPage> {
                                   Text(
                                     '${list[i]}  :  ${information[i].toStringAsFixed(1)}',
                                     style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width * 0.040,
+                                      fontSize: getFontSize(MediaQuery.of(context).size.width, 4),
                                       color: Colors.black,
                                     ),
                                   ),
@@ -241,7 +245,7 @@ class _MyPageState extends State<MyPage> {
                                     Text(
                                       '촬영하기',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: getFontSize(MediaQuery.of(context).size.width, 4),
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -290,7 +294,7 @@ class _MyPageState extends State<MyPage> {
                                   Text(
                                     '${list2[i]}',
                                     style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width * 0.040,
+                                      fontSize: getFontSize(MediaQuery.of(context).size.width, 4),
                                       color: Colors.black,
                                     ),
                                   ),
