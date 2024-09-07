@@ -297,49 +297,49 @@ class _MyPageState extends State<MyPage> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child:
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                for(int i = 0; i < 8; i++)
-                                  Container(
-                                    margin: EdgeInsets.symmetric(vertical: 4),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        handleButtonPressed(i);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.zero, // 버튼 내부 패딩을 0으로 설정
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10), // 버튼의 모서리를 둥글게 설정
-                                        ),
-                                        backgroundColor: Colors.transparent, // 버튼의 배경색을 투명하게 설정
-                                        shadowColor: Colors.transparent, // 그림자 색상을 투명하게 설정
-                                        elevation: 0, // 그림자 높이를 0으로 설정하여 눈에 보이지 않도록
+                            child: ListView.builder(
+                              shrinkWrap: true, // 이 옵션을 사용하여 ListView가 필요한 만큼만 공간을 차지하게 설정합니다.
+                              physics: NeverScrollableScrollPhysics(), // 상위 스크롤뷰와 겹치지 않도록 스크롤 비활성화
+                              itemCount: 8, // 버튼의 개수
+                              itemBuilder: (context, i) {
+                                return Container(
+                                  margin: EdgeInsets.symmetric(vertical: 4),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      handleButtonPressed(i);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 30), // 텍스트와 아이콘 사이의 간격 조절
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${list2[i]}',
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context).size.width * 0.040,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.chevron_right,
-                                              size: 25,
+                                      backgroundColor: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      elevation: 0,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${list2[i]}',
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context).size.width * 0.040,
                                               color: Colors.black,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Icon(
+                                            Icons.chevron_right,
+                                            size: 25,
+                                            color: Colors.black,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  )
-                              ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         )
