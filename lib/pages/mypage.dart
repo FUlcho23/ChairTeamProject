@@ -90,7 +90,7 @@ class _MyPageState extends State<MyPage> {
                       children: [
                         Positioned(
                           left: 20, // 왼쪽 여백 설정
-                          top: 12, // 상단 여백 설정
+                          top: 20, // 상단 여백 설정
                           child: Text(
                             '내 정보',
                             style: TextStyle(
