@@ -269,7 +269,6 @@ class _MyPageState extends State<MyPage> {
                             ],
                           ),
                         ),
-
                         SizedBox(height: 10), // 첫 번째 컨테이너와 두 번째 컨테이너 사이의 간격 추가
                         Container(
                           child: Container(
