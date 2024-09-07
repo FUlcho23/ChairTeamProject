@@ -45,7 +45,7 @@ class _SettingState extends State<Setting> {
             Text(
               '설정', // 타이틀 설정
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 24,
                 color: Colors.white, // 타이틀 글자 색상
               ),
             ),

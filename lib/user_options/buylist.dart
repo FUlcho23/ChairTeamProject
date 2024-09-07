@@ -45,7 +45,7 @@ class _BuylistState extends State<Buylist> {
             Text(
               '주문내역', // 타이틀 설정
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 24,
                 color: Colors.white, // 타이틀 글자 색상
               ),
             ),

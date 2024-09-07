@@ -45,7 +45,7 @@ class _CustomerState extends State<Customer> {
             Text(
               '고객센터', // 타이틀 설정
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 24,
                 color: Colors.white, // 타이틀 글자 색상
               ),
             ),
