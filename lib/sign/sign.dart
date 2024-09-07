@@ -56,7 +56,7 @@ class _SignState extends State<Sign> {
           ),
         ),
         leading: IconButton( // 뒤로가기 버튼 추가
-          icon: Icon(Icons.arrow_back), // 뒤로가기 아이콘
+          icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
           onPressed: () {
             Navigator.pop(context); // 뒤로가기 동작
           },

@@ -27,17 +27,17 @@ class _PersonState extends State<Person> {
   TextEditingController(text: '홍길동');
   TextEditingController emailController =
   TextEditingController(text: 'hong@tu.kr');
+  TextEditingController birthController =
+  TextEditingController(text: '001122');
   TextEditingController phoneController =
   TextEditingController(text: '01012341234');
-  TextEditingController introController =
-  TextEditingController(text: '안녕하세요~^0^');
 
   bool isEditingID = false;
   bool isEditingPW = false;
   bool isEditingName = false;
   bool isEditingEmail = false;
+  bool isEditingBirth = false;
   bool isEditingPhone = false;
-  bool isEditingIntro = false;
 
   bool isEditingEnabled = false; // Track whether editing is enabled or not
 
@@ -94,8 +94,8 @@ class _PersonState extends State<Person> {
                   buildEditableTextField('PW', pwController),
                   buildEditableTextField('이름', nameController),
                   buildEditableTextField('이메일', emailController),
+                  buildEditableTextField('생년월일', birthController),
                   buildEditableTextField('전화번호', phoneController),
-                  buildEditableTextField('소개말', introController),
                   SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
@@ -105,8 +105,8 @@ class _PersonState extends State<Person> {
                         isEditingPW = !isEditingEnabled;
                         isEditingName = !isEditingEnabled;
                         isEditingEmail = !isEditingEnabled;
+                        isEditingBirth = !isEditingEnabled;
                         isEditingPhone = !isEditingEnabled;
-                        isEditingIntro = !isEditingEnabled;
 
                         // Toggle the global editing flag
                         isEditingEnabled = !isEditingEnabled;
