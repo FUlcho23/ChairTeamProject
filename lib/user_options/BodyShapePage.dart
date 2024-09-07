@@ -76,8 +76,170 @@ class _BodyShapePageState extends State<BodyShapePage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // 여기에 선택 가능한 체형 옵션 추가
-                  // 예를 들어, RadioButton 또는 DropdownButton 등을 사용할 수 있습니다.
+                  // 촬영하기 버튼
+                  Padding(
+                    padding: EdgeInsets.only(right: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            print('사진 촬영 버튼이 눌렸습니다.');
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                            elevation: MaterialStateProperty.all<double>(0),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(90),
+                                  border: Border.all(
+                                    color: Color(0xFFE9A05C),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.black,
+                                  size: 60,
+                                ),
+                              ),
+                              SizedBox(height: 8), // 버튼과 텍스트 사이의 간격
+                              Text(
+                                '촬영하기',
+                                style: TextStyle(
+                                  fontSize: 16, // 적당한 폰트 크기로 설정
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16), // 버튼과 검은 선 사이의 간격
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: Color(0xFF7F7F7F), // Figma의 색상 코드 적용
+                        ),
+                        SizedBox(height: 16), // 선과 네모 사이의 간격
+                        // 2x2 형태의 텍스트 네모
+                        Container(
+                          height: 400, // 높이를 고정하여 `GridView`가 잘리지 않게 설정
+                          child: GridView.builder(
+                            shrinkWrap: true, // 내용이 길어지면 스크롤 가능
+                            physics: NeverScrollableScrollPhysics(), // GridView가 스크롤되지 않도록 설정
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // 2x2 그리드
+                              crossAxisSpacing: 16.0, // 가로 간격
+                              mainAxisSpacing: 16.0, // 세로 간격
+                              childAspectRatio: 2, // 가로:세로 비율을 2로 설정하여 직사각형
+                            ),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              List<String> labels = [
+                                '종아리 길이 \n NN.N',
+                                '허벅지 너비 \n NN.N',
+                                '허벅지 길이 \n NN.N',
+                                '등판 높이 \n NN.N'
+                              ];
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(32.0), // 둥근 테두리
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3), // 그림자 위치
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    labels[index],
+                                    textAlign: TextAlign.center, // 텍스트 중앙 정렬
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 32), // 네모와 버튼 사이의 간격
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print('직접 입력 버튼이 눌렸습니다.');
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF6B5640)), // Figma의 색상 코드 적용
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 54)), // 버튼 높이 조정 (기본 높이 36에서 1.5배 증가)
+                                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  '직접 입력',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 16), // 버튼 사이의 간격
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print('저장하기 버튼이 눌렸습니다.');
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFFE9A05C)), // Figma의 색상 코드 적용
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 54)), // 버튼 높이 조정 (기본 높이 36에서 1.5배 증가)
+                                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  '저장하기',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
