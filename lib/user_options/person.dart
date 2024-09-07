@@ -68,7 +68,7 @@ class _PersonState extends State<Person> {
               Text(
                 '개인정보 관리', // 타이틀 설정
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 24,
                   color: Colors.white, // 타이틀 글자 색상
                 ),
               ),
