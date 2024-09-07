@@ -299,7 +299,7 @@ class _MyPageState extends State<MyPage> {
                             ),
                             child: ListView.builder(
                               shrinkWrap: true, // 이 옵션을 사용하여 ListView가 필요한 만큼만 공간을 차지하게 설정합니다.
-                              physics: NeverScrollableScrollPhysics(), // 상위 스크롤뷰와 겹치지 않도록 스크롤 비활성화
+                              //physics: NeverScrollableScrollPhysics(), // 상위 스크롤뷰와 겹치지 않도록 스크롤 비활성화
                               itemCount: 8, // 버튼의 개수
                               itemBuilder: (context, i) {
                                 return Container(
