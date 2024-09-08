@@ -83,28 +83,67 @@ class _FavoritePage extends State<FavoritePage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    title: Text('구매 확인'),
-                                    content: Text('하트가 활성화된 상품을 구매하시겠습니까?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(); // No action, just close the dialog
-                                        },
-                                        child: Text('아니오'),
+                                    title: Text(
+                                      '찜한 상품을 구매하시겠습니까?',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.035, // 화면 너비의 3.5%를 폰트 크기로 설정
+                                        color: Colors.black,
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(); // Close the dialog
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => CartPage(
-                                                cartItems: selectedProducts,
+                                    ),
+                                    backgroundColor: Colors.white, // 다이얼로그 배경색을 하얀색으로 설정
+                                    content: Text(
+                                      '장바구니 화면으로 넘어갑니다.',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.025, // 화면 너비의 2.5%를 폰트 크기로 설정
+                                        color: Colors.black, // 텍스트 색상 설정
+                                      ),
+                                    ),
+                                    actions: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0), // 버튼과 다이얼로그 상하 여백 설정
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween, // 버튼 사이의 간격을 조정
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10.0), // '예' 버튼 왼쪽 여백
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => CartPage(
+                                                        cartItems: selectedProducts,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text(
+                                                  '예',
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.width * 0.03, // 화면 너비의 3%를 폰트 크기로 설정
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          );
-                                        },
-                                        child: Text('예'),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 10.0), // '아니오' 버튼 오른쪽 여백
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                                                },
+                                                child: Text(
+                                                  '아니오',
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.width * 0.03, // 화면 너비의 3%를 폰트 크기로 설정
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   );
