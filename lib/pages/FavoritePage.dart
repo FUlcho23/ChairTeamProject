@@ -86,7 +86,7 @@ class _FavoritePage extends State<FavoritePage> {
                                     title: Text(
                                       '찜한 상품을 구매하시겠습니까?',
                                       style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width * 0.035, // 화면 너비의 3.5%를 폰트 크기로 설정
+                                        fontSize: 18, // 화면 너비의 3.5%를 폰트 크기로 설정
                                         color: Colors.black,
                                       ),
                                     ),
@@ -94,7 +94,7 @@ class _FavoritePage extends State<FavoritePage> {
                                     content: Text(
                                       '장바구니 화면으로 넘어갑니다.',
                                       style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width * 0.025, // 화면 너비의 2.5%를 폰트 크기로 설정
+                                        fontSize: 15, // 화면 너비의 2.5%를 폰트 크기로 설정
                                         color: Colors.black, // 텍스트 색상 설정
                                       ),
                                     ),

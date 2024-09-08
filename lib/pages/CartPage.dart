@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chair/models/product.dart';
-import 'package:chair/widgets/ProductCard.dart';
+import 'package:chair/user_options/buylist.dart'; // Buylist import
 
 class CartPage extends StatefulWidget {
   final List<Product> cartItems;
@@ -13,6 +13,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   List<bool> selectedItems = [];
+  List<Product> _selectedProducts = [];
 
   @override
   void initState() {
@@ -59,7 +60,7 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
-      backgroundColor: Color(0xFFF2EBDF), // 화면 배경색
+      backgroundColor: Color(0xFFF2EBDF),
       body: Column(
         children: <Widget>[
           SizedBox(
@@ -98,10 +99,11 @@ class _CartPageState extends State<CartPage> {
                       product.title,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text("${product.price.toInt()}"), // 소수점 없애기
+                    subtitle: Text("${product.price.toInt()}"),
                     onTap: () {
                       setState(() {
                         selectedItems[index] = !selectedItems[index];
+                        print("선택 상태: $selectedItems"); // 선택 상태 출력
                       });
                     },
                   ),
@@ -112,7 +114,7 @@ class _CartPageState extends State<CartPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              '총 합계 : ${getTotalPrice().toInt()}', // 소수점 없애기
+              '총 합계 : ${getTotalPrice().toInt()}',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -121,23 +123,77 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0), // 양쪽 여백 추가
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SizedBox(
-              width: double.infinity, // 버튼 너비를 화면 너비에 맞추기
-              height: 50, // 버튼 높이를 50으로 조정
+              width: double.infinity,
+              height: 50,
               child: ElevatedButton(
-                onPressed: () {
-                  // 결제 로직을 여기에 추가하세요
+                onPressed: () async {
+                  // 결제 완료 확인 다이얼로그 표시
+                  bool? confirmed = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Text(
+                          '결제 확인',
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        ),
+                        content: Text(
+                          '결제하시겠습니까?',
+                          style: TextStyle(fontSize: 15, color: Colors.black),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text(
+                              '예',
+                              style: TextStyle(fontSize: 15, color: Colors.black),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(true); // 예 버튼 클릭 시 다이얼로그 닫기
+                            },
+                          ),
+                          TextButton(
+                            child: Text(
+                              '아니오',
+                              style: TextStyle(fontSize: 15, color: Colors.black),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(false); // 아니오 버튼 클릭 시 다이얼로그 닫기
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  // 확인 후, 선택된 상품들로 주문내역 화면으로 이동
+                  if (confirmed == true) {
+                    List<Product> selectedProducts = [];
+                    for (int i = 0; i < widget.cartItems.length; i++) {
+                      if (selectedItems[i]) {
+                        selectedProducts.add(widget.cartItems[i]);
+                      }
+                    }
+
+                    // 주문 내역 화면으로 이동
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Buylist(products: selectedProducts),
+                      ),
+                    );
+                  }
                 },
                 child: Text('결제하기'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orangeAccent, // 버튼 배경색
-                  foregroundColor: Colors.white, // 버튼 텍스트 색상
+                  backgroundColor: Colors.orangeAccent,
+                  foregroundColor: Colors.white,
                   textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0), // 버튼의 모서리를 둥글게
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  padding: EdgeInsets.zero, // 버튼의 여백 없애기
+                  padding: EdgeInsets.zero,
                 ),
               ),
             ),

@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:chair/models/product.dart'; // Product 모델 import
 import '../pages/mypage.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class Buylist extends StatelessWidget {
+  final List<Product> products;
 
-class MyApp extends StatelessWidget {
+  Buylist({required this.products});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Buylist(),
-    );
-  }
-}
-
-class Buylist extends StatefulWidget {
-  @override
-  _BuylistState createState() => _BuylistState();
-}
-
-class _BuylistState extends State<Buylist> {
-  @override
-  Widget build(BuildContext context) {
+    print("주문 내역에 전달된 상품들: $products");  // 상품 리스트 출력
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
+        backgroundColor: Color(0xFF404040),
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
           onPressed: () {
-            // mypage.dart로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => MyPage()),
@@ -39,14 +26,14 @@ class _BuylistState extends State<Buylist> {
           children: <Widget>[
             Icon(
               Icons.shopping_cart,
-              color: Colors.white, // 아이콘 색상
+              color: Colors.white,
             ),
-            SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조정
+            SizedBox(width: 8),
             Text(
-              '주문내역', // 타이틀 설정
+              '주문내역',
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.white, // 타이틀 글자 색상
+                color: Colors.white,
               ),
             ),
           ],
@@ -58,16 +45,30 @@ class _BuylistState extends State<Buylist> {
           SizedBox(
             height: 10,
             child: Container(
-              color: Colors.orangeAccent, // Column의 색상을 주황색으로 설정
+              color: Colors.orangeAccent,
             ),
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-
-                ],
+                children: products.map((product) {
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: ListTile(
+                      leading: Image.asset(
+                        product.image,
+                        width: 50,
+                        height: 50,
+                      ),
+                      title: Text(
+                        product.title,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text("${product.price.toInt()}"),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ),
@@ -76,3 +77,4 @@ class _BuylistState extends State<Buylist> {
     );
   }
 }
+
