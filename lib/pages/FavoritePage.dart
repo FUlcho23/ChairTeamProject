@@ -81,16 +81,16 @@ class _FavoritePage extends State<FavoritePage> {
                     children: [
                       SizedBox(height: 28), // 아래로 10만큼의 여백 추가
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end, // 이미지를 오른쪽으로 정렬
+                        mainAxisAlignment: MainAxisAlignment.end, // 아이콘을 오른쪽으로 정렬
                         children: [
                           Spacer(), // 오른쪽 여백을 위한 Spacer
-                          Image.asset(
-                            'assets/images/cart.png',
-                            width: 50,
-                            height: 50,
+                          Icon(
+                            Icons.shopping_cart,
+                            size: 50, // 아이콘 크기 설정
+                            color: Colors.black, // 아이콘 색상 설정 (원하는 색상으로 변경 가능)
                           ),
                         ],
-                      ),
+                      )
                     ],
                   ),
 

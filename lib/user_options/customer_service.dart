@@ -25,7 +25,7 @@ class _CustomerState extends State<Customer> {
   bool _showBusinessDetails = false;
 
   final Map<String, String> _details = {
-    '자주 찾는 질문': '1. 체형 촬영 방법 및 등록 방법이 뭔가요?\n2. 파판이 하고 싶어요\n3. 졸리다..\n4. 오늘 저녁 추천 받아요',
+    '자주 찾는 질문': '1. 체형 촬영 방법 및 등록 방법이 뭔가요?\n2. 파판이 하고 싶어요\n3. 세포신곡이 하고 싶어요\n    함께 신.사 해주세요\n4. 졸리다..\n5. 오늘 저녁 추천 받아요',
     '문의하기': '010-0000-0000',
     '사업자 정보': '카페인',
   };
