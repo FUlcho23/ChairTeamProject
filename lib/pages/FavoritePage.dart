@@ -121,7 +121,7 @@ class _FavoritePage extends State<FavoritePage> {
                                                 child: Text(
                                                   '예',
                                                   style: TextStyle(
-                                                    fontSize: MediaQuery.of(context).size.width * 0.03, // 화면 너비의 3%를 폰트 크기로 설정
+                                                    fontSize: 15, // 화면 너비의 3%를 폰트 크기로 설정
                                                     color: Colors.black,
                                                   ),
                                                 ),
@@ -136,7 +136,7 @@ class _FavoritePage extends State<FavoritePage> {
                                                 child: Text(
                                                   '아니오',
                                                   style: TextStyle(
-                                                    fontSize: MediaQuery.of(context).size.width * 0.03, // 화면 너비의 3%를 폰트 크기로 설정
+                                                    fontSize: 15, // 화면 너비의 3%를 폰트 크기로 설정
                                                     color: Colors.black,
                                                   ),
                                                 ),
