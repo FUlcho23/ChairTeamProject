@@ -13,10 +13,10 @@ class Db {
     try {
       print("Connecting to MySQL server...");
       _connection = await MySQLConnection.createConnection(
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 3306, // 사용 중인 MySQL의 포트 번호
-        userName: 'admin',
-        password: '0000',
+        userName: 'user',
+        password: '1234',
         databaseName: 'Chair', // optional
       );
       await _connection!.connect();
