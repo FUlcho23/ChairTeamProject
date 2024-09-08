@@ -9,6 +9,7 @@ import 'package:chair/user_options/EventPage.dart';
 import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
 import 'package:chair/user_options/setting.dart';
+import 'package:chair/models/product.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -36,12 +37,14 @@ class _MyPageState extends State<MyPage> {
       return screenWidth * baseSize / 100 < 20 ? screenWidth * baseSize / 100 : 20;
     }
 
+    final List<Product> BuyProducts = [];
+
     void handleButtonPressed(int index) {
       switch (index) {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Buylist()),
+            MaterialPageRoute(builder: (context) => Buylist(products: BuyProducts)),
           );
           break;
         case 1:

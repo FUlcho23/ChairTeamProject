@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class EventDetailPage extends StatelessWidget {
   final int index;
 

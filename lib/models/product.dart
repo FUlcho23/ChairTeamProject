@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Product{
+class Product {
   final String title;
   final String description;
   final String detailed_option;
@@ -22,6 +22,11 @@ class Product{
     required this.rate,
     this.isHeartSelected = false, // 기본값: 빈 하트가 선택되지 않은 상태
   });
+
+  @override
+  String toString() {
+    return 'Product(title: $title, price: $price)';
+  }
 }
 
 final List<Product> products = [
