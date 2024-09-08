@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class EventDetailPage extends StatelessWidget {
   final int index;
 
@@ -9,9 +7,19 @@ class EventDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('이벤트 ${index + 1} 상세 페이지'),
-        backgroundColor: Color(0xFF404040),
+        backgroundColor: Color(0xFF404040), // AppBar 배경색을 0xFF404040로 설정
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left, color: Colors.white), // 뒤로가기 버튼을 흰색으로 설정
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          '이벤트 ${index + 1} 상세 페이지',
+          style: TextStyle(color: Colors.white), // 타이틀 글자를 흰색으로 설정
+        ),
       ),
+      backgroundColor: Color(0xFFEEEEEE), // 전체 화면 배경색을 Figma의 색상으로 설정
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
