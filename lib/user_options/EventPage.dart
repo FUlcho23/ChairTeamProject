@@ -159,9 +159,19 @@ class EventDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('이벤트 ${index + 1} 상세 페이지'),
-        backgroundColor: Color(0xFF404040),
+        backgroundColor: Color(0xFF404040), // AppBar 배경색
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left, color: Colors.white), // 뒤로가기 버튼 색상 흰색
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          '이벤트 ${index + 1} 상세 페이지',
+          style: TextStyle(color: Colors.white), // 제목 색상 흰색
+        ),
       ),
+      backgroundColor: Color(0xFFEEEEEE), // 전체 화면 배경색
       body: Center(
         child: Text('이벤트 ${index + 1}의 상세 내용'),
       ),
