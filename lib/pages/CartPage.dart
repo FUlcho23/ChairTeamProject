@@ -12,6 +12,16 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  // List to keep track of selected items
+  List<bool> selectedItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the selection state for each item to false
+    selectedItems = List<bool>.filled(widget.cartItems.length, false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +72,10 @@ class _CartPageState extends State<CartPage> {
                     itemBuilder: (context, index) {
                       // cart 리스트에서 각 상품 가져오기
                       Product product = widget.cartItems[index];
+                      bool isSelected = selectedItems[index]; // Get selection state
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        color: isSelected ? Colors.blue[100] : Colors.white, // Change color if selected
                         child: ListTile(
                           leading: Image.asset(
                             product.image,
@@ -75,6 +87,11 @@ class _CartPageState extends State<CartPage> {
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text("₩${product.price}"), // 가격 표시
+                          onTap: () {
+                            setState(() {
+                              selectedItems[index] = !selectedItems[index]; // Toggle selection state
+                            });
+                          },
                         ),
                       );
                     },
