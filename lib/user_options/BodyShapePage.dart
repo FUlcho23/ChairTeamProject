@@ -125,15 +125,14 @@ class _BodyShapePageState extends State<BodyShapePage> {
                         ),
                         SizedBox(height: 16),
                         Container(
-                          height: 400,
                           child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: NeverScrollableScrollPhysics(), // GridView의 스크롤을 비활성화
+                            shrinkWrap: true, // GridView가 스크롤 가능한 부모 안에 있을 때 사용
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 16.0,
                               mainAxisSpacing: 16.0,
-                              childAspectRatio: 1.5, // 높이를 더 늘려 NN.N 필드를 추가할 수 있게 조정
+                              childAspectRatio: 1.3, // 비율을 수정하여 공간 확보
                             ),
                             itemCount: 4,
                             itemBuilder: (context, index) {
