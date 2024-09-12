@@ -144,23 +144,37 @@ class _CartPageState extends State<CartPage> {
                           style: TextStyle(fontSize: 15, color: Colors.black),
                         ),
                         actions: <Widget>[
-                          TextButton(
-                            child: Text(
-                              '예',
-                              style: TextStyle(fontSize: 15, color: Colors.black),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0), // 버튼과 다이얼로그 상하 여백 설정
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 버튼 사이의 간격을 조정
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0), // '예' 버튼 왼쪽 여백
+                                  child: TextButton(
+                                    child: Text(
+                                      '예',
+                                      style: TextStyle(fontSize: 15, color: Colors.black),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(true); // 예 버튼 클릭 시 다이얼로그 닫기
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10.0), // '아니오' 버튼 오른쪽 여백
+                                  child: TextButton(
+                                    child: Text(
+                                      '아니오',
+                                      style: TextStyle(fontSize: 15, color: Colors.black),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false); // 아니오 버튼 클릭 시 다이얼로그 닫기
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pop(true); // 예 버튼 클릭 시 다이얼로그 닫기
-                            },
-                          ),
-                          TextButton(
-                            child: Text(
-                              '아니오',
-                              style: TextStyle(fontSize: 15, color: Colors.black),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop(false); // 아니오 버튼 클릭 시 다이얼로그 닫기
-                            },
                           ),
                         ],
                       );
