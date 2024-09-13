@@ -142,16 +142,18 @@ class _FirstPage extends State<FirstPage> {
     return Container(
       height: MediaQuery.of(context).size.height,
       child: GridView.builder(
-        padding: EdgeInsets.all(10),
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisCount: MediaQuery.of(context).size.width ~/ 168, // 화면 폭을 기반으로 열 수 계산
+          mainAxisSpacing: 10, // 열 간 간격
+          crossAxisSpacing: 10, // 행 간 간격
+          childAspectRatio: 168 / 272, // 각 항목의 가로 세로 비율
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductCard(product: products[index]);
+          Product product = products[index];
+          return ProductCard(product: product); // 새로운 파일의 위젯 사용
         },
       ),
     );
