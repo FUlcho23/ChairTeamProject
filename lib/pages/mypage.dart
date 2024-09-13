@@ -20,7 +20,6 @@ class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
 
   void _onItemTapped(int index) {
-    // 선택된 항목에 따라 페이지를 전환
     setState(() {
       _selectedIndex = index;
     });
@@ -93,8 +92,8 @@ class _MyPageState extends State<MyPage> {
     }
 
     return Scaffold(
-      backgroundColor: customColor, // 배경색 설정
-      body: SingleChildScrollView( // 전체 화면을 스크롤 가능하게 설정
+      backgroundColor: customColor,
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -168,7 +167,6 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             Container(
-              height: 500,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -269,49 +267,47 @@ class _MyPageState extends State<MyPage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(), // 이 부분을 추가하여 리스트뷰의 스크롤을 비활성화
-                      itemCount: 8,
-                      itemBuilder: (context, i) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(vertical: 4),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              handleButtonPressed(i);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < list2.length; i++)
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 4),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                handleButtonPressed(i);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                elevation: 0,
                               ),
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              elevation: 0,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 30),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${list2[i]}',
-                                    style: TextStyle(
-                                      fontSize: getFontSize(MediaQuery.of(context).size.width, 4),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${list2[i]}',
+                                      style: TextStyle(
+                                        fontSize: getFontSize(MediaQuery.of(context).size.width, 4),
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
-                                  ),
-                                  Icon(
-                                    Icons.chevron_right,
-                                    size: 25,
-                                    color: Colors.black,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        );
-                      },
+                      ],
                     ),
                   ),
                 ],
