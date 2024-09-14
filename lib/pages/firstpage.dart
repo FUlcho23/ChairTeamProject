@@ -3,7 +3,7 @@ import 'package:chair/widgets/ProductCard.dart';
 import 'package:chair/models/product.dart';
 import 'package:chair/widgets/bottom_navi_bar.dart';
 import 'searchpage.dart';
-import 'ProductFilters.dart'; // Import 추가
+import 'product_filters.dart'; // Import 추가
 
 void main() {
   runApp(MaterialApp(
