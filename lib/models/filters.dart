@@ -11,4 +11,10 @@ class FilterOptions {
     '유아', '아동', '목욕의자', '반려동물', '인테리어'
   ];
   final List<String> options = ['목받침', '팔걸이', '등받이', '바퀴'];
+
+  // 체형 필터 데이터
+  final List<String> calfLengths = ['40-45', '45-50', '50-55', '55-60', '60-65', '65-70'];
+  final List<String> thighWidths = ['20-25', '25-30', '30-35', '35-40', '40-45', '45-50'];
+  final List<String> thighLengths = ['40-45', '45-50', '50-55', '55-60', '60-65', '65-70'];
+  final List<String> backHeights = ['40-45', '45-50', '50-55', '55-60', '60-65', '65-70'];
 }
