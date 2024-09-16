@@ -1,12 +1,10 @@
-// widgets/type_filter.dart
-
 import 'package:flutter/material.dart';
 
 class TypeFilter extends StatelessWidget {
   final List<String> types;
   final String? selectedType;
   final ValueChanged<String?> onTypeSelected;
-  final bool isExpanded;
+  final bool isExpanded;  // 펼치기/접기 상태를 나타내는 bool 값
   final VoidCallback onToggleExpanded;
 
   TypeFilter({
@@ -19,6 +17,10 @@ class TypeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double buttonAspectRatio = 3 / 2;
+    final int crossAxisCount = (screenWidth / 120).floor();
+
     return Container(
       padding: EdgeInsets.all(10),
       child: Column(
@@ -28,8 +30,8 @@ class TypeFilter extends StatelessWidget {
           SizedBox(height: 10),
           GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 3 / 2,
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: buttonAspectRatio,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
