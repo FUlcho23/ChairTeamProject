@@ -1,23 +1,21 @@
 import 'package:mysql_client/mysql_client.dart';
 
 class Db {
-  // Singleton 패턴으로 단일 인스턴스 유지
   static final Db _instance = Db._internal();
   factory Db() => _instance;
   Db._internal();
 
-  MySQLConnection? _connection; // 데이터베이스 연결을 저장할 변수
+  MySQLConnection? _connection;
 
-  // 데이터베이스에 연결하는 함수
   Future<void> connect() async {
     try {
       print("Connecting to MySQL server...");
       _connection = await MySQLConnection.createConnection(
         host: '27.117.119.85',
-        port: 3306, // 사용 중인 MySQL의 포트 번호
+        port: 3306,
         userName: 'user',
         password: '0000',
-        databaseName: 'Chair', // optional
+        databaseName: 'Chair',
       );
       await _connection!.connect();
       print("Connected to MySQL");
@@ -26,7 +24,6 @@ class Db {
     }
   }
 
-  // 데이터베이스 연결을 닫는 함수
   Future<void> close() async {
     if (_connection != null) {
       await _connection!.close();
@@ -34,5 +31,50 @@ class Db {
     }
   }
 
-// 다른 데이터베이스 관련 함수들도 여기에 추가할 수 있습니다.
+  // 데이터베이스에서 주소를 가져오는 함수
+  Future<String?> getAddress(String userId) async {
+    try {
+      if (_connection == null) {
+        await connect();
+      }
+
+      String query = "SELECT m_address FROM member WHERE m_id = :userId;";
+      IResultSet result = await _connection!.execute(query, {"userId": userId});
+
+      if (result.rows.isNotEmpty) {
+        // 결과가 있을 경우 첫 번째 행의 "m_address" 컬럼 값을 반환
+        return result.rows.first.colAt(0); // 또는 .assoc()["m_address"]
+      } else {
+        return null; // 결과가 없는 경우
+      }
+    } catch (e) {
+      print("Error fetching address from MySQL: $e");
+      return null;
+    }
+  }
+
+  //db에 아이디 이름 비번을 입력하는 함수(member추가)
+  Future<void> addUser(String id, String password, String email, String name, String birthDate, String phone) async {
+    if (_connection == null) return;
+
+    try {
+      await _connection!.execute(
+        'INSERT INTO member (m_id, m_pw, m_email, m_name, m_birthday, m_call) VALUES (:id, :password, :email, :name, :birthDate, :phone)',
+        {
+          'id': id,
+          'password': password,
+          'email': email,
+          'name': name,
+          'birthDate': birthDate,
+          'phone': phone,
+        },
+      );
+      print("User added successfully");
+    } catch (e) {
+      print("Error adding user: $e");
+    }
+  }
+
+
+
 }

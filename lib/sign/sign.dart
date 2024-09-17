@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/loginpage.dart';
+import '../widgets/db.dart'; // DB 관련 파일 임포트
 
 void main() {
   runApp(MyApp());
@@ -28,6 +29,7 @@ class _SignState extends State<Sign> {
   final TextEditingController _phoneController = TextEditingController();
 
   bool _isObscure = true;
+  final Db db = Db(); // DB 클래스 인스턴스 생성
 
   bool _isButtonEnabled() {
     return _idController.text.isNotEmpty &&
@@ -45,20 +47,38 @@ class _SignState extends State<Sign> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    db.connect(); // 초기화 시 DB 연결
+  }
+
+  @override
+  void dispose() {
+    _idController.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+    _nameController.dispose();
+    _birthDateController.dispose();
+    _phoneController.dispose();
+    db.close(); // 종료 시 DB 연결 해제
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( // AppBar
+      appBar: AppBar(
         backgroundColor: Color(0xFF404040),
         title: Text('회원가입하기',
           style: TextStyle(
-          fontSize: 25,
-          color: Colors.white, // 타이틀 글자 색상
+            fontSize: 25,
+            color: Colors.white,
           ),
         ),
-        leading: IconButton( // 뒤로가기 버튼 추가
+        leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
           onPressed: () {
-            Navigator.pop(context); // 뒤로가기 동작
+            Navigator.pop(context);
           },
         ),
       ),
@@ -70,130 +90,98 @@ class _SignState extends State<Sign> {
             SizedBox(
               height: 10,
               child: Container(
-                color: Colors.orangeAccent, // SizedBox의 색상을 주황색으로 설정
+                color: Colors.orangeAccent,
               ),
             ),
-          Container(
-            padding: EdgeInsets.all(40.0),
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/mainicon.png',
-                  width: 80,
-                  height: 80,
-                ),
-                SizedBox(height: 25),
-                TextFormField(
-                  controller: _idController,
-                  onChanged: (_) => setState(() {}), // 텍스트 필드 내용 변경 감지
-                  decoration: InputDecoration(
-                    labelText: '아이디',
-                    hintText: '영숫자 조합으로 5자 이상',
+            Container(
+              padding: EdgeInsets.all(40.0),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/mainicon.png',
+                    width: 80,
+                    height: 80,
                   ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: _isObscure,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: '비밀번호',
-                    hintText: '영숫자특수문자 조합으로 8자 이상',
-                    suffixIcon: IconButton(
-                      icon: _isObscure ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                      onPressed: _toggleVisibility,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _emailController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: '이메일 주소',
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _nameController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: '이름',
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _birthDateController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: '생년월일',
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _phoneController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: '휴대전화',
-                    hintText: '01000000000',
-                  ),
-                ),
-                SizedBox(height: 60.0),
-                ElevatedButton(
-                  onPressed: _isButtonEnabled() ? _signUp : null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors.grey;
-                        }
-                        return Color(0xFFE9A05C);
-                      },
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // 모서리 각도 설정
+                  SizedBox(height: 25),
+                  _buildTextField('아이디', _idController, false),
+                  _buildTextField('비밀번호', _passwordController, true),
+                  _buildTextField('이메일 주소', _emailController, false),
+                  _buildTextField('이름', _nameController, false),
+                  _buildTextField('생년월일', _birthDateController, false),
+                  _buildTextField('휴대전화', _phoneController, false),
+                  SizedBox(height: 60.0),
+                  ElevatedButton(
+                    onPressed: _isButtonEnabled() ? _signUp : null,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey;
+                          }
+                          return Color(0xFFE9A05C);
+                        },
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all<Size>(
+                        Size(double.infinity, 50),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 20),
                       ),
                     ),
-                    minimumSize: MaterialStateProperty.all<Size>(
-                      Size(double.infinity, 50), // 너비는 무제한으로, 높이는 50으로 설정
-                    ),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 20), // 좌우 여백 설정
-                    ),
-                  ),
-                  child: Text(
-                    '가입하기',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                    child: Text(
+                      '가입하기',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void _signUp() {
+  Widget _buildTextField(String labelText, TextEditingController controller, bool obscureText) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText ? _isObscure : false,
+      onChanged: (_) => setState(() {}),
+      decoration: InputDecoration(
+        labelText: labelText,
+        suffixIcon: obscureText
+            ? IconButton(
+          icon: _isObscure ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+          onPressed: _toggleVisibility,
+        )
+            : null,
+      ),
+    );
+  }
+
+  void _signUp() async {
+    // 사용자가 입력한 데이터를 DB에 저장
+    await db.addUser(
+      _idController.text,           // 사용자가 입력한 아이디
+      _passwordController.text,      // 비밀번호
+      _emailController.text,         // 이메일
+      _nameController.text,          // 이름
+      _birthDateController.text,     // 생년월일
+      _phoneController.text,         // 휴대전화
+    );
+
+    // 회원가입 성공 후 로그인 페이지로 이동
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
-  }
-
-  @override
-  void dispose() {
-    _idController.dispose();
-    _passwordController.dispose();
-    _emailController.dispose();
-    _nameController.dispose();
-    _birthDateController.dispose();
-    _phoneController.dispose();
-    super.dispose();
   }
 }
