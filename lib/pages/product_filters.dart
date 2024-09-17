@@ -21,6 +21,7 @@ class _ProductFiltersState extends State<ProductFilters> {
   int _currentPage = 1;
   final int _itemsPerPage = 9;
   bool _isTypesExpanded = false;
+  String? _selectedBrand;  // 선택된 브랜드를 저장할 필드 추가
   String? _selectedType;
   String? _selectedCalfLength;
   String? _selectedThighWidth;
@@ -45,8 +46,10 @@ class _ProductFiltersState extends State<ProductFilters> {
         if (_isFilterVisible[1])
           BrandFilter(
             brands: _filterOptions.brands,
-            currentPage: _currentPage,
+            selectedBrand: _selectedBrand,  // selectedBrand 전달
+            onBrandSelected: (brand) => setState(() => _selectedBrand = brand),
             itemsPerPage: _itemsPerPage,
+            currentPage: _currentPage,
             onPageChanged: (page) => setState(() => _currentPage = page),
           ),
         if (_isFilterVisible[0])
@@ -70,10 +73,17 @@ class _ProductFiltersState extends State<ProductFilters> {
           TypeFilter(
             types: _filterOptions.types,
             selectedType: _selectedType,
-            onTypeSelected: (type) => setState(() => _selectedType = type ?? ''),
-            isExpanded: _isTypesExpanded,
-            onToggleExpanded: () =>
-                setState(() => _isTypesExpanded = !_isTypesExpanded),
+            onTypeSelected: (value) {
+              setState(() {
+                _selectedType = value;
+              });
+            },
+            isExpanded: _isTypesExpanded, // 여기에 맞는 bool 값
+            onToggleExpanded: () {
+              setState(() {
+                _isTypesExpanded = !_isTypesExpanded;
+              });
+            },
           ),
         if (_isFilterVisible[4])
           ShapeFilter(
@@ -106,12 +116,12 @@ class _ProductFiltersState extends State<ProductFilters> {
               '플라스틱',
               '기타'
             ],
-            selectedMaterial: _selectedMaterial,
-            onMaterialSelected: (material) =>
-                setState(() => _selectedMaterial = material),
-            isExpanded: _isTypesExpanded, // 여기에 맞는 bool 값
-            onToggleExpanded: () =>
-                setState(() => _isTypesExpanded = !_isTypesExpanded), // 토글 함수
+            selectedMaterial: _selectedMaterial, // 선택된 재질 전달
+            onMaterialSelected: (value) {
+              setState(() {
+                _selectedMaterial = value;
+              });
+            },
           ),
       ],
     );
