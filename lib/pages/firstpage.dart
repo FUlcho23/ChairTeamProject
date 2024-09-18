@@ -32,24 +32,24 @@ class _FirstPage extends State<FirstPage> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: customColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 31),
+        body: Column(
+          children: [
+            SizedBox(height: 31),
 
-              // 검색창 위젯
-              _buildSearchBar(customColor, context),
+            // 검색창 위젯
+            _buildSearchBar(customColor, context),
 
-              // 검은 선
-              _buildDivider(),
+            // 검은 선
+            _buildDivider(),
 
-              // 상품 필터 위젯
-              ProductFilters(),
+            // 상품 필터 위젯
+            ProductFilters(),
 
-              // 상품 목록
-              _buildProductGrid(context),
-            ],
-          ),
+            // 상품 목록을 스크롤 가능한 영역으로 설정
+            Expanded(
+              child: _buildProductGrid(context),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBarWidget(
           selectedIndex: _selectedIndex,
@@ -139,23 +139,19 @@ class _FirstPage extends State<FirstPage> {
   }
 
   Widget _buildProductGrid(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: MediaQuery.of(context).size.width ~/ 168, // 화면 폭을 기반으로 열 수 계산
-          mainAxisSpacing: 10, // 열 간 간격
-          crossAxisSpacing: 10, // 행 간 간격
-          childAspectRatio: 168 / 272, // 각 항목의 가로 세로 비율
-        ),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          Product product = products[index];
-          return ProductCard(product: product); // 새로운 파일의 위젯 사용
-        },
+    return GridView.builder(
+      padding: const EdgeInsets.all(10.0),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // 2개의 열로 설정
+        mainAxisSpacing: 10, // 행 간의 간격
+        crossAxisSpacing: 10, // 열 간의 간격
+        childAspectRatio: 0.6, // 카드의 비율을 조정하여 크기 확대
       ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        Product product = products[index];
+        return ProductCard(product: product);
+      },
     );
   }
 }
