@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/db.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -24,9 +23,51 @@ class _ProductUploadState extends State<ProductUpload> {
   // 상품명과 가격을 저장할 컨트롤러 생성
   final TextEditingController productNameController = TextEditingController();
   final TextEditingController productPriceController = TextEditingController();
+  final TextEditingController productCompanyNameController = TextEditingController();
+  final TextEditingController productBrandController = TextEditingController();
+
+  List<String> chairTypes = ["사무용/학생", "게이밍", "메쉬", "식탁", "안마", "접이식", "좌식", "베드벤치", "스툴"];
+  List<String?> selectedChairTypes = [null];
+  @override
+  void initState() {
+    super.initState();
+    selectedChairTypes[0] = chairTypes[0]; // 첫 번째 항목으로 초기화
+  }
+
+  void addChairType() {
+    setState(() {
+      selectedChairTypes.add(null); // 새로운 드롭다운을 추가
+    });
+  }
+  void removeChairType(int index) {
+    setState(() {
+      selectedChairTypes.removeAt(index); // 드롭다운 제거
+    });
+  }
+
+  final List<String> colors = [
+    '#000000', '#7F7F7F', '#BFBFBF', '#E4D7CC',
+    '#6B5640', '#FCAAA7', '#698E73', '#AAF1CF',
+    '#FFFFFF', '#E60600', '#EE6D10', '#FFD600',
+    '#6FD44C', '#2686F7', '#253F9C', '#A030D4'
+  ];
+  List<bool> selectedColors = List.generate(16, (index) => false);
+
+  final TextEditingController totalWidthController = TextEditingController();
+  final TextEditingController totalHeightController = TextEditingController();
+  final TextEditingController seatWidthController = TextEditingController();
+  final TextEditingController seatDepthController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController backrestHeightController = TextEditingController();
+
+  final TextEditingController descriptionController = TextEditingController();
+  int currentTextLength = 0;
 
   @override
   Widget build(BuildContext context) {
+    double labelWidth = (MediaQuery.of(context).size.width - 80) / 2;
+    double TextWidth = (MediaQuery.of(context).size.width - 60);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
@@ -54,68 +95,480 @@ class _ProductUploadState extends State<ProductUpload> {
       backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 10,
-            child: Container(
-              color: Color(0xFF404040),
-            ),
-          ),
+          SizedBox(height: 10, child: Container(color: Color(0xFF404040))),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(20.0),
-              child: Row(
+              padding: EdgeInsets.all(30.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 60) / 2,
-                    height: (MediaQuery.of(context).size.width - 60) / 2,
-                    color: Colors.grey[300],
-                    child: Icon(
-                      Icons.image,
-                      size: 40,
-                      color: Colors.grey,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 80) / 2,
+                        height: (MediaQuery.of(context).size.width) / 2,
+                        color: Colors.grey[400],
+                        child: Icon(
+                          Icons.image,
+                          size: 40,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "상품명*",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF404040),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            TextField(
+                              controller: productNameController,
+                              decoration: InputDecoration(
+                                hintText: '상품명',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "가격*",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF404040),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            TextField(
+                              controller: productPriceController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '가격',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "회사명*",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "상품명*",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: productNameController,
-                          decoration: InputDecoration(
-                            hintText: '상품명',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          "가격*",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: productPriceController,
-                          keyboardType: TextInputType.number, // 숫자 입력 키패드 표시
-                          decoration: InputDecoration(
-                            hintText: '가격',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: productCompanyNameController,
+                    decoration: InputDecoration(
+                      hintText: '회사명',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
                   ),
+                  SizedBox(height: 20),
+                  Text(
+                    "브랜드명*",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: productBrandController,
+                    decoration: InputDecoration(
+                      hintText: '브랜드명',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "옵션 유무",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      OptionButton(label: "목받침"),
+                      OptionButton(label: "팔걸이"),
+                      OptionButton(label: "바퀴"),
+                      OptionButton(label: "등받이"),
+                      OptionButton(label: "틸팅"),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "의자 종류*",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton<String>(
+                          value: selectedChairTypes[0],
+                          hint: Text("의자 종류를 선택"),
+                          isExpanded: true,
+                          dropdownColor: Colors.white,
+                          items: chairTypes.map((String type) {
+                            return DropdownMenuItem<String>(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedChairTypes[0] = newValue;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: addChairType,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: List.generate(selectedChairTypes.length - 1, (index) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButton<String>(
+                              value: selectedChairTypes[index + 1],
+                              hint: Text("의자 종류 선택"),
+                              isExpanded: true,
+                              dropdownColor: Colors.white,
+                              items: chairTypes.map((String type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedChairTypes[index + 1] = newValue;
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          IconButton(
+                            icon: Icon(Icons.remove), // - 아이콘
+                            onPressed: () => removeChairType(index + 1),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "색상*",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: List.generate(colors.length, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedColors[index] = !selectedColors[index];
+                          });
+                        },
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: Color(int.parse(colors[index].replaceAll('#', '0xFF'))),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(90),
+                          ),
+                          child: selectedColors[index]
+                              ? CustomPaint(
+                            painter: CheckmarkPainter(),
+                          )
+                              : null,
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "사이즈*",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft, // 왼쪽 정렬
+                            child: Text("전체 너비(W)*", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: totalWidthController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '전체 너비',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text("전체 높이(H)*", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: totalHeightController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '전체 높이',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text("좌판 가로 너비(w)*", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: seatWidthController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '좌판 가로 너비',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text("좌판 세로 깊이(d)*", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: seatDepthController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '좌판 세로 깊이',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text("높이(h)", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: heightController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '높이',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            width: labelWidth,
+                            alignment: Alignment.centerLeft,
+                            child: Text("등받이 높이", style: TextStyle(fontSize: 16)),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: backrestHeightController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '등받이 높이',
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Colors.white,),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Text("cm", style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "제품 상세설명",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Stack(
+                    children: [
+                      Container(
+                        width: TextWidth,
+                        height: TextWidth,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: TextField(
+                          controller: descriptionController,
+                          maxLength: 120,
+                          maxLines: null,
+                          expands: true,
+                          onChanged: (text) {
+                            setState(() {
+                              currentTextLength = text.length;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            hintText: '상세설명을 입력해주세요',
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.all(10),
+                            counterText: '', // 기본 글자 수 표시 제거
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: 10,
+                        child: Text(
+                          "$currentTextLength/120",
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 80,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center, // 버튼들을 중앙 정렬
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // 수정하기 버튼 클릭 시 동작
+                          print('수정하기 버튼 클릭됨');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF6B5640), // 버튼 배경 색상
+                          minimumSize: Size(150, 60), // 버튼 너비, 높이
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // 내부 패딩
+                        ),
+                        child: Text(
+                          '수정하기',
+                          style: TextStyle(fontSize: 20, color: Colors.white), // 텍스트 스타일
+                        ),
+                      ),
+                      SizedBox(width: 20), // 버튼 사이 간격
+                      ElevatedButton(
+                        onPressed: () {
+                          // 저장하기 버튼 클릭 시 동작
+                          print('저장하기 버튼 클릭됨');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상
+                          minimumSize: Size(150, 60), // 버튼 너비, 높이
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // 내부 패딩
+                        ),
+                        child: Text(
+                          '저장하기',
+                          style: TextStyle(fontSize: 20, color: Colors.white), // 텍스트 스타일
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -127,9 +580,101 @@ class _ProductUploadState extends State<ProductUpload> {
 
   @override
   void dispose() {
-    // 컨트롤러 해제
     productNameController.dispose();
     productPriceController.dispose();
+    productCompanyNameController.dispose();
+    productBrandController.dispose();
+    totalWidthController.dispose();
+    totalHeightController.dispose();
+    seatWidthController.dispose();
+    seatDepthController.dispose();
+    heightController.dispose();
+    backrestHeightController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 }
+
+class OptionButton extends StatefulWidget {
+  final String label;
+
+  OptionButton({required this.label});
+
+  @override
+  _OptionButtonState createState() => _OptionButtonState();
+}
+
+class _OptionButtonState extends State<OptionButton> {
+  bool _isSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.label,
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xFF404040),
+              ),
+            ),
+            if (_isSelected)
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Icon(Icons.check, size: 16, color: Colors.orangeAccent),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CheckmarkPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final whitePaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4;
+
+    final blackPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    // 하얀색 체크
+    final whitePath = Path();
+    whitePath.moveTo(size.width * 0.3, size.height * 0.55); // 하얀색 시작점
+    whitePath.lineTo(size.width * 0.45, size.height * 0.7); // 하얀색 중간점
+    whitePath.lineTo(size.width * 0.7, size.height * 0.35); // 하얀색 끝점
+    canvas.drawPath(whitePath, whitePaint);
+
+    // 검은색 체크
+    final blackPath = Path();
+    blackPath.moveTo(size.width * 0.33, size.height * 0.58); // 검은색 시작점
+    blackPath.lineTo(size.width * 0.45, size.height * 0.7); // 검은색 중간점
+    blackPath.lineTo(size.width * 0.68, size.height * 0.38); // 검은색 끝점
+    canvas.drawPath(blackPath, blackPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+
