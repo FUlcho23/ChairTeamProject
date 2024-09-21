@@ -144,7 +144,7 @@ class _AgreementsState extends State<Agreements> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 200),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 150),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

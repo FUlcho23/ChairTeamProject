@@ -89,7 +89,7 @@ class _FindState extends State<Find>{
                     controller: _nameController,
                     onChanged: (_) => setState(() {}), // 텍스트 필드 내용 변경 감지
                     decoration: InputDecoration(
-                      labelText: '이름',
+                      hintText: '이름',
                     ),
                   ),
                   SizedBox(height: 20),
@@ -97,7 +97,7 @@ class _FindState extends State<Find>{
                     controller: _emailController1,
                     onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
-                      labelText: '이메일 주소',
+                      hintText: '이메일 주소',
                     ),
                   ),
                   SizedBox(height: 40),
@@ -138,7 +138,7 @@ class _FindState extends State<Find>{
                     controller: _idController,
                     onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
-                      labelText: '아이디',
+                      hintText: '아이디',
                     ),
                   ),
                   SizedBox(height: 20),
@@ -146,7 +146,7 @@ class _FindState extends State<Find>{
                     controller: _emailController2,
                     onChanged: (_) => setState(() {}),
                     decoration: InputDecoration(
-                      labelText: '이메일 주소',
+                      hintText: '이메일 주소',
                     ),
                   ),
                   SizedBox(height: 40),
