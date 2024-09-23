@@ -7,15 +7,16 @@ class Db {
 
   MySQLConnection? _connection;
 
+  // 데이터베이스 연결
   Future<void> connect() async {
     try {
       print("Connecting to MySQL server...");
       _connection = await MySQLConnection.createConnection(
-        host: '27.117.119.85',
-        port: 3306,
-        userName: 'user',
-        password: '0000',
-        databaseName: 'Chair',
+        host: '27.117.119.85',  // MySQL 서버 호스트
+        port: 3306,              // MySQL 포트
+        userName: 'user',        // MySQL 사용자명
+        password: '0000',        // MySQL 비밀번호
+        databaseName: 'Chair',   // 데이터베이스 이름
       );
       await _connection!.connect();
       print("Connected to MySQL");
@@ -24,10 +25,12 @@ class Db {
     }
   }
 
+  // 데이터베이스 연결 종료
   Future<void> close() async {
     if (_connection != null) {
       await _connection!.close();
       print("MySQL connection closed");
+      _connection = null;
     }
   }
 
@@ -42,8 +45,7 @@ class Db {
       IResultSet result = await _connection!.execute(query, {"userId": userId});
 
       if (result.rows.isNotEmpty) {
-        // 결과가 있을 경우 첫 번째 행의 "m_address" 컬럼 값을 반환
-        return result.rows.first.colAt(0); // 또는 .assoc()["m_address"]
+        return result.rows.first.colAt(0); // 첫 번째 열의 값을 반환
       } else {
         return null; // 결과가 없는 경우
       }
@@ -53,7 +55,7 @@ class Db {
     }
   }
 
-  //db에 아이디 이름 비번을 입력하는 함수(member추가)
+  // db에 아이디 이름 비번을 입력하는 함수(member 추가)
   Future<void> addUser(String id, String password, String email, String name, String birthDate, String phone) async {
     if (_connection == null) return;
 
@@ -75,6 +77,27 @@ class Db {
     }
   }
 
+  // 로그인 함수
+  Future<bool> login(String mId, String mPw) async {
+    try {
+      if (_connection == null) {
+        await connect();
+      }
 
+      // SQL 쿼리 작성 및 실행
+      String query = 'SELECT * FROM member WHERE m_id = :mId AND m_pw = :mPw';
+      IResultSet results = await _connection!.execute(query, {'mId': mId, 'mPw': mPw});
 
+      if (results.rows.isEmpty) {
+        return false; // 로그인 실패
+      } else {
+        return true; // 로그인 성공
+      }
+    } catch (e) {
+      print("Error during login: $e");
+      return false;
+    } finally {
+      await close(); // 연결 종료
+    }
+  }
 }
