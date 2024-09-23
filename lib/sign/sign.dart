@@ -107,8 +107,8 @@ class _SignState extends State<Sign> {
                   _buildTextField('비밀번호', _passwordController, true),
                   _buildTextField('이메일 주소', _emailController, false),
                   _buildTextField('이름', _nameController, false),
-                  _buildTextField('생년월일', _birthDateController, false, isPhone: true),
-                  _buildTextField('휴대전화', _phoneController, false, isPhone: true),
+                  _buildTextField('생년월일(0000-00-00)', _birthDateController, false, isPhone: true),
+                  _buildTextField('휴대전화(-제외)', _phoneController, false, isPhone: true),
                   SizedBox(height: 60.0),
                   ElevatedButton(
                     onPressed: _isButtonEnabled() ? _signUp : null,
