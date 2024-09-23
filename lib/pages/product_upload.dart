@@ -20,11 +20,13 @@ class ProductUpload extends StatefulWidget {
 }
 
 class _ProductUploadState extends State<ProductUpload> {
-  // 상품명과 가격을 저장할 컨트롤러 생성
+  // 상품명, 가격, 회사명, 브랜드
   final TextEditingController productNameController = TextEditingController();
   final TextEditingController productPriceController = TextEditingController();
   final TextEditingController productCompanyNameController = TextEditingController();
   final TextEditingController productBrandController = TextEditingController();
+
+  List<String> selectedOptions = [];
 
   List<String> chairTypes = ["사무용/학생", "게이밍", "메쉬", "식탁", "안마", "접이식", "좌식", "베드벤치", "스툴"];
   List<String?> selectedChairTypes = [null];
@@ -53,6 +55,7 @@ class _ProductUploadState extends State<ProductUpload> {
   ];
   List<bool> selectedColors = List.generate(16, (index) => false);
 
+  // 전체너비, 전체높이, 좌판가로, 좌판세로, 높이, 등받이
   final TextEditingController totalWidthController = TextEditingController();
   final TextEditingController totalHeightController = TextEditingController();
   final TextEditingController seatWidthController = TextEditingController();
@@ -60,7 +63,9 @@ class _ProductUploadState extends State<ProductUpload> {
   final TextEditingController heightController = TextEditingController();
   final TextEditingController backrestHeightController = TextEditingController();
 
+  //상세설명
   final TextEditingController descriptionController = TextEditingController();
+
   int currentTextLength = 0;
 
   @override
@@ -215,11 +220,66 @@ class _ProductUploadState extends State<ProductUpload> {
                     spacing: 10,
                     runSpacing: 10,
                     children: [
-                      OptionButton(label: "목받침"),
-                      OptionButton(label: "팔걸이"),
-                      OptionButton(label: "바퀴"),
-                      OptionButton(label: "등받이"),
-                      OptionButton(label: "틸팅"),
+                      OptionButton(
+                        label: "목받침",
+                        onOptionSelected: (String option, bool isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                        },
+                      ),
+                      OptionButton(
+                        label: "팔걸이",
+                        onOptionSelected: (String option, bool isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                        },
+                      ),
+                      OptionButton(
+                        label: "바퀴",
+                        onOptionSelected: (String option, bool isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                        },
+                      ),
+                      OptionButton(
+                        label: "등받이",
+                        onOptionSelected: (String option, bool isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                        },
+                      ),
+                      OptionButton(
+                        label: "틸팅",
+                        onOptionSelected: (String option, bool isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(height: 20),
@@ -538,28 +598,46 @@ class _ProductUploadState extends State<ProductUpload> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // 수정하기 버튼 클릭 시 동작
-                          print('수정하기 버튼 클릭됨');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF6B5640), // 버튼 배경 색상
-                          minimumSize: Size(150, 60), // 버튼 너비, 높이
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // 내부 패딩
-                        ),
-                        child: Text(
-                          '수정하기',
-                          style: TextStyle(fontSize: 20, color: Colors.white), // 텍스트 스타일
-                        ),
-                      ),
-                      SizedBox(width: 20), // 버튼 사이 간격
-                      ElevatedButton(
-                        onPressed: () {
                           // 저장하기 버튼 클릭 시 동작
                           print('저장하기 버튼 클릭됨');
+
+                          String productName = productNameController.text;
+                          String price = productPriceController.text;
+                          String companyName = productCompanyNameController.text;
+                          String brand = productBrandController.text;
+                          List<String> selectedColorCodes = [];
+                          for (int i = 0; i < selectedColors.length; i++) {
+                            if (selectedColors[i]) {
+                              selectedColorCodes.add(colors[i]);
+                            }
+                          }
+                          String totalWidth = totalWidthController.text;
+                          String totalHeight = totalHeightController.text;
+                          String seatWidth = seatWidthController.text;
+                          String seatDepth = seatDepthController.text;
+                          String height = heightController.text;
+                          String backrestHeight = backrestHeightController.text;
+                          String detailedDescription = descriptionController.text;
+
+                          print('상품명: $productName');
+                          print('가격: $price');
+                          print('회사명: $companyName');
+                          print('브랜드: $brand');
+                          print('선택된 옵션들: $selectedOptions');
+                          print('선택된 의자 종류: $selectedChairTypes');
+                          print('선택된 색상: $selectedColorCodes');
+                          print('전체 너비(W): $totalWidth');
+                          print('전체 높이(H): $totalHeight');
+                          print('좌판 가로 너비(w): $seatWidth');
+                          print('좌판 세로 깊이(d): $seatDepth');
+                          print('높이(h): $height');
+                          print('등받이 높이: $backrestHeight');
+                          print('상세설명: $detailedDescription');
+
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상
-                          minimumSize: Size(150, 60), // 버튼 너비, 높이
+                          minimumSize: Size(200, 60), // 버튼 너비, 높이
                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // 내부 패딩
                         ),
                         child: Text(
@@ -597,8 +675,9 @@ class _ProductUploadState extends State<ProductUpload> {
 
 class OptionButton extends StatefulWidget {
   final String label;
+  final Function(String, bool) onOptionSelected; // callback 함수 추가
 
-  OptionButton({required this.label});
+  OptionButton({required this.label, required this.onOptionSelected});
 
   @override
   _OptionButtonState createState() => _OptionButtonState();
@@ -614,6 +693,8 @@ class _OptionButtonState extends State<OptionButton> {
         setState(() {
           _isSelected = !_isSelected;
         });
+        // 선택된 상태를 부모에게 전달
+        widget.onOptionSelected(widget.label, _isSelected);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
