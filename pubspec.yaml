@@ -30,11 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  shared_preferences: ^2.1.1
   camera: ^0.10.0+3
-
-
   sqflite: ^2.2.8
   mysql_client: ^0.0.27
 
