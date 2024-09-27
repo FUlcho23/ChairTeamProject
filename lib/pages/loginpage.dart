@@ -1,7 +1,7 @@
 import 'package:chair/sign/agreements_person.dart';
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
-import '../sign/agreements.dart';
+import '../sign/signup_role_selection.dart';
 import '../sign/find.dart';
 import '../widgets/db.dart'; // Db 클래스가 있는 파일
 import 'package:shared_preferences/shared_preferences.dart';
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AgreementsPerson(onChanged: (value) {}),
+                            builder: (context) => SignupRoleSelection(onChanged: (value) {}),
                           ),
                         );
                       },
