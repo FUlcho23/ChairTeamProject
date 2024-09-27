@@ -1,3 +1,4 @@
+import 'package:chair/pages/companyfirstpage.dart';
 import 'package:flutter/material.dart';
 import '../widgets/db.dart';
 
@@ -78,7 +79,12 @@ class _ProductUploadState extends State<ProductUpload> {
         backgroundColor: Colors.orangeAccent,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Color(0xFF404040)),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CompanyFirstPage()),
+            );
+          },
         ),
         title: Row(
           children: <Widget>[
@@ -598,6 +604,10 @@ class _ProductUploadState extends State<ProductUpload> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CompanyFirstPage()),
+                          );
                           // 저장하기 버튼 클릭 시 동작
                           print('저장하기 버튼 클릭됨');
 
@@ -633,7 +643,6 @@ class _ProductUploadState extends State<ProductUpload> {
                           print('높이(h): $height');
                           print('등받이 높이: $backrestHeight');
                           print('상세설명: $detailedDescription');
-
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상

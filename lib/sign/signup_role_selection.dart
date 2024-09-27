@@ -76,7 +76,7 @@ class _SignupRoleSelectionState extends State<SignupRoleSelection> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF6B5640), // 버튼 배경 색상
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // 모서리 둥글게
+                      borderRadius: BorderRadius.circular(20), // 모서리 둥글게
                     ),
                   ),
                   child: Column(
@@ -109,7 +109,7 @@ class _SignupRoleSelectionState extends State<SignupRoleSelection> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // 모서리 둥글게
+                      borderRadius: BorderRadius.circular(20), // 모서리 둥글게
                     ),
                   ),
                   child: Column(
