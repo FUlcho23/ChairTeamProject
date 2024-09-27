@@ -36,27 +36,6 @@ class Db {
     }
   }
 
-  // 데이터베이스에서 주소를 가져오는 함수
-  Future<String?> getAddress(String userId) async {
-    try {
-      if (_connection == null) {
-        await connect();
-      }
-
-      String query = "SELECT m_address FROM member WHERE m_id = :userId;";
-      IResultSet result = await _connection!.execute(query, {"userId": userId});
-
-      if (result.rows.isNotEmpty) {
-        return result.rows.first.colAt(0); // 첫 번째 열의 값을 반환
-      } else {
-        return null; // 결과가 없는 경우
-      }
-    } catch (e) {
-      print("Error fetching address from MySQL: $e");
-      return null;
-    }
-  }
-
   // db에 회원 가입을 하는 함수(member 추가, 일반회원!)
   Future<void> addUser(String id, String password, String email, String name, String birthDate, String phone) async {
     if (_connection == null) return;
@@ -80,6 +59,27 @@ class Db {
   }
   // db에 회원 가입을 하는 함수(Corporation 추가, 사업자!)
   Future<void> addCorporation(String id, String password, String email, String name, String businessNum, String call) async {
+    if (_connection == null) return;
+
+    try {
+      await _connection!.execute(
+        'INSERT INTO corporation (c_id, c_pw, c_email, c_name, c_businessNum, c_call) VALUES (:id, :password, :email, :name, :businessNum, :call)',
+        {
+          'id': id,
+          'password': password,
+          'email': email,
+          'name': name,
+          'businessNum': businessNum,
+          'call': call,
+        },
+      );
+      print("Corporation added successfully");
+    } catch (e) {
+      print("Error adding user: $e");
+    }
+  }
+  // db에 상품을 추가 하는 함수(goods 추가, 의자!)
+  Future<void> addGoods(String id, String password, String email, String name, String businessNum, String call) async {
     if (_connection == null) return;
 
     try {
@@ -132,6 +132,29 @@ class Db {
   Future<String?> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('username');
+  }
+  // db.dart의 Db 클래스에 아래 함수를 추가
+  Future<Map<String, String?>> getAddresses(String userId) async {
+    try {
+      if (_connection == null) {
+        await connect();
+      }
+
+      String query = "SELECT m_address, m_D_address FROM member WHERE m_id = :userId;";
+      IResultSet result = await _connection!.execute(query, {"userId": userId});
+
+      if (result.rows.isNotEmpty) {
+        return {
+          'm_address': result.rows.first.colAt(0), // m_address 가져오기
+          'm_D_address': result.rows.first.colAt(1), // m_D_address 가져오기
+        };
+      } else {
+        return {'m_address': null, 'm_D_address': null}; // 결과가 없는 경우
+      }
+    } catch (e) {
+      print("Error fetching addresses from MySQL: $e");
+      return {'m_address': null, 'm_D_address': null}; // 오류 발생 시 null 반환
+    }
   }
 
 }
