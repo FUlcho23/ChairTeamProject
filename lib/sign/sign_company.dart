@@ -170,12 +170,12 @@ class _SignCompanyState extends State<SignCompany> {
 
   void _signUp() async {
     // 사용자가 입력한 데이터를 DB에 저장
-    await db.addUser(
+    await db.addCorporation(
       _idController.text,           // 사용자가 입력한 아이디
       _passwordController.text,      // 비밀번호
       _emailController.text,         // 이메일
       _cnameController.text,          // 이름
-      _businessNumController.text,     // 생년월일
+      _businessNumController.text,     // 사업자번호
       _callController.text,         // 휴대전화
     );
 
