@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BrandFilter extends StatelessWidget {
+class BrandFilter extends StatefulWidget {
   final List<String> brands;
   final String? selectedBrand;
   final ValueChanged<String?> onBrandSelected;
@@ -18,7 +18,26 @@ class BrandFilter extends StatelessWidget {
   });
 
   @override
+  _BrandFilterState createState() => _BrandFilterState();
+}
+
+class _BrandFilterState extends State<BrandFilter> {
+  String? _previousSelectedBrand;
+
+  void _handleBrandTap(String brand) {
+    if (brand == widget.selectedBrand) {
+      // 이미 선택된 브랜드를 다시 클릭했을 경우 선택 해제
+      widget.onBrandSelected(null);
+    } else {
+      widget.onBrandSelected(brand);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final int startIndex = (widget.currentPage - 1) * widget.itemsPerPage;
+    final int endIndex = (startIndex + widget.itemsPerPage).clamp(0, widget.brands.length);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,18 +47,18 @@ class BrandFilter extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 150, // 버튼의 최대 가로 크기
-            childAspectRatio: 3 / 2, // 가로:세로 비율을 고정
+            maxCrossAxisExtent: 150,
+            childAspectRatio: 3 / 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
-          itemCount: brands.length,
+          itemCount: endIndex - startIndex,
           itemBuilder: (context, index) {
-            final brand = brands[index];
-            final isSelected = selectedBrand == brand;
+            final brand = widget.brands[startIndex + index];
+            final isSelected = widget.selectedBrand == brand;
 
             return ElevatedButton(
-              onPressed: () => onBrandSelected(brand),
+              onPressed: () => _handleBrandTap(brand), // 클릭 처리 메소드 호출
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected ? Colors.black : Colors.grey[300],
                 foregroundColor: isSelected ? Colors.white : Colors.black,
@@ -48,6 +67,23 @@ class BrandFilter extends StatelessWidget {
               child: Text(brand),
             );
           },
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.currentPage > 1)
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => widget.onPageChanged(widget.currentPage - 1),
+              ),
+            Text('${widget.currentPage} 페이지'),
+            if (endIndex < widget.brands.length)
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () => widget.onPageChanged(widget.currentPage + 1),
+              ),
+          ],
         ),
       ],
     );

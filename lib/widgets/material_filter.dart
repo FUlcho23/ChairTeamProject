@@ -39,7 +39,10 @@ class MaterialFilter extends StatelessWidget {
               bool isSelected = selectedMaterial == material;
 
               return ElevatedButton(
-                onPressed: () => onMaterialSelected(material),
+                onPressed: () {
+                  // 재선택 시 취소 처리
+                  onMaterialSelected(isSelected ? null : material);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isSelected ? Colors.black : Colors.grey[300],
                   foregroundColor: isSelected ? Colors.white : Colors.black,
