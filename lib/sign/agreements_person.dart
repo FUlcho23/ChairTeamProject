@@ -9,21 +9,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Agreements(onChanged: (value) {},),
+      home: AgreementsPerson(onChanged: (value) {},),
     );
   }
 }
 
-class Agreements extends StatefulWidget {
+class AgreementsPerson extends StatefulWidget {
   final ValueChanged<bool> onChanged;
 
-  Agreements({required this.onChanged});
+  AgreementsPerson({required this.onChanged});
 
   @override
-  _AgreementsState createState() => _AgreementsState();
+  _AgreementsPersonState createState() => _AgreementsPersonState();
 }
 
-class _AgreementsState extends State<Agreements> {
+class _AgreementsPersonState extends State<AgreementsPerson> {
   bool agreeToAll = false;
   bool agreeToTerms = false;
   bool agreeToPrivacyPolicy = false;
