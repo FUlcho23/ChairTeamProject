@@ -4,15 +4,11 @@ class TypeFilter extends StatelessWidget {
   final List<String> types;
   final String? selectedType;
   final ValueChanged<String?> onTypeSelected;
-  final bool isExpanded;  // 펼치기/접기 상태를 나타내는 bool 값
-  final VoidCallback onToggleExpanded;
 
   TypeFilter({
     required this.types,
     required this.selectedType,
     required this.onTypeSelected,
-    required this.isExpanded,
-    required this.onToggleExpanded,
   });
 
   @override
@@ -35,30 +31,33 @@ class TypeFilter extends StatelessWidget {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
-            itemCount: isExpanded ? types.length : (types.length > 9 ? 9 : types.length),
+            itemCount: types.length, // 펼쳐보기 기능 제거
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final type = types[index];
+              final isSelected = type == selectedType;
+
               return Card(
                 elevation: 3,
                 margin: EdgeInsets.all(5),
+                color: isSelected ? Colors.blue : Colors.white, // 선택된 타입의 색상을 파란색으로 설정
                 child: ListTile(
-                  title: Center(child: Text(type)),
-                  selected: type == selectedType,
-                  onTap: () => onTypeSelected(type),
+                  title: Center(
+                    child: Text(
+                      type,
+                      style: TextStyle(color: isSelected ? Colors.white : Colors.black), // 텍스트 색상 변경
+                    ),
+                  ),
+                  selected: isSelected,
+                  onTap: () {
+                    // 타입을 클릭했을 때 선택 취소 기능 구현
+                    onTypeSelected(isSelected ? null : type);
+                  },
                 ),
               );
             },
           ),
-          if (types.length > 9)
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                onPressed: onToggleExpanded,
-                child: Text(isExpanded ? '접기' : '펼쳐보기'),
-              ),
-            ),
         ],
       ),
     );

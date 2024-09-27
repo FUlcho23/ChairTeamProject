@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BrandFilter extends StatelessWidget {
+class BrandFilter extends StatefulWidget {
   final List<String> brands;
   final String? selectedBrand;
   final ValueChanged<String?> onBrandSelected;
@@ -18,10 +18,25 @@ class BrandFilter extends StatelessWidget {
   });
 
   @override
+  _BrandFilterState createState() => _BrandFilterState();
+}
+
+class _BrandFilterState extends State<BrandFilter> {
+  String? _previousSelectedBrand;
+
+  void _handleBrandTap(String brand) {
+    if (brand == widget.selectedBrand) {
+      // 이미 선택된 브랜드를 다시 클릭했을 경우 선택 해제
+      widget.onBrandSelected(null);
+    } else {
+      widget.onBrandSelected(brand);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // 현재 페이지에 해당하는 브랜드만 보여주도록 처리
-    final paginatedBrands = brands.skip((currentPage - 1) * itemsPerPage).take(itemsPerPage).toList();
-    final totalPages = (brands.length / itemsPerPage).ceil(); // 전체 페이지 수 계산
+    final int startIndex = (widget.currentPage - 1) * widget.itemsPerPage;
+    final int endIndex = (startIndex + widget.itemsPerPage).clamp(0, widget.brands.length);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,18 +47,18 @@ class BrandFilter extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 150, // 버튼의 최대 가로 크기
-            childAspectRatio: 3 / 2, // 가로:세로 비율을 고정
+            maxCrossAxisExtent: 150,
+            childAspectRatio: 3 / 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
-          itemCount: paginatedBrands.length,
+          itemCount: endIndex - startIndex,
           itemBuilder: (context, index) {
-            final brand = paginatedBrands[index];
-            final isSelected = selectedBrand == brand;
+            final brand = widget.brands[startIndex + index];
+            final isSelected = widget.selectedBrand == brand;
 
             return ElevatedButton(
-              onPressed: () => onBrandSelected(brand),
+              onPressed: () => _handleBrandTap(brand), // 클릭 처리 메소드 호출
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected ? Colors.black : Colors.grey[300],
                 foregroundColor: isSelected ? Colors.white : Colors.black,
@@ -53,20 +68,21 @@ class BrandFilter extends StatelessWidget {
             );
           },
         ),
-        SizedBox(height: 20),
-        // 페이지네이션 버튼 추가
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: currentPage > 1 ? () => onPageChanged(currentPage - 1) : null,
-            ),
-            Text('$currentPage / $totalPages', style: TextStyle(fontSize: 16)),
-            IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: currentPage < totalPages ? () => onPageChanged(currentPage + 1) : null,
-            ),
+            if (widget.currentPage > 1)
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => widget.onPageChanged(widget.currentPage - 1),
+              ),
+            Text('${widget.currentPage} 페이지'),
+            if (endIndex < widget.brands.length)
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () => widget.onPageChanged(widget.currentPage + 1),
+              ),
           ],
         ),
       ],

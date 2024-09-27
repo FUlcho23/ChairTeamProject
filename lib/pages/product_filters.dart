@@ -61,7 +61,6 @@ class _ProductFiltersState extends State<ProductFilters> {
               selectedBrand: _selectedBrand,
               onBrandSelected: (brand) => setState(() {
                 _selectedBrand = brand;
-                _currentPage = 1; // 필터 선택 시 페이지 초기화
               }),
               itemsPerPage: _itemsPerPage,
               currentPage: _currentPage,
@@ -93,12 +92,8 @@ class _ProductFiltersState extends State<ProductFilters> {
                   _selectedType = value;
                 });
               },
-              isExpanded: _isTypesExpanded,
-              onToggleExpanded: () {
-                setState(() {
-                  _isTypesExpanded = !_isTypesExpanded;
-                });
-              },
+              // isExpanded: _isTypesExpanded, // 이 줄은 삭제하세요
+              // onToggleExpanded: () { setState(() { _isTypesExpanded = !_isTypesExpanded; }); }, // 이 줄도 삭제하세요
             ),
           if (_isFilterVisible[4])
             ShapeFilter(
@@ -191,33 +186,28 @@ class _ProductFiltersState extends State<ProductFilters> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(_filterOptions.detailedFilter.length,
-                        (index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: ElevatedButton(
-                          onPressed: () => _toggleFilter(index),
-                          style: ButtonStyle(
-                            padding:
-                            MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              EdgeInsets.all(0),
-                            ),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all<double>(0),
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF7F7F7F)),
-                          ),
-                          child: Text(
-                            _filterOptions.detailedFilter[index],
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                children: List.generate(_filterOptions.detailedFilter.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: ElevatedButton(
+                      onPressed: () => _toggleFilter(index),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(0)),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      );
-                    }),
+                        elevation: MaterialStateProperty.all<double>(0),
+                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF7F7F7F)),
+                      ),
+                      child: Text(
+                        _filterOptions.detailedFilter[index],
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
           ),
@@ -225,6 +215,7 @@ class _ProductFiltersState extends State<ProductFilters> {
       ),
     );
   }
+
 
   void _onSearchPressed() {
     // 검색 버튼 클릭 시 동작
