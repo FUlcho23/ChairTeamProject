@@ -19,6 +19,10 @@ class BrandFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 현재 페이지에 해당하는 브랜드만 보여주도록 처리
+    final paginatedBrands = brands.skip((currentPage - 1) * itemsPerPage).take(itemsPerPage).toList();
+    final totalPages = (brands.length / itemsPerPage).ceil(); // 전체 페이지 수 계산
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,9 +37,9 @@ class BrandFilter extends StatelessWidget {
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
-          itemCount: brands.length,
+          itemCount: paginatedBrands.length,
           itemBuilder: (context, index) {
-            final brand = brands[index];
+            final brand = paginatedBrands[index];
             final isSelected = selectedBrand == brand;
 
             return ElevatedButton(
@@ -48,6 +52,22 @@ class BrandFilter extends StatelessWidget {
               child: Text(brand),
             );
           },
+        ),
+        SizedBox(height: 20),
+        // 페이지네이션 버튼 추가
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: currentPage > 1 ? () => onPageChanged(currentPage - 1) : null,
+            ),
+            Text('$currentPage / $totalPages', style: TextStyle(fontSize: 16)),
+            IconButton(
+              icon: Icon(Icons.arrow_forward),
+              onPressed: currentPage < totalPages ? () => onPageChanged(currentPage + 1) : null,
+            ),
+          ],
         ),
       ],
     );

@@ -6,6 +6,8 @@ import '../widgets/option_filter.dart';
 import '../widgets/type_filter.dart';
 import '../widgets/shape_filter.dart';
 import '../widgets/material_filter.dart'; // MaterialFilter 위젯 임포트
+import '../widgets/color_filter.dart'; // ColorFilter 위젯 임포트 (필요한 경우)
+import '../pages/product_upload.dart'; // CheckmarkPainter 임포트 (파일 이름에 따라 변경)
 
 class ProductFilters extends StatefulWidget {
   @override
@@ -28,6 +30,7 @@ class _ProductFiltersState extends State<ProductFilters> {
   String? _selectedThighLength;
   String? _selectedBackHeight;
   String? _selectedMaterial; // 선택된 재질 저장
+  List<bool> selectedColors = List.generate(16, (_) => false); // 기본적으로 선택되지 않은 상태
   final Map<String, bool> _optionSelections = {};
 
   @override
@@ -39,90 +42,140 @@ class _ProductFiltersState extends State<ProductFilters> {
   }
 
   @override
+  void dispose() {
+    // 메모리 누수 방지: TextEditingController 해제
+    _minPriceController.dispose();
+    _maxPriceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return SingleChildScrollView( // 스크롤 가능하게 감싸기
+      child: Column(
+        children: [
+          _buildFilterBar(),
+          if (_isFilterVisible[1])
+            BrandFilter(
+              brands: _filterOptions.brands,
+              selectedBrand: _selectedBrand,
+              onBrandSelected: (brand) => setState(() {
+                _selectedBrand = brand;
+                _currentPage = 1; // 필터 선택 시 페이지 초기화
+              }),
+              itemsPerPage: _itemsPerPage,
+              currentPage: _currentPage,
+              onPageChanged: (page) => setState(() => _currentPage = page),
+            ),
+          if (_isFilterVisible[0])
+            PriceFilter(
+              selectedOption: _selectedPriceOption,
+              minPriceController: _minPriceController,
+              maxPriceController: _maxPriceController,
+              onOptionSelected: (option) =>
+                  setState(() => _selectedPriceOption = option ?? '전체보기'),
+              onSearchPressed: _onSearchPressed,
+            ),
+          if (_isFilterVisible[2])
+            OptionFilter(
+              options: _filterOptions.options,
+              optionSelections: _optionSelections,
+              onSelectionChanged: (option, isSelected) =>
+                  setState(() => _optionSelections[option] = isSelected),
+              onResetFilters: _resetFilters,
+            ),
+          if (_isFilterVisible[3])
+            TypeFilter(
+              types: _filterOptions.types,
+              selectedType: _selectedType,
+              onTypeSelected: (value) {
+                setState(() {
+                  _selectedType = value;
+                });
+              },
+              isExpanded: _isTypesExpanded,
+              onToggleExpanded: () {
+                setState(() {
+                  _isTypesExpanded = !_isTypesExpanded;
+                });
+              },
+            ),
+          if (_isFilterVisible[4])
+            ShapeFilter(
+              calfLengths: _filterOptions.calfLengths,
+              thighWidths: _filterOptions.thighWidths,
+              thighLengths: _filterOptions.thighLengths,
+              backHeights: _filterOptions.backHeights,
+              selectedCalfLength: _selectedCalfLength,
+              selectedThighWidth: _selectedThighWidth,
+              selectedThighLength: _selectedThighLength,
+              selectedBackHeight: _selectedBackHeight,
+              onCalfLengthSelected: (length) =>
+                  setState(() => _selectedCalfLength = length),
+              onThighWidthSelected: (width) =>
+                  setState(() => _selectedThighWidth = width),
+              onThighLengthSelected: (length) =>
+                  setState(() => _selectedThighLength = length),
+              onBackHeightSelected: (height) =>
+                  setState(() => _selectedBackHeight = height),
+            ),
+          if (_isFilterVisible[5])
+            MaterialFilter(
+              materials: _filterOptions.materials,
+              selectedMaterial: _selectedMaterial,
+              onMaterialSelected: (value) {
+                setState(() {
+                  _selectedMaterial = value;
+                });
+              },
+            ),
+          if (_isFilterVisible[6])
+            _buildColorFilter(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildColorFilter() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildFilterBar(),
-        if (_isFilterVisible[1])
-          BrandFilter(
-            brands: _filterOptions.brands,
-            selectedBrand: _selectedBrand,  // selectedBrand 전달
-            onBrandSelected: (brand) => setState(() => _selectedBrand = brand),
-            itemsPerPage: _itemsPerPage,
-            currentPage: _currentPage,
-            onPageChanged: (page) => setState(() => _currentPage = page),
+        Text(
+          "색상 필터",
+          style: TextStyle(
+            fontSize: 20,
+            color: Color(0xFF404040),
+            fontWeight: FontWeight.bold,
           ),
-        if (_isFilterVisible[0])
-          PriceFilter(
-            selectedOption: _selectedPriceOption,
-            minPriceController: _minPriceController,
-            maxPriceController: _maxPriceController,
-            onOptionSelected: (option) =>
-                setState(() => _selectedPriceOption = option ?? '전체보기'),
-            onSearchPressed: _onSearchPressed,
-          ),
-        if (_isFilterVisible[2])
-          OptionFilter(
-            options: _filterOptions.options,
-            optionSelections: _optionSelections,
-            onSelectionChanged: (option, isSelected) =>
-                setState(() => _optionSelections[option] = isSelected),
-            onResetFilters: _resetFilters,
-          ),
-        if (_isFilterVisible[3])
-          TypeFilter(
-            types: _filterOptions.types,
-            selectedType: _selectedType,
-            onTypeSelected: (value) {
-              setState(() {
-                _selectedType = value;
-              });
-            },
-            isExpanded: _isTypesExpanded, // 여기에 맞는 bool 값
-            onToggleExpanded: () {
-              setState(() {
-                _isTypesExpanded = !_isTypesExpanded;
-              });
-            },
-          ),
-        if (_isFilterVisible[4])
-          ShapeFilter(
-            calfLengths: _filterOptions.calfLengths,
-            thighWidths: _filterOptions.thighWidths,
-            thighLengths: _filterOptions.thighLengths,
-            backHeights: _filterOptions.backHeights,
-            selectedCalfLength: _selectedCalfLength,
-            selectedThighWidth: _selectedThighWidth,
-            selectedThighLength: _selectedThighLength,
-            selectedBackHeight: _selectedBackHeight,
-            onCalfLengthSelected: (length) =>
-                setState(() => _selectedCalfLength = length),
-            onThighWidthSelected: (width) =>
-                setState(() => _selectedThighWidth = width),
-            onThighLengthSelected: (length) =>
-                setState(() => _selectedThighLength = length),
-            onBackHeightSelected: (height) =>
-                setState(() => _selectedBackHeight = height),
-          ),
-        if (_isFilterVisible[5])
-          MaterialFilter(
-            materials: [
-              '메쉬',
-              '인조가죽',
-              '합성가죽',
-              '천연가죽',
-              '패브릭',
-              '목재',
-              '플라스틱',
-              '기타'
-            ],
-            selectedMaterial: _selectedMaterial, // 선택된 재질 전달
-            onMaterialSelected: (value) {
-              setState(() {
-                _selectedMaterial = value;
-              });
-            },
-          ),
+        ),
+        SizedBox(height: 10),
+        Wrap(
+          spacing: 4,
+          runSpacing: 4,
+          children: List.generate(_filterOptions.colors.length, (index) {
+            return InkWell(  // GestureDetector 대신 InkWell 사용
+              onTap: () {
+                setState(() {
+                  selectedColors[index] = !selectedColors[index];
+                });
+              },
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Color(int.parse(_filterOptions.colors[index].replaceAll('#', '0xFF'))),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(90),
+                ),
+                child: selectedColors[index]
+                    ? CustomPaint(
+                  painter: CheckmarkPainter(),
+                )
+                    : null,
+              ),
+            );
+          }),
+        ),
       ],
     );
   }
@@ -145,7 +198,8 @@ class _ProductFiltersState extends State<ProductFilters> {
                         child: ElevatedButton(
                           onPressed: () => _toggleFilter(index),
                           style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                            padding:
+                            MaterialStateProperty.all<EdgeInsetsGeometry>(
                               EdgeInsets.all(0),
                             ),
                             shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -153,12 +207,9 @@ class _ProductFiltersState extends State<ProductFilters> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            elevation:
-                            MaterialStateProperty.all<double>(0),
+                            elevation: MaterialStateProperty.all<double>(0),
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(
-                              Color(0xFF7F7F7F),
-                            ),
+                            MaterialStateProperty.all<Color>(Color(0xFF7F7F7F)),
                           ),
                           child: Text(
                             _filterOptions.detailedFilter[index],
@@ -180,13 +231,27 @@ class _ProductFiltersState extends State<ProductFilters> {
   }
 
   void _resetFilters() {
-    // 필터 초기화
+    // 필터 초기화 메소드
+    setState(() {
+      _selectedPriceOption = '전체보기';
+      _minPriceController.clear();
+      _maxPriceController.clear();
+      _selectedBrand = null;
+      _selectedType = null;
+      _selectedCalfLength = null;
+      _selectedThighWidth = null;
+      _selectedThighLength = null;
+      _selectedBackHeight = null;
+      _selectedMaterial = null;
+      selectedColors = List.generate(16, (_) => false);
+      _optionSelections.updateAll((key, value) => false);
+    });
   }
 
   void _toggleFilter(int index) {
     setState(() {
-      _isFilterVisible = List.generate(_isFilterVisible.length,
-              (i) => i == index ? !_isFilterVisible[i] : false);
+      _isFilterVisible = List.generate(
+          _isFilterVisible.length, (i) => i == index ? !_isFilterVisible[i] : false);
     });
   }
 }
