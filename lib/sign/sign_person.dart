@@ -10,17 +10,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Sign(),
+      home: SignPerson(),
     );
   }
 }
 
-class Sign extends StatefulWidget {
+class SignPerson extends StatefulWidget {
   @override
-  _SignState createState() => _SignState();
+  _SignPersonState createState() => _SignPersonState();
 }
 
-class _SignState extends State<Sign> {
+class _SignPersonState extends State<SignPerson> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();

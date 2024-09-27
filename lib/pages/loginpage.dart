@@ -1,8 +1,15 @@
+import 'package:chair/sign/agreements_person.dart';
 import 'package:flutter/material.dart';
 import 'firstpage.dart';
-import '../sign/agreements.dart';
+import '../sign/signup_role_selection.dart';
 import '../sign/find.dart';
 import '../widgets/db.dart'; // Db 클래스가 있는 파일
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> saveUserInfo(String name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('username', name);
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -74,7 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                     bool loginSuccess = await Db().login(userId, userPw);
 
                     if (loginSuccess) {
-                      // 로그인 성공 시 첫 번째 페이지로 이동
+                      // 로그인 성공 시 사용자 이름 저장
+                      await saveUserInfo(userId);  // userId를 사용자 이름으로 저장
+                      // 저장된 사용자 이름 출력
+                      String? savedName = await SharedPreferences.getInstance().then((prefs) => prefs.getString('username'));
+                      print("현재 저장된 사용자 이름: $savedName");
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => FirstPage()),
@@ -89,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(Size(150, 50)),
+                    minimumSize: MaterialStateProperty.all(Size(buttonWidth, 50)),
                     backgroundColor: MaterialStateProperty.all(Colors.black),
                   ),
                   child: const Text(
@@ -110,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Agreements(onChanged: (value) {}),
+                            builder: (context) => SignupRoleSelection(onChanged: (value) {}),
                           ),
                         );
                       },
