@@ -106,8 +106,8 @@ class _SignCompanyState extends State<SignCompany> {
                   _buildTextField('아이디', _idController, false),
                   _buildTextField('비밀번호', _passwordController, true),
                   _buildTextField('이메일 주소', _emailController, false),
-                  _buildTextField('이름', _cnameController, false),
-                  _buildTextField('생년월일(0000-00-00)', _businessNumController, false, isPhone: true),
+                  _buildTextField('회사명', _cnameController, false),
+                  _buildTextField('사업자등록번호', _businessNumController, false, isPhone: true),
                   _buildTextField('휴대전화(-제외)', _callController, false, isPhone: true),
                   SizedBox(height: 60.0),
                   ElevatedButton(
