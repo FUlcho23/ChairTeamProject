@@ -36,7 +36,19 @@ class _AddressState extends State<Address> {
   @override
   void initState() {
     super.initState();
-    db.connect(); // 페이지 초기화 시 데이터베이스에 연결
+    db.connect(); // 데이터베이스에 연결
+    loadAddresses(); // 주소 불러오기
+  }
+
+  Future<void> loadAddresses() async {
+    // 사용자의 ID를 가져오는 방법에 따라 수정
+    String userId = 'user123'; // 예시: 실제로는 로그인된 사용자 ID로 변경
+    Map<String, String?> addresses = await db.getAddresses(userId);
+
+    setState(() {
+      cityController.text = addresses['m_address'] ?? '';
+      roadController.text = addresses['m_D_address'] ?? '';
+    });
   }
 
   @override
