@@ -10,6 +10,8 @@ import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
 import 'package:chair/user_options/setting.dart';
 import 'package:chair/models/product.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MyPage extends StatefulWidget {
   @override
