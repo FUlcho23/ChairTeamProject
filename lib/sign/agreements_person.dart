@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sign.dart';
+import 'sign_person.dart';
 
 void main() {
   runApp(MyApp());
@@ -139,7 +139,7 @@ class _AgreementsPersonState extends State<AgreementsPerson> {
                     print('회원가입 페이지로 이동');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Sign()),
+                      MaterialPageRoute(builder: (context) => SignPerson()),
                     );
                   }
                 },

@@ -10,23 +10,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Sign(),
+      home: SignCompany(),
     );
   }
 }
 
-class Sign extends StatefulWidget {
+class SignCompany extends StatefulWidget {
   @override
-  _SignState createState() => _SignState();
+  _SignCompanyState createState() => _SignCompanyState();
 }
 
-class _SignState extends State<Sign> {
+class _SignCompanyState extends State<SignCompany> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _birthDateController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _cnameController = TextEditingController();
+  final TextEditingController _businessNumController = TextEditingController();
+  final TextEditingController _callController = TextEditingController();
 
   bool _isObscure = true;
   final Db db = Db(); // DB 클래스 인스턴스 생성
@@ -35,9 +35,9 @@ class _SignState extends State<Sign> {
     return _idController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _emailController.text.isNotEmpty &&
-        _nameController.text.isNotEmpty &&
-        _birthDateController.text.isNotEmpty &&
-        _phoneController.text.isNotEmpty;
+        _cnameController.text.isNotEmpty &&
+        _businessNumController.text.isNotEmpty &&
+        _callController.text.isNotEmpty;
   }
 
   void _toggleVisibility() {
@@ -57,9 +57,9 @@ class _SignState extends State<Sign> {
     _idController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
-    _nameController.dispose();
-    _birthDateController.dispose();
-    _phoneController.dispose();
+    _cnameController.dispose();
+    _businessNumController.dispose();
+    _callController.dispose();
     db.close(); // 종료 시 DB 연결 해제
     super.dispose();
   }
@@ -106,9 +106,9 @@ class _SignState extends State<Sign> {
                   _buildTextField('아이디', _idController, false),
                   _buildTextField('비밀번호', _passwordController, true),
                   _buildTextField('이메일 주소', _emailController, false),
-                  _buildTextField('이름', _nameController, false),
-                  _buildTextField('생년월일(0000-00-00)', _birthDateController, false, isPhone: true),
-                  _buildTextField('휴대전화(-제외)', _phoneController, false, isPhone: true),
+                  _buildTextField('이름', _cnameController, false),
+                  _buildTextField('생년월일(0000-00-00)', _businessNumController, false, isPhone: true),
+                  _buildTextField('휴대전화(-제외)', _callController, false, isPhone: true),
                   SizedBox(height: 60.0),
                   ElevatedButton(
                     onPressed: _isButtonEnabled() ? _signUp : null,
@@ -174,9 +174,9 @@ class _SignState extends State<Sign> {
       _idController.text,           // 사용자가 입력한 아이디
       _passwordController.text,      // 비밀번호
       _emailController.text,         // 이메일
-      _nameController.text,          // 이름
-      _birthDateController.text,     // 생년월일
-      _phoneController.text,         // 휴대전화
+      _cnameController.text,          // 이름
+      _businessNumController.text,     // 생년월일
+      _callController.text,         // 휴대전화
     );
 
     // 회원가입 성공 후 로그인 페이지로 이동

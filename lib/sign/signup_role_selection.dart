@@ -66,7 +66,12 @@ class _SignupRoleSelectionState extends State<SignupRoleSelection> {
                 height: buttonHeight,
                 child: ElevatedButton(
                   onPressed: () {
-                    // 기업 버튼 눌렀을 때 처리
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AgreementsCompany(onChanged: (value) {}),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF6B5640), // 버튼 배경 색상
@@ -94,7 +99,12 @@ class _SignupRoleSelectionState extends State<SignupRoleSelection> {
                 height: buttonHeight,
                 child: ElevatedButton(
                   onPressed: () {
-                    // 개인 버튼 눌렀을 때 처리
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AgreementsPerson(onChanged: (value) {}),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상
