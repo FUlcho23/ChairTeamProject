@@ -156,5 +156,21 @@ class Db {
       return {'m_address': null, 'm_D_address': null}; // 오류 발생 시 null 반환
     }
   }
+  // SharedPreferences에 사용자 주소 저장
+  Future<void> saveAddress(String username, String city, String road, String detail) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('${username}_city', city);
+    await prefs.setString('${username}_road', road);
+    await prefs.setString('${username}_detail', detail);
+  }
+
+  // SharedPreferences에서 사용자 주소 불러오기
+  Future<Map<String, String?>> getAddress(String username) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? city = prefs.getString('${username}_city');
+    String? road = prefs.getString('${username}_road');
+    String? detail = prefs.getString('${username}_detail');
+    return {'city': city, 'road': road, 'detail': detail};
+  }
 
 }
