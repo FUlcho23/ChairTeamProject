@@ -1,4 +1,6 @@
 import 'package:mysql_client/mysql_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';//이름저장용
+
 
 class Db {
   static final Db _instance = Db._internal();
@@ -55,7 +57,7 @@ class Db {
     }
   }
 
-  // db에 아이디 이름 비번을 입력하는 함수(member 추가)
+  // db에 회원 가입을 하는 함수(member 추가, 일반회원!)
   Future<void> addUser(String id, String password, String email, String name, String birthDate, String phone) async {
     if (_connection == null) return;
 
@@ -76,6 +78,27 @@ class Db {
       print("Error adding user: $e");
     }
   }
+  // db에 회원 가입을 하는 함수(Corporation 추가, 사업자!)
+  Future<void> addCorporation(String id, String password, String email, String name, String businessNum, String call) async {
+    if (_connection == null) return;
+
+    try {
+      await _connection!.execute(
+        'INSERT INTO corporation (c_id, c_pw, c_email, c_name, c_businessNum, c_call) VALUES (:id, :password, :email, :name, :businessNum, :call)',
+        {
+          'id': id,
+          'password': password,
+          'email': email,
+          'name': name,
+          'businessNum': businessNum,
+          'call': call,
+        },
+      );
+      print("Corporation added successfully");
+    } catch (e) {
+      print("Error adding user: $e");
+    }
+  }
 
   // 로그인 함수
   Future<bool> login(String mId, String mPw) async {
@@ -83,7 +106,6 @@ class Db {
       if (_connection == null) {
         await connect();
       }
-
       // SQL 쿼리 작성 및 실행
       String query = 'SELECT * FROM member WHERE m_id = :mId AND m_pw = :mPw';
       IResultSet results = await _connection!.execute(query, {'mId': mId, 'mPw': mPw});
@@ -100,4 +122,16 @@ class Db {
       await close(); // 연결 종료
     }
   }
+
+  // SharedPreferences에 사용자 정보 저장
+  Future<void> saveUserInfo(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', name);
+  }
+  // SharedPreferences에서 사용자 정보 불러오기
+  Future<String?> getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('username');
+  }
+
 }

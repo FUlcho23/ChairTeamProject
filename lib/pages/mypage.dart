@@ -10,7 +10,7 @@ import 'package:chair/user_options/customer_service.dart';
 import 'package:chair/user_options/NoticePage.dart';
 import 'package:chair/user_options/setting.dart';
 import 'package:chair/models/product.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/db.dart'; // Db 클래스가 있는 파일
 
 
 class MyPage extends StatefulWidget {
@@ -20,6 +20,17 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
+  String? userName;
+
+  @override//이름을 외쳐보아요
+  void initState() {
+    super.initState();
+    _loadUserName();//이름을 불러보아요
+  }
+  void _loadUserName() async {
+    userName = await Db().getUserInfo();
+    setState(() {});  // 이름 불러와용
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -125,7 +136,7 @@ class _MyPageState extends State<MyPage> {
                           height: 80,
                         ),
                         Text(
-                          '홍길동',
+                          userName ?? '홍길동',  // 불러온 이름이 없으면 기본값 '홍길동'
                           style: TextStyle(fontSize: getFontSize(MediaQuery.of(context).size.width, 3.5), color: Colors.black),
                         ),
                       ],
