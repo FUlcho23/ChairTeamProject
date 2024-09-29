@@ -226,4 +226,70 @@ class Db {
       print("Error updating address: $e");
     }
   }
+  // mysql에서 추천 상품 불러오기----------------------------------------------
+  Future<List<Map<String, dynamic>>> recommendChairs(String memberId) async {
+    if (_connection == null) return [];
+
+    try {
+      // 회원의 사이즈 정보 가져오기
+      var memberResult = await _connection!.execute(
+        'SELECT m_size, m_calfL, m_thighW, m_thighL, m_backH FROM members WHERE m_id = :memberId',
+        {'memberId': memberId},
+      );
+
+      if (memberResult.rows.isEmpty) {
+        return []; // 해당 회원이 없으면 빈 리스트 반환
+      }
+
+      // 회원 정보 (String? -> double 변환)
+      var member = memberResult.rows.first;
+      double? m_size = double.tryParse(member.colByName('m_size') ?? '0');
+      double? m_calfL = double.tryParse(member.colByName('m_calfL') ?? '0');
+      double? m_thighW = double.tryParse(member.colByName('m_thighW') ?? '0');
+      double? m_thighL = double.tryParse(member.colByName('m_thighL') ?? '0');
+      double? m_backH = double.tryParse(member.colByName('m_backH') ?? '0');
+
+      // 의자 정보 가져오기 및 각 의자와 회원 정보 비교
+      var chairsResult = await _connection!.execute(
+          'SELECT g_size, g_height, g_seatW, g_seatL, g_backH FROM chairs'
+      );
+      List<Map<String, dynamic>> recommendations = [];
+
+      for (var chair in chairsResult.rows) {
+        double? g_size = double.tryParse(chair.colByName('g_size') ?? '0');
+        double? g_height = double.tryParse(chair.colByName('g_height') ?? '0');
+        double? g_seatW = double.tryParse(chair.colByName('g_seatW') ?? '0');
+        double? g_seatL = double.tryParse(chair.colByName('g_seatL') ?? '0');
+        double? g_backH = double.tryParse(chair.colByName('g_backH') ?? '0');
+
+        // 항목 일치 카운트
+        int matchCount = 0;
+        if (m_size != null && g_size != null && m_size == g_size) matchCount++;
+        if (m_calfL != null && g_height != null && (m_calfL - g_height).abs() < 5) matchCount++; // 허용 오차 내 일치
+        if (m_thighW != null && g_seatW != null && (m_thighW - g_seatW).abs() < 5) matchCount++;
+        if (m_thighL != null && g_seatL != null && (m_thighL - g_seatL).abs() < 5) matchCount++;
+        if (m_backH != null && g_backH != null && (m_backH - g_backH).abs() < 5) matchCount++;
+
+        // 매칭 카운트를 바탕으로 추천 리스트에 추가
+        if (matchCount > 0) {
+          recommendations.add({
+            'g_size': g_size,
+            'g_height': g_height,
+            'g_seatW': g_seatW,
+            'g_seatL': g_seatL,
+            'g_backH': g_backH,
+            'matchCount': matchCount,
+          });
+        }
+      }
+
+      // 매칭 항목 수에 따라 의자를 내림차순으로 정렬
+      recommendations.sort((a, b) => b['matchCount'].compareTo(a['matchCount']));
+
+      return recommendations;
+    } catch (e) {
+      print('Error recommending chairs: $e');
+      return [];
+    }
+  }
 }
