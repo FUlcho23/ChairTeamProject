@@ -3,7 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart'; // 이름 저장용
 
 class Db {
   static final Db _instance = Db._internal();
+
   factory Db() => _instance;
+
   Db._internal();
 
   MySQLConnection? _connection;
@@ -13,11 +15,15 @@ class Db {
     try {
       print("Connecting to MySQL server...");
       _connection = await MySQLConnection.createConnection(
-        host: '27.117.119.85',  // MySQL 서버 호스트
-        port: 3306,              // MySQL 포트
-        userName: 'user',        // MySQL 사용자명
-        password: '0000',        // MySQL 비밀번호
-        databaseName: 'Chair',   // 데이터베이스 이름
+        host: '27.117.119.85',
+        // MySQL 서버 호스트
+        port: 3306,
+        // MySQL 포트
+        userName: 'user',
+        // MySQL 사용자명
+        password: '0000',
+        // MySQL 비밀번호
+        databaseName: 'Chair', // 데이터베이스 이름
       );
       await _connection!.connect();
       print("Connected to MySQL");
@@ -36,7 +42,8 @@ class Db {
   }
 
   // db에 회원 가입을 하는 함수(member 추가, 일반회원!)
-  Future<void> addUser(String id, String password, String email, String name, String birthDate, String phone) async {
+  Future<void> addUser(String id, String password, String email, String name,
+      String birthDate, String phone) async {
     if (_connection == null) return;
 
     try {
@@ -58,7 +65,8 @@ class Db {
   }
 
   // db에 기업을 추가하는 함수 (Corporation 추가, 사업자!)
-  Future<void> addCorporation(String id, String password, String email, String name, String businessNum, String call) async {
+  Future<void> addCorporation(String id, String password, String email,
+      String name, String businessNum, String call) async {
     if (_connection == null) return;
 
     try {
@@ -80,7 +88,8 @@ class Db {
   }
 
   // db에 상품을 추가하는 함수 (goods 추가, 의자!)
-  Future<void> addGoods(String name, String description, double price, String imageUrl) async {
+  Future<void> addGoods(String name, String description, double price,
+      String imageUrl) async {
     if (_connection == null) return;
 
     try {
@@ -100,28 +109,34 @@ class Db {
   }
 
   // 로그인 함수
-  // 로그인 함수
   Future<bool> login(String mId, String mPw) async {
     try {
       if (_connection == null) {
         await connect();
       }
-      // SQL 쿼리 작성 및 실행
       String query = 'SELECT * FROM member WHERE m_id = :mId AND m_pw = :mPw';
-      IResultSet results = await _connection!.execute(query, {'mId': mId, 'mPw': mPw});
+      IResultSet results = await _connection!.execute(
+          query, {'mId': mId, 'mPw': mPw});
 
       if (results.rows.isEmpty) {
-        return false; // 로그인 실패
+        return false;
       } else {
-        // 로그인 성공
+        var userInfo = results.rows.first;
+        print("Login successful: ${userInfo.colAt(3)}"); // 사용자 이름 출력
         await saveUserId(mId); // 사용자 ID 저장
+        String? username = userInfo.colAt(3);
+        if (username != null) {
+          await saveUserInfo(username); // 사용자 이름 저장
+        } else {
+          // username이 null일 때의 처리 (예: 기본값 사용, 에러 메시지 출력 등)
+        }
         return true;
       }
     } catch (e) {
       print("Error during login: $e");
       return false;
     } finally {
-      await close(); // 연결 종료
+      await close();
     }
   }
 
@@ -156,6 +171,39 @@ class Db {
     print("User ID saved: $userId"); // 저장 확인용 로그
   }
 
+  // 사용자 정보를 ID로 가져오는 함수
+  Future<Map<String, dynamic>?> getUserInfoById(String userId) async {
+    try {
+      if (_connection == null) {
+        await connect();
+      }
+      String query = "SELECT * FROM member WHERE m_id = :userId;";
+      IResultSet result = await _connection!.execute(query, {"userId": userId});
+
+      if (result.rows.isNotEmpty) {
+        var userInfo = result.rows.first;
+        return {
+          'm_id': userInfo.colAt(0),
+          'm_pw': userInfo.colAt(1),
+          'm_email': userInfo.colAt(2),
+          'm_name': userInfo.colAt(3),
+          'm_birthday': userInfo.colAt(4),
+          'm_call': userInfo.colAt(5),
+          'm_address': userInfo.colAt(6),
+          'm_D_address': userInfo.colAt(7),
+          'm_signupday': userInfo.colAt(8),
+        };
+      } else {
+        print("No user found for userId: $userId");
+        return null;
+      }
+    } catch (e) {
+      print("Error fetching user info from MySQL: $e");
+      return null;
+    }
+  }
+
+
   // db에서 주소 가져오기
   Future<Map<String, String?>> getAddresses(String userId) async {
     try {
@@ -186,7 +234,8 @@ class Db {
   }
 
   // SharedPreferences에 사용자 주소 저장
-  Future<void> saveAddress(String username, String city, String road, String detail) async {
+  Future<void> saveAddress(String username, String city, String road,
+      String detail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('${username}_city', city);
     await prefs.setString('${username}_road', road);
@@ -226,14 +275,18 @@ class Db {
       print("Error updating address: $e");
     }
   }
+
   // mysql에서 추천 상품 불러오기----------------------------------------------
   Future<List<Map<String, dynamic>>> recommendChairs(String memberId) async {
-    if (_connection == null) return [];
-
     try {
+      // 연결이 없으면 연결을 생성
+      if (_connection == null) {
+        await connect();
+      }
+
       // 회원의 사이즈 정보 가져오기
       var memberResult = await _connection!.execute(
-        'SELECT m_size, m_calfL, m_thighW, m_thighL, m_backH FROM members WHERE m_id = :memberId',
+        'SELECT m_calfL, m_thighW, m_thighL, m_backH FROM m_size WHERE m_id = :memberId',
         {'memberId': memberId},
       );
 
@@ -243,7 +296,6 @@ class Db {
 
       // 회원 정보 (String? -> double 변환)
       var member = memberResult.rows.first;
-      double? m_size = double.tryParse(member.colByName('m_size') ?? '0');
       double? m_calfL = double.tryParse(member.colByName('m_calfL') ?? '0');
       double? m_thighW = double.tryParse(member.colByName('m_thighW') ?? '0');
       double? m_thighL = double.tryParse(member.colByName('m_thighL') ?? '0');
@@ -251,12 +303,12 @@ class Db {
 
       // 의자 정보 가져오기 및 각 의자와 회원 정보 비교
       var chairsResult = await _connection!.execute(
-          'SELECT g_size, g_height, g_seatW, g_seatL, g_backH FROM chairs'
+          'SELECT g_num,g_height, g_seatW, g_seatL, g_backH FROM g_size'
       );
       List<Map<String, dynamic>> recommendations = [];
 
       for (var chair in chairsResult.rows) {
-        double? g_size = double.tryParse(chair.colByName('g_size') ?? '0');
+        double? g_num = double.tryParse(chair.colByName('g_num') ?? '0');
         double? g_height = double.tryParse(chair.colByName('g_height') ?? '0');
         double? g_seatW = double.tryParse(chair.colByName('g_seatW') ?? '0');
         double? g_seatL = double.tryParse(chair.colByName('g_seatL') ?? '0');
@@ -264,16 +316,19 @@ class Db {
 
         // 항목 일치 카운트
         int matchCount = 0;
-        if (m_size != null && g_size != null && m_size == g_size) matchCount++;
-        if (m_calfL != null && g_height != null && (m_calfL - g_height).abs() < 5) matchCount++; // 허용 오차 내 일치
-        if (m_thighW != null && g_seatW != null && (m_thighW - g_seatW).abs() < 5) matchCount++;
-        if (m_thighL != null && g_seatL != null && (m_thighL - g_seatL).abs() < 5) matchCount++;
-        if (m_backH != null && g_backH != null && (m_backH - g_backH).abs() < 5) matchCount++;
+        if (m_calfL != null && g_height != null &&
+            (m_calfL - g_height).abs() < 5) matchCount++; // 허용 오차 내 일치
+        if (m_thighW != null && g_seatW != null &&
+            (m_thighW - g_seatW).abs() < 5) matchCount++;
+        if (m_thighL != null && g_seatL != null &&
+            (m_thighL - g_seatL).abs() < 5) matchCount++;
+        if (m_backH != null && g_backH != null &&
+            (m_backH - g_backH).abs() < 5) matchCount++;
 
         // 매칭 카운트를 바탕으로 추천 리스트에 추가
         if (matchCount > 0) {
           recommendations.add({
-            'g_size': g_size,
+            'g_num': g_num,
             'g_height': g_height,
             'g_seatW': g_seatW,
             'g_seatL': g_seatL,
@@ -284,12 +339,14 @@ class Db {
       }
 
       // 매칭 항목 수에 따라 의자를 내림차순으로 정렬
-      recommendations.sort((a, b) => b['matchCount'].compareTo(a['matchCount']));
+      recommendations.sort((a, b) =>
+          b['matchCount'].compareTo(a['matchCount']));
 
       return recommendations;
     } catch (e) {
       print('Error recommending chairs: $e');
       return [];
     }
+    // 연결을 여기서 닫지 않음, 필요한 경우 별도 로직으로 닫기 처리
   }
 }

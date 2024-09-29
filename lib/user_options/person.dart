@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/loginpage.dart';
 import '../pages/mypage.dart';
+import '../widgets/db.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,14 +22,43 @@ class Person extends StatefulWidget {
 }
 
 class _PersonState extends State<Person> {
-  TextEditingController idController = TextEditingController(text: 'admin');
-  TextEditingController pwController = TextEditingController(text: 'admin');
-  TextEditingController nameController = TextEditingController(text: '홍길동');
-  TextEditingController emailController = TextEditingController(text: 'hong@tu.kr');
-  TextEditingController birthController = TextEditingController(text: '001122');
-  TextEditingController phoneController = TextEditingController(text: '01012341234');
+  TextEditingController idController = TextEditingController();
+  TextEditingController pwController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController birthController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   bool isEditingEnabled = false;
+  String? userId;
+  Map<String, dynamic>? userInfo; // 변경된 부분
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  Future<String?> loadUserName() async {
+    String? userName = await Db().getUserInfo(); // 저장된 이름 가져오기
+    print("Loaded username in person.dart: $userName");
+    return userName;
+  }
+
+  Future<void> _loadUserInfo() async {
+    Db db = Db();
+    userId = await db.getUserId(); // 사용자 ID 가져오기
+    if (userId != null) {
+      userInfo = await db.getUserInfoById(userId!);
+      // 사용자 정보를 각 TextEditingController에 설정
+      idController.text = userId!;
+      nameController.text = userInfo?['name'] ?? '';
+      emailController.text = userInfo?['email'] ?? '';
+      birthController.text = userInfo?['birthday'] ?? '';
+      phoneController.text = userInfo?['call'] ?? '';
+      setState(() {}); // UI 업데이트
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
