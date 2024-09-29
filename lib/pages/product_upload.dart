@@ -1,21 +1,12 @@
 import 'package:chair/pages/companyfirstpage.dart';
+import 'package:chair/models/Cproduct.dart';
 import 'package:flutter/material.dart';
 import '../widgets/db.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ProductUpload(),
-    );
-  }
-}
-
 class ProductUpload extends StatefulWidget {
+  final Function(CProduct) onProductAdded;
+  ProductUpload({required this.onProductAdded});
+
   @override
   _ProductUploadState createState() => _ProductUploadState();
 }
@@ -27,7 +18,7 @@ class _ProductUploadState extends State<ProductUpload> {
   final TextEditingController productCompanyNameController = TextEditingController();
   final TextEditingController productBrandController = TextEditingController();
 
-  List<String> selectedOptions = [];
+  List<String> selectedOptions = []; //목받침, 팔걸이, 바퀴, 등받이, 틸팅
 
   List<String> chairTypes = ["사무용/학생", "게이밍", "메쉬", "식탁", "안마", "접이식", "좌식", "베드벤치", "스툴"];
   List<String?> selectedChairTypes = [null];
@@ -69,6 +60,35 @@ class _ProductUploadState extends State<ProductUpload> {
 
   int currentTextLength = 0;
 
+  void _saveProduct(BuildContext context) {
+    List<String> selectedColorCodes = [];
+    for (int i = 0; i < selectedColors.length; i++) {
+      if (selectedColors[i]) {
+        selectedColorCodes.add(colors[i]);
+      }
+    }
+
+    CProduct newProduct = CProduct(
+      productName: productNameController.text,
+      price: productPriceController.text,
+      companyName: productCompanyNameController.text,
+      brand: productBrandController.text,
+      selectedOptions: selectedOptions,
+      selectedChairTypes: selectedChairTypes,
+      selectedColorCodes: selectedColorCodes,
+      totalWidth: totalWidthController.text,
+      totalHeight: totalHeightController.text,
+      seatWidth: seatWidthController.text,
+      seatDepth: seatDepthController.text,
+      height: heightController.text,
+      backrestHeight: backrestHeightController.text,
+      detailedDescription: descriptionController.text,
+    );
+
+    widget.onProductAdded(newProduct); // 콜백을 통해 새 상품 추가
+    Navigator.pop(context); // 이전 화면으로 돌아가기
+  }
+
   @override
   Widget build(BuildContext context) {
     double labelWidth = (MediaQuery.of(context).size.width - 80) / 2;
@@ -80,10 +100,6 @@ class _ProductUploadState extends State<ProductUpload> {
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Color(0xFF404040)),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CompanyFirstPage()),
-            );
           },
         ),
         title: Row(
@@ -603,47 +619,7 @@ class _ProductUploadState extends State<ProductUpload> {
                     mainAxisAlignment: MainAxisAlignment.center, // 버튼들을 중앙 정렬
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => CompanyFirstPage()),
-                          );
-                          // 저장하기 버튼 클릭 시 동작
-                          print('저장하기 버튼 클릭됨');
-
-                          String productName = productNameController.text;
-                          String price = productPriceController.text;
-                          String companyName = productCompanyNameController.text;
-                          String brand = productBrandController.text;
-                          List<String> selectedColorCodes = [];
-                          for (int i = 0; i < selectedColors.length; i++) {
-                            if (selectedColors[i]) {
-                              selectedColorCodes.add(colors[i]);
-                            }
-                          }
-                          String totalWidth = totalWidthController.text;
-                          String totalHeight = totalHeightController.text;
-                          String seatWidth = seatWidthController.text;
-                          String seatDepth = seatDepthController.text;
-                          String height = heightController.text;
-                          String backrestHeight = backrestHeightController.text;
-                          String detailedDescription = descriptionController.text;
-
-                          print('상품명: $productName');
-                          print('가격: $price');
-                          print('회사명: $companyName');
-                          print('브랜드: $brand');
-                          print('선택된 옵션들: $selectedOptions');
-                          print('선택된 의자 종류: $selectedChairTypes');
-                          print('선택된 색상: $selectedColorCodes');
-                          print('전체 너비(W): $totalWidth');
-                          print('전체 높이(H): $totalHeight');
-                          print('좌판 가로 너비(w): $seatWidth');
-                          print('좌판 세로 깊이(d): $seatDepth');
-                          print('높이(h): $height');
-                          print('등받이 높이: $backrestHeight');
-                          print('상세설명: $detailedDescription');
-                        },
+                        onPressed: () => _saveProduct(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFE9A05C), // 버튼 배경 색상
                           minimumSize: Size(200, 60), // 버튼 너비, 높이

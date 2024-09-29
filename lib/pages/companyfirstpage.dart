@@ -1,42 +1,55 @@
 import 'package:chair/pages/product_upload.dart';
 import 'package:flutter/material.dart';
-import 'package:chair/widgets/ProductCard.dart';
-import 'package:chair/models/product.dart';
 import 'package:chair/widgets/bottom_navi_bar.dart';
+import '../models/Cproduct.dart';
 import 'searchpage.dart';
-import 'product_filters.dart'; // Import 추가
+import 'product_filters.dart';
+
+Color hexToColor(String hexColor) {
+  return Color(int.parse(hexColor.replaceFirst('#', '0xff')));
+}
 
 void main() {
   runApp(MaterialApp(
-    home: CompanyFirstPage(),
+    home: CompanyFirstPage(
+      products: [], // 초기 상품 목록을 빈 리스트로 설정
+      onProductAdded: (newProduct) {
+        // 상품 추가 로직
+        // 이곳에 상품을 저장하거나 다른 로직을 구현하세요.
+        print('새로운 상품이 추가되었습니다: ${newProduct.productName}');
+      },
+    ),
   ));
 }
 
 class CompanyFirstPage extends StatefulWidget {
+  final List<CProduct> products; // 상품 목록을 받을 변수
+  final Function(CProduct) onProductAdded; // 상품 추가 콜백 추가
+
+  CompanyFirstPage({
+    Key? key,
+    this.products = const [],
+    required this.onProductAdded, // 필수 인자로 수정
+  }) : super(key: key);
+
   @override
   _CompanyFirstPage createState() => _CompanyFirstPage();
 }
 
 class _CompanyFirstPage extends State<CompanyFirstPage> {
   int _selectedIndex = 0;
-  String productName = '';
-  double price = 0.0;
-  String companyName = '';
-  String brand = '';
-  List<String> selectedOptions = [];
-  List<String> selectedChairTypes = [];
-  List<String> selectedColorCodes = [];
-  double totalWidth = 0.0;
-  double totalHeight = 0.0;
-  double seatWidth = 0.0;
-  double seatDepth = 0.0;
-  double height = 0.0;
-  double backrestHeight = 0.0;
-  String detailedDescription = '';
+  bool isExpanded = false;
+  List<CProduct> _products = []; // 저장된 상품 리스트
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void _addProduct(CProduct product) {
+    setState(() {
+      _products.add(product); // 새 상품을 리스트에 추가
     });
   }
 
@@ -50,37 +63,27 @@ class _CompanyFirstPage extends State<CompanyFirstPage> {
         body: Column(
           children: [
             SizedBox(height: 31),
-
-            // 검색창 위젯
             _buildSearchBar(customColor, context),
-
-            // 검은 선
             _buildDivider(),
-
-            // 상품 필터 위젯
             ProductFilters(),
-
-            // 상품 목록을 스크롤 가능한 영역으로 설정
             Expanded(
               child: GridView.builder(
                 padding: const EdgeInsets.all(10.0),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2개의 열로 설정
-                  mainAxisSpacing: 10, // 행 간의 간격
-                  crossAxisSpacing: 10, // 열 간의 간격
-                  childAspectRatio: 0.6, // 카드의 비율을 조정하여 크기 확대
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.6,
                 ),
-                itemCount: products.length + 1, // 첫번째 상품 추가 버튼 포함
+                itemCount: _products.length + 1, // 상품 개수 + 1 (등록 버튼)
                 itemBuilder: (context, index) {
-                  // 첫 번째 카드는 상품 등록 버튼
                   if (index == 0) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductUpload(
-                            ),
+                            builder: (context) => ProductUpload(onProductAdded: _addProduct),
                           ),
                         );
                       },
@@ -108,25 +111,162 @@ class _CompanyFirstPage extends State<CompanyFirstPage> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('상품명: $productName'),
-                                  Text('가격: $price'),
-                                  Text('회사명: $companyName'),
-                                  Text('브랜드: $brand'),
-                                  // 추가적인 정보들...
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),
                     );
+                  } else {
+                    // 등록된 상품 카드 표시
+                    final product = _products[index - 1]; // 첫 번째 카드 제외
+                    return Card(
+                      color: Colors.white, // 카드 배경색을 흰색으로 설정
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 10.0, right: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: List.generate(
+                                product.selectedColorCodes.length,
+                                    (cindex) => Container(
+                                  height: 15,
+                                  width: 15,
+                                  margin: const EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    color: hexToColor(product.selectedColorCodes[cindex]),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: const Color(0xFF7F7F7F), // Color를 const로 지정
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // 상품 이미지 대신 네모상자
+                          Expanded(
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              color: Colors.grey[300], // 배경색을 원하는 색으로 설정
+                              // 원하는 스타일 속성을 추가할 수 있습니다.
+                            ),
+                          ),
+                          // 상품 이름 컨테이너
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                product.productName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ),
+                          // 세부사항
+                          Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  // 버튼을 누를 때마다 확장/축소 상태 변경
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero, // 버튼 내부의 패딩을 제거합니다.
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start, // 세부사항과 옵션을 왼쪽으로 정렬합니다.
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '세부사항',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Color(0xFF5E5E5E),
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 15.0),
+                                          child: Icon(
+                                            isExpanded ? Icons.expand_less : Icons.expand_more,
+                                            color: Color(0xFF5E5E5E),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: SingleChildScrollView( // 세부사항 내용이 넘칠 경우 스크롤 가능하게
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            isExpanded
+                                                ? '회사명: ${product.companyName}\n'
+                                                '브랜드: ${product.brand}\n'
+                                                '선택 옵션: ${product.selectedOptions.join(", ")}\n'
+                                                '의자 타입: ${product.selectedChairTypes.join(", ")}\n'
+                                                '전체 너비: ${product.totalWidth}\n'
+                                                '전체 높이: ${product.totalHeight}\n'
+                                                '좌석 너비: ${product.seatWidth}\n'
+                                                '좌석 깊이: ${product.seatDepth}\n'
+                                                '높이: ${product.height}\n'
+                                                '등받이 높이: ${product.backrestHeight}\n'
+                                                '상세 설명: ${product.detailedDescription}'
+                                                : '전체 너비: ${product.totalWidth}, '
+                                                '전체 높이: ${product.totalHeight}, '
+                                                '좌석 너비: ${product.seatWidth}, '
+                                                '좌석 깊이: ${product.seatDepth}',
+                                            style: TextStyle(
+                                              color: Color(0xFF5E5E5E),
+                                              fontSize: 15,
+                                            ),
+                                            textAlign: TextAlign.start, // 텍스트를 왼쪽으로 정렬
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // 상품 가격 컨테이너 및 하트 버튼
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  "${product.price}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
                   }
-                  // 나머지 카드는 등록한 상품 카드
                 },
               ),
             ),
