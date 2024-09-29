@@ -23,7 +23,6 @@ class Address extends StatefulWidget {
 
 class _AddressState extends State<Address> {
   TextEditingController cityController = TextEditingController();
-  TextEditingController roadController = TextEditingController();
   TextEditingController detailController = TextEditingController();
   final db = Db(); // 데이터베이스 인스턴스 생성
 
@@ -42,7 +41,6 @@ class _AddressState extends State<Address> {
       Map<String, String?> addresses = await db.getAddresses(userId);
       setState(() {
         cityController.text = addresses['m_address'] ?? '';
-        roadController.text = addresses['m_D_address'] ?? '';
         detailController.text = addresses['m_D_address'] ?? '';
       });
     } else {
@@ -71,7 +69,6 @@ class _AddressState extends State<Address> {
   @override
   void dispose() {
     cityController.dispose();
-    roadController.dispose();
     detailController.dispose();
     db.close(); // 페이지 종료 시 데이터베이스 연결 닫기
     super.dispose();
@@ -123,8 +120,7 @@ class _AddressState extends State<Address> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  buildEditableTextField('시군구', cityController),
-                  buildEditableTextField('도로명 주소', roadController),
+                  buildEditableTextField('도로명 주소', cityController),
                   buildEditableTextField('상세주소', detailController),
                   SizedBox(height: 20.0),
                   ElevatedButton(
