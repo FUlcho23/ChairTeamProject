@@ -77,7 +77,7 @@ final List<Product> products = [
     description: "의자 설명?",
     detailed_option: "좌판 가로 깊이 높이와 등받이 높이 등",
     image: "assets/images/chair4.png",
-    price: 110000,
+    price: 11000,
     colors: [
       Colors.blueGrey,
       Colors.purpleAccent,

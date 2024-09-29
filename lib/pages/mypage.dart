@@ -22,14 +22,29 @@ class _MyPageState extends State<MyPage> {
   int _selectedIndex = 2; // 초기 선택된 인덱스를 2로 설정 (내 정보)
   String? userName;
 
-  @override//이름을 외쳐보아요
+  @override
   void initState() {
     super.initState();
-    _loadUserName();//이름을 불러보아요
+    _loadUserName(); // 이름을 불러온 후에 추천 의자를 불러옵니다.
   }
+
+  // 이름을 불러오기
   void _loadUserName() async {
     userName = await Db().getUserInfo();
-    setState(() {});  // 이름 불러와용
+    setState(() {});  // 상태를 업데이트하여 UI 반영
+    if (userName != null) {
+      _loadRecommendedChairs(); // userName이 로드된 후에만 추천 의자 불러오기
+    } else {
+      print('사용자 이름이 없습니다.');
+    }
+  }
+
+  // 추천 의자를 불러와서 로그에 출력
+  void _loadRecommendedChairs() async {
+    List<Map<String, dynamic>> recommendedChairs = await Db().recommendChairs(userName!); // 회원 ID는 실제로 로그인한 회원의 ID로 변경 필요
+    for (var chair in recommendedChairs) {
+      print('추천 의자: $chair'); // 추천 의자를 로그에 출력
+    }
   }
 
   void _onItemTapped(int index) {
