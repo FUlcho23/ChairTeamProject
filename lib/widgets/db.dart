@@ -1,6 +1,5 @@
 import 'package:mysql_client/mysql_client.dart';
-import 'package:shared_preferences/shared_preferences.dart';//이름저장용
-
+import 'package:shared_preferences/shared_preferences.dart'; // 이름 저장용
 
 class Db {
   static final Db _instance = Db._internal();
@@ -57,7 +56,8 @@ class Db {
       print("Error adding user: $e");
     }
   }
-  // db에 회원 가입을 하는 함수(Corporation 추가, 사업자!)
+
+  // db에 기업을 추가하는 함수 (Corporation 추가, 사업자!)
   Future<void> addCorporation(String id, String password, String email, String name, String businessNum, String call) async {
     if (_connection == null) return;
 
@@ -75,31 +75,31 @@ class Db {
       );
       print("Corporation added successfully");
     } catch (e) {
-      print("Error adding user: $e");
+      print("Error adding corporation: $e");
     }
   }
-  // db에 상품을 추가 하는 함수(goods 추가, 의자!)
-  Future<void> addGoods(String id, String password, String email, String name, String businessNum, String call) async {
+
+  // db에 상품을 추가하는 함수 (goods 추가, 의자!)
+  Future<void> addGoods(String name, String description, double price, String imageUrl) async {
     if (_connection == null) return;
 
     try {
       await _connection!.execute(
-        'INSERT INTO corporation (c_id, c_pw, c_email, c_name, c_businessNum, c_call) VALUES (:id, :password, :email, :name, :businessNum, :call)',
+        'INSERT INTO goods (g_name, g_description, g_price, g_imageUrl) VALUES (:name, :description, :price, :imageUrl)',
         {
-          'id': id,
-          'password': password,
-          'email': email,
           'name': name,
-          'businessNum': businessNum,
-          'call': call,
+          'description': description,
+          'price': price,
+          'imageUrl': imageUrl,
         },
       );
-      print("Corporation added successfully");
+      print("Goods added successfully");
     } catch (e) {
-      print("Error adding user: $e");
+      print("Error adding goods: $e");
     }
   }
 
+  // 로그인 함수
   // 로그인 함수
   Future<bool> login(String mId, String mPw) async {
     try {
@@ -113,7 +113,9 @@ class Db {
       if (results.rows.isEmpty) {
         return false; // 로그인 실패
       } else {
-        return true; // 로그인 성공
+        // 로그인 성공
+        await saveUserId(mId); // 사용자 ID 저장
+        return true;
       }
     } catch (e) {
       print("Error during login: $e");
@@ -123,17 +125,38 @@ class Db {
     }
   }
 
+
   // SharedPreferences에 사용자 정보 저장
   Future<void> saveUserInfo(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', name);
+    print("User info saved: $name");
   }
+
   // SharedPreferences에서 사용자 정보 불러오기
   Future<String?> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('username');
+    String? username = prefs.getString('username');
+    print("Current saved username: $username");
+    return username;
   }
-  // db.dart의 Db 클래스에 아래 함수를 추가
+
+  // SharedPreferences에서 사용자 ID 불러오기
+  Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('user_id'); // 로그인 시 저장한 ID
+    print("Current saved user ID: $userId");
+    return userId;
+  }
+
+  // SharedPreferences에 사용자 ID 저장
+  Future<void> saveUserId(String userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_id', userId);
+    print("User ID saved: $userId"); // 저장 확인용 로그
+  }
+
+  // db에서 주소 가져오기
   Future<Map<String, String?>> getAddresses(String userId) async {
     try {
       if (_connection == null) {
@@ -144,11 +167,16 @@ class Db {
       IResultSet result = await _connection!.execute(query, {"userId": userId});
 
       if (result.rows.isNotEmpty) {
+        String mAddress = result.rows.first.colAt(0) ?? 'No Address';
+        String mDAddress = result.rows.first.colAt(1) ?? 'No Detailed Address';
+        print("Addresses fetched from DB: $mAddress, $mDAddress");
+
         return {
-          'm_address': result.rows.first.colAt(0), // m_address 가져오기
-          'm_D_address': result.rows.first.colAt(1), // m_D_address 가져오기
+          'm_address': mAddress,
+          'm_D_address': mDAddress,
         };
       } else {
+        print("No address found for userId: $userId");
         return {'m_address': null, 'm_D_address': null}; // 결과가 없는 경우
       }
     } catch (e) {
@@ -156,12 +184,14 @@ class Db {
       return {'m_address': null, 'm_D_address': null}; // 오류 발생 시 null 반환
     }
   }
+
   // SharedPreferences에 사용자 주소 저장
   Future<void> saveAddress(String username, String city, String road, String detail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('${username}_city', city);
     await prefs.setString('${username}_road', road);
     await prefs.setString('${username}_detail', detail);
+    print("Address saved for $username: $city, $road, $detail");
   }
 
   // SharedPreferences에서 사용자 주소 불러오기
@@ -170,7 +200,30 @@ class Db {
     String? city = prefs.getString('${username}_city');
     String? road = prefs.getString('${username}_road');
     String? detail = prefs.getString('${username}_detail');
+
+    print("Loaded address for $username: $city, $road, $detail");
+
     return {'city': city, 'road': road, 'detail': detail};
   }
 
+  // db에 주소 업데이트
+  Future<void> addAddress(String mId, String address, String dAddress) async {
+    try {
+      if (_connection == null) {
+        await connect();
+      }
+
+      await _connection!.execute(
+        'UPDATE member SET m_address = :address, m_D_address = :dAddress WHERE m_id = :mId',
+        {
+          'mId': mId,
+          'address': address,
+          'dAddress': dAddress,
+        },
+      );
+      print("Address updated in DB: $address, $dAddress");
+    } catch (e) {
+      print("Error updating address: $e");
+    }
+  }
 }

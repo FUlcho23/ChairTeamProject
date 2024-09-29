@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/mypage.dart';
 import '../widgets/db.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,14 +22,10 @@ class Address extends StatefulWidget {
 }
 
 class _AddressState extends State<Address> {
-  TextEditingController cityController = TextEditingController(text: '부산광역시 남구');
-  TextEditingController roadController = TextEditingController(text: '신선로 428');
-  TextEditingController detailController = TextEditingController(text: '동명대학교');
+  TextEditingController cityController = TextEditingController();
+  TextEditingController roadController = TextEditingController();
+  TextEditingController detailController = TextEditingController();
   final db = Db(); // 데이터베이스 인스턴스 생성
-
-  bool isEditingCity = false;
-  bool isEditingRoad = false;
-  bool isEditingDetail = false;
 
   bool isEditingEnabled = false;
 
@@ -41,18 +37,42 @@ class _AddressState extends State<Address> {
   }
 
   Future<void> loadAddresses() async {
-    // 사용자의 ID를 가져오는 방법에 따라 수정
-    String userId = 'user123'; // 예시: 실제로는 로그인된 사용자 ID로 변경
-    Map<String, String?> addresses = await db.getAddresses(userId);
+    String? userId = await db.getUserId(); // 사용자 ID 불러오기
+    if (userId != null) {
+      Map<String, String?> addresses = await db.getAddresses(userId);
+      setState(() {
+        cityController.text = addresses['m_address'] ?? '';
+        roadController.text = addresses['m_D_address'] ?? '';
+        detailController.text = addresses['m_D_address'] ?? '';
+      });
+    } else {
+      print("사용자 ID가 없습니다.");
+    }
+  }
 
-    setState(() {
-      cityController.text = addresses['m_address'] ?? '';
-      roadController.text = addresses['m_D_address'] ?? '';
-    });
+
+  Future<String?> loadUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('user_id'); // 사용자 ID 가져오기
+    print("Current saved user ID: $userId"); // 확인용 로그
+    return userId;
+  }
+
+  Future<void> updateAddress() async {
+    String? userId = await loadUserId(); // 사용자 ID 불러오기
+    if (userId != null) {
+      await db.addAddress(userId, cityController.text, detailController.text); // 주소 업데이트
+      setState(() {
+        isEditingEnabled = false; // 수정 완료 후 편집 비활성화
+      });
+    }
   }
 
   @override
   void dispose() {
+    cityController.dispose();
+    roadController.dispose();
+    detailController.dispose();
     db.close(); // 페이지 종료 시 데이터베이스 연결 닫기
     super.dispose();
   }
@@ -61,41 +81,40 @@ class _AddressState extends State<Address> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xFF404040), // AppBar의 색상을 검은색으로 설정
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
-            onPressed: () {
-              // mypage.dart로 이동
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MyPage()),
-              );
-            },
-          ),
-          title: Row(
-            children: <Widget>[
-              Icon(
-                Icons.location_on,
-                color: Colors.white, // 아이콘 색상
-              ),
-              SizedBox(width: 8), // 아이콘과 텍스트 사이의 간격 조정
-              Text(
-                '주소 관리', // 타이틀 설정
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white, // 타이틀 글자 색상
-                ),
-              ),
-            ],
-          ),
+        backgroundColor: Color(0xFF404040),
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left, color: Color(0xFFDDDDDD)),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MyPage()),
+            );
+          },
         ),
+        title: Row(
+          children: <Widget>[
+            Icon(
+              Icons.location_on,
+              color: Colors.white,
+            ),
+            SizedBox(width: 8),
+            Text(
+              '주소 관리',
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Color(0xFFEEEEEE),
       body: Column(
         children: <Widget>[
           SizedBox(
             height: 10,
             child: Container(
-              color: Colors.orangeAccent, // Column의 색상을 주황색으로 설정
+              color: Colors.orangeAccent,
             ),
           ),
           Expanded(
@@ -110,21 +129,20 @@ class _AddressState extends State<Address> {
                   SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () {
+                      if (isEditingEnabled) {
+                        updateAddress(); // 주소 업데이트
+                      }
                       setState(() {
-                        isEditingCity = !isEditingEnabled;
-                        isEditingRoad = !isEditingEnabled;
-                        isEditingDetail = !isEditingEnabled;
-
                         isEditingEnabled = !isEditingEnabled;
                       });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFE9A05C),
-                      padding: EdgeInsets.symmetric(horizontal: 16.0), // 버튼의 내부 여백 설정 (가로 방향)
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // 모서리 반경 설정
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      minimumSize: Size(double.infinity, 40), // 버튼의 최소 크기 설정
+                      minimumSize: Size(double.infinity, 40),
                     ),
                     child: Text(
                       isEditingEnabled ? '수정완료' : '수정하기',
@@ -143,8 +161,7 @@ class _AddressState extends State<Address> {
     );
   }
 
-  Widget buildEditableTextField(
-      String label, TextEditingController controller) {
+  Widget buildEditableTextField(String label, TextEditingController controller) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
