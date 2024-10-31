@@ -88,8 +88,8 @@ class Db {
   }
 
   // db에 상품을 추가하는 함수 (goods 추가, 의자!)
-  Future<void> addGoods(String name, String description, double price,
-      String imageUrl) async {
+  Future<void> addGoods(
+      String name, String description, double price, String imageUrl) async {
     if (_connection == null) return;
 
     try {
@@ -115,8 +115,8 @@ class Db {
         await connect();
       }
       String query = 'SELECT * FROM member WHERE m_id = :mId AND m_pw = :mPw';
-      IResultSet results = await _connection!.execute(
-          query, {'mId': mId, 'mPw': mPw});
+      IResultSet results =
+          await _connection!.execute(query, {'mId': mId, 'mPw': mPw});
 
       if (results.rows.isEmpty) {
         return false;
@@ -139,7 +139,6 @@ class Db {
       await close();
     }
   }
-
 
   // SharedPreferences에 사용자 정보 저장
   Future<void> saveUserInfo(String name) async {
@@ -203,7 +202,6 @@ class Db {
     }
   }
 
-
   // db에서 주소 가져오기
   Future<Map<String, String?>> getAddresses(String userId) async {
     try {
@@ -211,7 +209,8 @@ class Db {
         await connect();
       }
 
-      String query = "SELECT m_address, m_D_address FROM member WHERE m_id = :userId;";
+      String query =
+          "SELECT m_address, m_D_address FROM member WHERE m_id = :userId;";
       IResultSet result = await _connection!.execute(query, {"userId": userId});
 
       if (result.rows.isNotEmpty) {
@@ -234,8 +233,8 @@ class Db {
   }
 
   // SharedPreferences에 사용자 주소 저장
-  Future<void> saveAddress(String username, String city, String road,
-      String detail) async {
+  Future<void> saveAddress(
+      String username, String city, String road, String detail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('${username}_city', city);
     await prefs.setString('${username}_road', road);
@@ -276,7 +275,7 @@ class Db {
     }
   }
 
-  // mysql에서 추천 상품 불러오기----------------------------------------------
+  // mysql에서 상품 추천하기 ----------------------------------------------
   Future<List<Map<String, dynamic>>> recommendChairs(String memberId) async {
     try {
       // 연결이 없으면 연결을 생성
@@ -286,7 +285,7 @@ class Db {
 
       // 회원의 사이즈 정보 가져오기
       var memberResult = await _connection!.execute(
-        'SELECT m_calfL, m_thighW, m_thighL, m_backH FROM m_size WHERE m_id = :memberId',
+        'SELECT m_size_calfL, m_size_thighW, m_size_thighL, m_size_backH FROM member WHERE m_id = :memberId',
         {'memberId': memberId},
       );
 
@@ -296,51 +295,144 @@ class Db {
 
       // 회원 정보 (String? -> double 변환)
       var member = memberResult.rows.first;
-      double? m_calfL = double.tryParse(member.colByName('m_calfL') ?? '0');
-      double? m_thighW = double.tryParse(member.colByName('m_thighW') ?? '0');
-      double? m_thighL = double.tryParse(member.colByName('m_thighL') ?? '0');
-      double? m_backH = double.tryParse(member.colByName('m_backH') ?? '0');
+      double? m_calfL =
+          double.tryParse(member.colByName('m_size_calfL') ?? '0');
+      double? m_thighW =
+          double.tryParse(member.colByName('m_size_thighW') ?? '0');
+      double? m_thighL =
+          double.tryParse(member.colByName('m_size_thighL') ?? '0');
+      double? m_backH =
+          double.tryParse(member.colByName('m_size_backH') ?? '0');
 
       // 의자 정보 가져오기 및 각 의자와 회원 정보 비교
       var chairsResult = await _connection!.execute(
-          'SELECT g_num,g_height, g_seatW, g_seatL, g_backH FROM g_size'
-      );
+          'SELECT g_num,g_size_height, g_size_seatW, g_size_seatL, g_size_backH FROM goods');
       List<Map<String, dynamic>> recommendations = [];
 
       for (var chair in chairsResult.rows) {
         double? g_num = double.tryParse(chair.colByName('g_num') ?? '0');
-        double? g_height = double.tryParse(chair.colByName('g_height') ?? '0');
-        double? g_seatW = double.tryParse(chair.colByName('g_seatW') ?? '0');
-        double? g_seatL = double.tryParse(chair.colByName('g_seatL') ?? '0');
-        double? g_backH = double.tryParse(chair.colByName('g_backH') ?? '0');
+        double? g_height =
+            double.tryParse(chair.colByName('g_size_height') ?? '0');
+        double? g_seatW =
+            double.tryParse(chair.colByName('g_size_seatW') ?? '0');
+        double? g_seatL =
+            double.tryParse(chair.colByName('g_size_seatL') ?? '0');
+        double? g_backH =
+            double.tryParse(chair.colByName('g_size_backH') ?? '0');
 
         // 항목 일치 카운트
-        int matchCount = 0;
-        if (m_calfL != null && g_height != null &&
-            (m_calfL - g_height).abs() < 5) matchCount++; // 허용 오차 내 일치
-        if (m_thighW != null && g_seatW != null &&
-            (m_thighW - g_seatW).abs() < 5) matchCount++;
-        if (m_thighL != null && g_seatL != null &&
-            (m_thighL - g_seatL).abs() < 5) matchCount++;
-        if (m_backH != null && g_backH != null &&
-            (m_backH - g_backH).abs() < 5) matchCount++;
+        double matchCount = 0;
 
+        // 종아리 길이 우선순위 가중치 계산
+        if (m_calfL != null && g_height != null) {
+          double difference = (g_height - m_calfL);
+          // 차이가 10 이상인 경우
+          if (difference.abs() >= 10) {
+            matchCount += 0;
+          }
+          else {
+            if (difference <= 5) {
+              matchCount += 0.5;
+            } else if (difference <= 4) {
+              matchCount += 1.0;
+            } else if (difference <= 3) {
+              matchCount += 1.5;
+            } else if (difference <= 2) {
+              matchCount += 2.0;
+            } else if (difference <= 0) {
+              matchCount += 1.5;
+            } else if (difference <= -2) {
+              matchCount += 1.0;
+            } else if (difference == -3) {
+              matchCount += 0.5;
+            } else {
+              matchCount += 0.2; // 기본 가중치
+            }
+          }
+        }
+
+        // 허벅지 길이
+        if (m_thighL != null && g_seatL != null) {
+          double difference = g_seatL - m_thighL;
+          if ((difference).abs() >= 10) {
+            matchCount += 0;
+          } else {
+            if (difference <= 2) {
+              matchCount += 0.5;
+            } else if (difference <= 0) {
+              matchCount += 1.0;
+            } else if (difference <= -1.5) {
+              matchCount += 1.5;
+            } else if (difference == -3.5) {
+              matchCount += 0.5;
+            } else {
+              matchCount += 0.2;
+            }
+          }
+        }
+
+        // 허벅지 너비
+        if (m_thighW != null && g_seatW != null) {
+          double difference = g_seatW - m_thighW;
+
+          if (difference <= 0) {
+            matchCount += 0;
+          } else {
+            if (difference <= 6) {
+              matchCount += 0.8;
+            } else if (difference <= 12) {
+              matchCount += 0.5;
+            } else if (difference <= 9) {
+              matchCount += 0.8;
+            } else if (difference <= 7) {
+              matchCount += 1.0;
+            } else if (difference <= 5) {
+              matchCount += 0.8;
+            } else if (difference == 3) {
+              matchCount += 0.3;
+            } else {
+              matchCount += 0.2;
+            }
+          }
+        }
+
+        // 등 길이
+        if (m_backH != null && g_backH != null) {
+          double difference = g_backH - m_backH;
+
+          if (g_backH == 0) {
+            matchCount += 0;
+          } else {
+            if (difference == 10) {
+              matchCount += 0.2;
+            } else if (difference == 5) {
+              matchCount += 0.3;
+            } else if (difference == 0) {
+              matchCount += 0.5;
+            } else if (difference == -5) {
+              matchCount += 0.4;
+            } else if (difference == -10) {
+              matchCount += 0.3;
+            } else {
+              matchCount += 0.1;
+            }
+          }
+        }
         // 매칭 카운트를 바탕으로 추천 리스트에 추가
         if (matchCount > 0) {
           recommendations.add({
             'g_num': g_num,
-            'g_height': g_height,
-            'g_seatW': g_seatW,
-            'g_seatL': g_seatL,
-            'g_backH': g_backH,
+            'g_size_height': g_height,
+            'g_size_seatW': g_seatW,
+            'g_size_seatL': g_seatL,
+            'g_size_backH': g_backH,
             'matchCount': matchCount,
           });
         }
       }
-
       // 매칭 항목 수에 따라 의자를 내림차순으로 정렬
-      recommendations.sort((a, b) =>
-          b['matchCount'].compareTo(a['matchCount']));
+      recommendations
+          .sort((a, b) => b['matchCount'].compareTo(a['matchCount']));
 
       return recommendations;
     } catch (e) {
